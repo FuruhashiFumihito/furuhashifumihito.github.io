@@ -1,0 +1,46 @@
+% 業績管理用BibTeXファイル
+% 各エントリにproject_pageフィールドを追加してプロジェクトページとリンク
+
+% === 査読付き論文 (Journal Papers) ===
+
+@article{furuhashi2026example,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {Example Paper Title: Travel Behavior Analysis Using Deep Learning},
+  journal   = {Transportation Research Part C},
+  year      = {2026},
+  volume    = {100},
+  pages     = {1--20},
+  doi       = {10.1016/j.trc.2026.01.001},
+  % カスタムフィールド
+  project_page = {projects/trc2026.html},
+  abstract  = {This paper presents...},
+  keywords  = {travel behavior, deep learning, transportation}
+}
+
+% === 国際会議 (International Conferences) ===
+
+@inproceedings{furuhashi2026trb,
+  author    = {Furuhashi, Fumihito and Matsunaga, Takahiro and Hato, Eiji},
+  title     = {Example Conference Paper: Urban Mobility Patterns},
+  booktitle = {Transportation Research Board 105th Annual Meeting},
+  year      = {2026},
+  address   = {Washington, D.C.},
+  % カスタムフィールド
+  project_page = {projects/trb2026.html}
+}
+
+% === テンプレート ===
+% 新しい論文を追加する際はこのテンプレートをコピーして使用
+
+% @article{furuhashi20XXtopic,
+%   author    = {Furuhashi, Fumihito and ...},
+%   title     = {論文タイトル},
+%   journal   = {ジャーナル名},
+%   year      = {20XX},
+%   volume    = {},
+%   pages     = {},
+%   doi       = {},
+%   project_page = {projects/XXXX.html},
+%   abstract  = {},
+%   keywords  = {}
+% }
