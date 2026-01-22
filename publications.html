@@ -1,68 +1,45 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>業績 - 古橋郁人</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>古橋 郁人 / Fumihito Furuhashi</h1>
-        <p class="lang-switch">[<a href="publications-e.html">English</a>]</p>
-    </header>
+---
+layout: default
+title: 業績
+lang: ja
+---
+<section id="publications">
+    <h2>業績</h2>
+    <p class="note">* 論文タイトルをクリックするとプロジェクトページ（GitHub、スライド等）に移動します</p>
 
-    <nav>
-        <a href="index.html">トップ</a> |
-        <strong>業績</strong> |
-        <a href="news.html">ニュース</a>
-    </nav>
+    <h3>査読付き論文</h3>
+    <ol reversed>
+    {% assign journals = site.publications | where: "type", "journal" | sort: "year" | reverse %}
+    {% for pub in journals %}
+        <li>
+            {{ pub.authors }}.
+            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
 
-    <main>
-        <section id="publications">
-            <h2>業績</h2>
-            <p class="note">* 論文タイトルをクリックするとプロジェクトページ（GitHub、スライド等）に移動します</p>
+    <h3>国際会議（査読付き）</h3>
+    <ol reversed>
+    {% assign conferences = site.publications | where: "type", "conference" | sort: "year" | reverse %}
+    {% for pub in conferences %}
+        <li>
+            {{ pub.authors }}.
+            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
 
-            <h3>査読付き論文</h3>
-            <ol reversed>
-                <li>
-                    古橋郁人, 羽藤英二.
-                    <a href="projects/template.html">"Example Paper Title: Travel Behavior Analysis Using Deep Learning"</a>,
-                    <i>Transportation Research Part C</i>, Vol.100, pp.1-20, 2026.
-                </li>
-                <!-- 追加の論文をここに -->
-            </ol>
-
-            <h3>国際会議（査読付き）</h3>
-            <ol reversed>
-                <li>
-                    古橋郁人, 松永崇寛, 羽藤英二.
-                    <a href="projects/template.html">"Example Conference Paper: Urban Mobility Patterns"</a>,
-                    <i>Transportation Research Board 105th Annual Meeting</i>, Washington, D.C., 2026.
-                </li>
-                <!-- 追加の発表をここに -->
-            </ol>
-
-            <h3>国内会議・発表</h3>
-            <ol reversed>
-                <li>
-                    著者名.
-                    "発表タイトル",
-                    <i>会議名</i>, 2026.
-                </li>
-                <!-- 追加の発表をここに -->
-            </ol>
-
-            <h3>受賞</h3>
-            <ul>
-                <li>2026年, 賞名, 授与機関</li>
-                <!-- 追加の受賞をここに -->
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Last updated: 2026/01/22</p>
-    </footer>
-</body>
-</html>
+    <h3>国内会議・発表</h3>
+    <ol reversed>
+    {% assign domestic = site.publications | where: "type", "domestic" | sort: "year" | reverse %}
+    {% for pub in domestic %}
+        <li>
+            {{ pub.authors }}.
+            "{{ pub.title }}",
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
+</section>

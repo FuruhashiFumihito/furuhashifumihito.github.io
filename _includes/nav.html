@@ -1,0 +1,13 @@
+{% if page.lang == 'en' %}
+<nav>
+    <a href="{{ '/index-e.html' | relative_url }}">Home</a> |
+    <a href="{{ '/publications-e.html' | relative_url }}">Publications</a> |
+    <a href="{{ '/news-e.html' | relative_url }}">News</a>
+</nav>
+{% else %}
+<nav>
+    <a href="{{ '/index.html' | relative_url }}">トップ</a> |
+    <a href="{{ '/publications.html' | relative_url }}">業績</a> |
+    <a href="{{ '/news.html' | relative_url }}">ニュース</a>
+</nav>
+{% endif %}

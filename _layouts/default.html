@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'ja' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+</head>
+<body>
+    <header>
+        <h1>古橋 郁人 / Fumihito Furuhashi</h1>
+        {% if page.lang == 'en' %}
+        <p class="lang-switch">[<a href="{{ page.url | replace: '-e.html', '.html' | replace: '-e/', '/' | relative_url }}">Japanese</a>]</p>
+        {% else %}
+        <p class="lang-switch">[<a href="{{ page.url | append: '-e' | relative_url }}index-e.html">English</a>]</p>
+        {% endif %}
+    </header>
+
+    {% include nav.html %}
+
+    <main>
+        {{ content }}
+    </main>
+
+    <footer>
+        <p>Last updated: {{ site.time | date: "%Y/%m/%d" }}</p>
+    </footer>
+</body>
+</html>

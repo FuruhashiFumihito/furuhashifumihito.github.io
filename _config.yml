@@ -1,0 +1,32 @@
+# Jekyll設定
+title: "古橋郁人 / Fumihito Furuhashi"
+description: "Research Homepage"
+url: "https://furuhashifumihito.github.io"
+baseurl: "/homepage"
+
+# コレクション設定
+collections:
+  publications:
+    output: true
+    permalink: /projects/:name/
+  publications_en:
+    output: true
+    permalink: /projects/:name/
+
+# デフォルト設定
+defaults:
+  - scope:
+      path: ""
+      type: "publications"
+    values:
+      layout: "publication"
+      lang: "ja"
+  - scope:
+      path: ""
+      type: "publications_en"
+    values:
+      layout: "publication"
+      lang: "en"
+
+# Markdown設定
+markdown: kramdown

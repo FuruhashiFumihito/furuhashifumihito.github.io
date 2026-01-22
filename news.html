@@ -1,35 +1,13 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ニュース - 古橋郁人</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>古橋 郁人 / Fumihito Furuhashi</h1>
-        <p class="lang-switch">[<a href="news-e.html">English</a>]</p>
-    </header>
-
-    <nav>
-        <a href="index.html">トップ</a> |
-        <a href="publications.html">業績</a> |
-        <strong>ニュース</strong>
-    </nav>
-
-    <main>
-        <section id="news">
-            <h2>ニュース</h2>
-            <ul>
-                <li><strong>2026/01</strong> - ホームページを開設しました</li>
-                <!-- 追加のニュースをここに -->
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Last updated: 2026/01/22</p>
-    </footer>
-</body>
-</html>
+---
+layout: default
+title: ニュース
+lang: ja
+---
+<section id="news">
+    <h2>ニュース</h2>
+    <ul>
+    {% for item in site.data.news %}
+        <li><strong>{{ item.date }}</strong> - {{ item.text_ja }}</li>
+    {% endfor %}
+    </ul>
+</section>
