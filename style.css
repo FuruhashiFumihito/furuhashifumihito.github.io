@@ -1,0 +1,78 @@
+/* シンプルな学術ホームページ用スタイル */
+
+body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    background-color: #fff;
+}
+
+header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+.lang-switch {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+h2 {
+    font-size: 1.3em;
+    border-left: 4px solid #333;
+    padding-left: 10px;
+    margin-top: 30px;
+}
+
+h3 {
+    font-size: 1.1em;
+    margin-top: 20px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+a {
+    color: #0066cc;
+}
+
+a:hover {
+    color: #003366;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+footer {
+    margin-top: 50px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+}
