@@ -173,6 +173,28 @@ ol li {
     border-color: #0066cc;
 }
 
+/* CVダウンロードボタン */
+.cv-download {
+    margin-top: 20px;
+}
+
+.cv-download a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: #fff;
+    border: 1px solid #0066cc;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.cv-download a:hover {
+    background-color: #003366;
+    border-color: #003366;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 600px) {
     body {
