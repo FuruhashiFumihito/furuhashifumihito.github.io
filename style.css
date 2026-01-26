@@ -123,6 +123,37 @@ ol li {
     margin-bottom: 12px;
 }
 
+/* SNSリンク */
+.sns-links {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.sns-links li {
+    margin-bottom: 0;
+}
+
+.sns-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.sns-links a:hover {
+    background-color: #0066cc;
+    color: #fff;
+    border-color: #0066cc;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 600px) {
     body {
@@ -131,5 +162,14 @@ ol li {
 
     h1 {
         font-size: 1.5em;
+    }
+
+    .sns-links {
+        gap: 10px;
+    }
+
+    .sns-links a {
+        padding: 6px 12px;
+        font-size: 0.9em;
     }
 }
