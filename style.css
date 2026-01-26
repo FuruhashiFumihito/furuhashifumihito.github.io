@@ -63,6 +63,25 @@ section {
     margin-bottom: 30px;
 }
 
+/* プロフィール写真 */
+#photo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-photo {
+    display: inline-block;
+}
+
+.profile-photo img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
 footer {
     margin-top: 50px;
     padding-top: 10px;
