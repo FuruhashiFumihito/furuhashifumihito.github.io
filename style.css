@@ -195,6 +195,21 @@ ol li {
     border-color: #003366;
 }
 
+/* 研究可視化 */
+.research-visual {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.research-video {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 16 / 9;
+    margin: 20px 0;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 600px) {
     body {
