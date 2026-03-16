@@ -1,30 +1,32 @@
 ---
 layout: default
 ---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+
 <article class="project">
     <h2>{{ page.title }}</h2>
 
     <section class="meta">
-        <p><strong>{% if page.lang == 'en' %}Authors{% else %}著者{% endif %}:</strong> {{ page.authors }}</p>
-        <p><strong>{% if page.lang == 'en' %}Published in{% else %}掲載{% endif %}:</strong> <i>{{ page.venue }}</i>, {{ page.year }}</p>
+        <p><strong>{{ t.labels.authors }}:</strong> {{ page.authors }}</p>
+        <p><strong>{{ t.labels.published_in }}:</strong> <i>{{ page.venue }}</i>, {{ page.year }}</p>
     </section>
 
     {% if page.links %}
     <section class="links">
-        <h3>{% if page.lang == 'en' %}Links{% else %}リンク{% endif %}</h3>
+        <h3>{{ t.labels.links }}</h3>
         <ul>
-            {% if page.links.paper %}<li><a href="{{ page.links.paper }}">{% if page.lang == 'en' %}Paper (Publisher){% else %}論文 (Publisher){% endif %}</a></li>{% endif %}
-            {% if page.links.pdf %}<li><a href="{{ page.links.pdf }}">PDF</a></li>{% endif %}
+            {% if page.links.paper %}<li><a href="{{ page.links.paper }}">{{ t.labels.paper }}</a></li>{% endif %}
+            {% if page.links.pdf %}<li><a href="{{ page.links.pdf }}">{{ t.labels.pdf }}</a></li>{% endif %}
             {% if page.links.github %}<li><a href="{{ page.links.github }}">GitHub</a></li>{% endif %}
-            {% if page.links.slides %}<li><a href="{{ page.links.slides }}">{% if page.lang == 'en' %}Slides{% else %}スライド{% endif %}</a></li>{% endif %}
-            {% if page.links.video %}<li><a href="{{ page.links.video }}">{% if page.lang == 'en' %}Video{% else %}動画{% endif %}</a></li>{% endif %}
+            {% if page.links.slides %}<li><a href="{{ page.links.slides }}">{{ t.labels.slides }}</a></li>{% endif %}
+            {% if page.links.video %}<li><a href="{{ page.links.video }}">{{ t.labels.video }}</a></li>{% endif %}
         </ul>
     </section>
     {% endif %}
 
     {% if page.abstract %}
     <section class="abstract">
-        <h3>{% if page.lang == 'en' %}Abstract{% else %}概要{% endif %}</h3>
+        <h3>{{ t.labels.abstract }}</h3>
         <p>{{ page.abstract }}</p>
     </section>
     {% endif %}

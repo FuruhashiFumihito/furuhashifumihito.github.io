@@ -1,0 +1,71 @@
+---
+layout: default
+---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+
+<section id="photo">
+    <div class="profile-photo">
+        <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="{{ t.site_title }}" width="200" height="200">
+    </div>
+</section>
+
+<section id="profile">
+    <h2>{{ t.labels.affiliation }}</h2>
+    <ul>
+        {% for item in page.affiliation %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>{{ t.labels.links }}</h3>
+    <ul class="sns-links">
+        {% for link in page.social_links %}
+        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <p class="cv-download">
+        <a href="{{ '/assets/cv/cv.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">{{ t.labels.cv_download }}</a>
+    </p>
+</section>
+
+<section id="research">
+    <h2>{{ t.labels.research }}</h2>
+    <p>{{ page.research_description }}</p>
+
+    <h3>{{ t.labels.research_topics }}</h3>
+    <ul>
+        {% for topic in page.research_topics %}
+        <li>{{ topic }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section id="career">
+    <h2>{{ t.labels.career }}</h2>
+    <ul>
+        {% for item in page.career %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section id="education">
+    <h2>{{ t.labels.education }}</h2>
+    <ul>
+        {% for item in page.education %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% if page.awards %}
+<section id="awards">
+    <h2>{{ t.labels.awards }}</h2>
+    <ul>
+        {% for award in page.awards %}
+        <li>{{ award }}</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}

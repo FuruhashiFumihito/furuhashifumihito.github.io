@@ -1,13 +1,16 @@
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 {% if page.lang == 'en' %}
-<nav>
-    <a href="{{ '/index-e.html' | relative_url }}">Home</a> |
-    <a href="{{ '/publications-e.html' | relative_url }}">Publications</a> |
-    <a href="{{ '/news-e.html' | relative_url }}">News</a>
-</nav>
+  {% assign home_url = '/index-e.html' %}
+  {% assign pub_url = '/publications-e.html' %}
+  {% assign news_url = '/news-e.html' %}
 {% else %}
-<nav>
-    <a href="{{ '/index.html' | relative_url }}">トップ</a> |
-    <a href="{{ '/publications.html' | relative_url }}">業績</a> |
-    <a href="{{ '/news.html' | relative_url }}">ニュース</a>
-</nav>
+  {% assign home_url = '/index.html' %}
+  {% assign pub_url = '/publications.html' %}
+  {% assign news_url = '/news.html' %}
 {% endif %}
+
+<nav>
+    {% if page.url == home_url %}<strong>{{ t.nav.home }}</strong>{% else %}<a href="{{ home_url | relative_url }}">{{ t.nav.home }}</a>{% endif %} |
+    {% if page.url == pub_url %}<strong>{{ t.nav.publications }}</strong>{% else %}<a href="{{ pub_url | relative_url }}">{{ t.nav.publications }}</a>{% endif %} |
+    {% if page.url == news_url %}<strong>{{ t.nav.news }}</strong>{% else %}<a href="{{ news_url | relative_url }}">{{ t.nav.news }}</a>{% endif %}
+</nav>

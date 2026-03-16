@@ -2,9 +2,11 @@
 layout: default
 title: ニュース
 lang: ja
+alternate: /news-e.html
 ---
+{% assign t = site.data.i18n[page.lang] %}
 <section id="news">
-    <h2>ニュース</h2>
+    <h2>{{ t.nav.news }}</h2>
     <ul>
     {% for item in site.data.news %}
         <li><strong>{{ item.date }}</strong> - {{ item.text_ja }}</li>

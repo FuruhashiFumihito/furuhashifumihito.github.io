@@ -1,0 +1,45 @@
+---
+layout: default
+---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+
+<section id="publications">
+    <h2>{{ t.nav.publications }}</h2>
+    <p class="note">{{ t.labels.note_publications }}</p>
+
+    <h3>{{ t.pub_types.journal }}</h3>
+    <ol reversed>
+    {% assign journals = site.publications | where: "type", "journal" | sort: "year" | reverse %}
+    {% for pub in journals %}
+        <li>
+            {{ pub.authors }}.
+            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
+
+    <h3>{{ t.pub_types.conference }}</h3>
+    <ol reversed>
+    {% assign conferences = site.publications | where: "type", "conference" | sort: "year" | reverse %}
+    {% for pub in conferences %}
+        <li>
+            {{ pub.authors }}.
+            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
+
+    <h3>{{ t.pub_types.domestic }}</h3>
+    <ol reversed>
+    {% assign domestic = site.publications | where: "type", "domestic" | sort: "year" | reverse %}
+    {% for pub in domestic %}
+        <li>
+            {{ pub.authors }}.
+            "{{ pub.title }}",
+            <i>{{ pub.venue }}</i>, {{ pub.year }}.
+        </li>
+    {% endfor %}
+    </ol>
+</section>

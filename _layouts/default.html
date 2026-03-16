@@ -1,3 +1,4 @@
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: 'ja' }}">
 <head>
@@ -9,10 +10,8 @@
 <body>
     <header>
         <h1>古橋 郁人 / Fumihito Furuhashi</h1>
-        {% if page.lang == 'en' %}
-        <p class="lang-switch">[<a href="{{ page.url | replace: '-e.html', '.html' | replace: '-e/', '/' | relative_url }}">Japanese</a>]</p>
-        {% else %}
-        <p class="lang-switch">[<a href="{{ page.url | append: '-e' | relative_url }}index-e.html">English</a>]</p>
+        {% if page.alternate %}
+        <p class="lang-switch">[<a href="{{ page.alternate | relative_url }}">{{ t.switch_lang }}</a>]</p>
         {% endif %}
     </header>
 
@@ -23,7 +22,7 @@
     </main>
 
     <footer>
-        <p>Last updated: {{ site.time | date: "%Y/%m/%d" }}</p>
+        <p>{{ t.labels.last_updated }}: {{ site.time | date: "%Y/%m/%d" }}</p>
     </footer>
 </body>
 </html>

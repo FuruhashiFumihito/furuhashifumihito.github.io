@@ -1,0 +1,64 @@
+# 多言語対応データファイル
+# 使用方法: {% assign t = site.data.i18n[page.lang] %}
+
+ja:
+  site_title: "古橋郁人"
+  nav:
+    home: "トップ"
+    publications: "業績"
+    news: "ニュース"
+  labels:
+    affiliation: "所属・連絡先"
+    links: "リンク"
+    cv_download: "CV（PDF）をダウンロード"
+    research: "研究内容"
+    research_topics: "研究テーマ"
+    career: "経歴"
+    education: "学歴"
+    awards: "受賞歴"
+    authors: "著者"
+    published_in: "掲載"
+    paper: "論文 (Publisher)"
+    pdf: "PDF"
+    slides: "スライド"
+    video: "動画"
+    abstract: "概要"
+    figures: "図表"
+    last_updated: "Last updated"
+    note_publications: "* 論文タイトルをクリックするとプロジェクトページに移動します"
+  pub_types:
+    journal: "査読付き論文"
+    conference: "国際会議（査読付き）"
+    domestic: "国内会議・発表"
+  switch_lang: "English"
+
+en:
+  site_title: "Fumihito Furuhashi"
+  nav:
+    home: "Home"
+    publications: "Publications"
+    news: "News"
+  labels:
+    affiliation: "Affiliation & Contact"
+    links: "Links"
+    cv_download: "Download CV (PDF)"
+    research: "Research"
+    research_topics: "Research Interests"
+    career: "Career"
+    education: "Education"
+    awards: "Awards"
+    authors: "Authors"
+    published_in: "Published in"
+    paper: "Paper (Publisher)"
+    pdf: "PDF"
+    slides: "Slides"
+    video: "Video"
+    abstract: "Abstract"
+    figures: "Figures"
+    last_updated: "Last updated"
+    note_publications: "* Click on paper titles to view project pages"
+  pub_types:
+    journal: "Journal Papers"
+    conference: "International Conferences (Peer-reviewed)"
+    domestic: "Domestic Conferences"
+  switch_lang: "Japanese"
