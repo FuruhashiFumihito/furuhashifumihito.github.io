@@ -1,0 +1,32 @@
+# =============================================================================
+#  furuhashi2025dgpinn_itsc / meta.yml
+# =============================================================================
+#
+#  このファイルは _plugins/bibtex_publications.rb によってビルド時に読み込まれ、
+#  /projects/furuhashi2025dgpinn_itsc/ の仮想ページに merge される。
+#
+#  `src:` は同フォルダ内の画像ファイルを指す相対パスで書ける
+#  (プラグインが /projects/<key>/ に解決する)。絶対パス (/で始まる) や
+#  外部 URL はそのまま使われる。
+#
+#  使えるフィールド:
+#
+#    graphical_abstract:
+#      src:     画像パス (ここでは同フォルダのファイル名でよい)
+#      alt:     代替テキスト (日英共通)
+#      alt_ja:  代替テキスト (日本語ページ用)
+#      alt_en:  代替テキスト (英語ページ用)
+#
+#    figures:
+#      - src:         画像パス
+#        alt / alt_ja / alt_en:          代替テキスト
+#        caption / caption_ja / caption_en: キャプション
+#
+#  論文本文 (Notes セクション) は同フォルダの body_ja.md / body_en.md
+#  に書くと自動的に注入される。
+# =============================================================================
+
+# graphical_abstract:
+#   src: fig-framework.pdf
+#   alt_ja: "DG-PINN のグラフィカル・アブストラクト: 微分ゲームによる均衡制約と PINN を組み合わせた軌道予測の概要図"
+#   alt_en: "DG-PINN graphical abstract: differential-game equilibrium constraints coupled with a PINN for trajectory prediction"

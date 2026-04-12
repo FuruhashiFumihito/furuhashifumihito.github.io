@@ -27,7 +27,7 @@
 # =============================================================================
 
 graphical_abstract:
-  src: fig-framework.pdf
+  src: fig-framework.png
   alt_ja: "DG-PINN のグラフィカル・アブストラクト: 微分ゲームによる均衡制約と PINN を組み合わせた軌道予測の概要図"
   alt_en: "DG-PINN graphical abstract: differential-game equilibrium constraints coupled with a PINN for trajectory prediction"
 
