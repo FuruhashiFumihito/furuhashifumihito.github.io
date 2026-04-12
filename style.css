@@ -1335,61 +1335,43 @@ a { color: var(--ink); text-decoration: none; }
 
 /* ----- Graphical abstract (prominent top image) -----
    Rendered inside `<article class="folio-article">` by
-   `_layouts/publication.html`. Uses the same full-bleed trick as
-   `.diary-hero` to extend the image to the full viewport width while
-   keeping natural aspect ratio. The parent (`.folio-article`) is
-   horizontally centered inside `.folio`, so `calc(50% - 50vw)` on the
-   margins snaps the figure's edges to the viewport edges. PDF embeds
-   and the caption are pulled back inside the normal content width so
-   they don't become absurdly wide. */
+   `_layouts/publication.html`, right after the article header.
+   Fills the `.folio` content width and preserves the image's natural
+   aspect ratio with `height: auto`. No `max-height` cap so horizontal
+   figures are shown at their true proportions instead of being
+   letterboxed. */
 .folio-graphical-abstract {
-    width: 100vw;
-    margin: 0 0 clamp(2rem, 5vw, 3rem);
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding: 0;
-    border-bottom: none;
-    display: block;
+    margin: 0 0 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .75rem;
 }
 
 .folio-graphical-abstract img {
     display: block;
     width: 100%;
     height: auto;
-    max-height: none;
     margin: 0;
-    border: 0;
-    background: var(--paper-2);
-}
-
-/* PDF として埋め込んだ graphical abstract — 画像と違って埋め込み UI
-   (スクロールバー、ページめくり) を持つので、画面幅いっぱいに広げると
-   使いにくい。そのため親の figure は full-bleed のまま、PDF 自体は
-   通常の本文幅 (var(--page-max)) に戻して中央寄せする。 */
-.folio-graphical-abstract__pdf {
-    display: block;
-    width: 100%;
-    max-width: var(--page-max);
-    box-sizing: border-box;
-    height: 70vh;
-    max-height: 800px;
-    min-height: 420px;
-    margin: 0 auto;
-    padding: 0 var(--page-pad);
     border: 1px solid var(--rule-strong);
     background: var(--paper-2);
 }
 
-/* キャプション (「Graphical Abstract」ラベル) も画像直下だが、
-   full-bleed 化されている figure の中で右寄せテキストをそのまま出すと
-   ビューポート右端まで張り付いてしまう。`.folio` と同じ最大幅 +
-   padding に戻して本文カラムと揃える。 */
-.folio-graphical-abstract__label {
+/* PDF として埋め込んだ graphical abstract */
+.folio-graphical-abstract__pdf {
     display: block;
-    max-width: var(--page-max);
-    box-sizing: border-box;
-    margin: .75rem auto 0;
-    padding: 0 var(--page-pad);
+    width: 100%;
+    height: 70vh;
+    max-height: 800px;
+    min-height: 420px;
+    margin: 0;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+}
+
+.folio-graphical-abstract__label {
     font-family: var(--font-mono);
     font-size: .64rem;
     letter-spacing: .18em;
