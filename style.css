@@ -651,6 +651,18 @@ a { color: var(--ink); text-decoration: none; }
     flex: none;
 }
 
+.index-list .sns-icon {
+    width: 1.05em;
+    height: 1.05em;
+    flex: none;
+    color: var(--ink-2);
+    transition: color var(--dur-fast) var(--ease);
+}
+
+.index-list a:hover .sns-icon { color: var(--paper); }
+
+.index-list .sns-label { flex: 1; }
+
 .index-list a::after {
     content: "↗";
     margin-left: auto;

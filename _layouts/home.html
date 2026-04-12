@@ -112,7 +112,10 @@ layout: default
                 <dd>
                     <ul class="index-list">
                         {% for link in page.social_links %}
-                        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }}">{{ link.name }}</a></li>
+                        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ link.name }}" data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }}">
+                            {% if link.icon %}{% include icons/{{ link.icon }}.svg %}{% endif %}
+                            <span class="sns-label">{{ link.name }}</span>
+                        </a></li>
                         {% endfor %}
                     </ul>
                 </dd>
