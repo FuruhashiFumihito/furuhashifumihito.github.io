@@ -25,31 +25,268 @@
                                (_publications/xxx.md を用意すると
                                 /projects/xxx/ に生成される)
     venue = {...}              journal/booktitle/howpublished を上書き表示
-
-  記述例:
-
-    @article{furuhashi2025example,
-      title   = {Example Paper Title},
-      author  = {Furuhashi, Fumihito and Smith, John},
-      journal = {Journal of Example Studies},
-      year    = {2025},
-      url     = {/projects/example/}
-    }
-
-    @inproceedings{furuhashi2024intl,
-      title     = {Another International Paper},
-      author    = {Furuhashi, Fumihito},
-      booktitle = {Proc. of the Example Conference},
-      year      = {2024}
-    }
-
-    @inproceedings{furuhashi2024jp,
-      title     = {国内発表のサンプル},
-      author    = {古橋 郁一},
-      booktitle = {情報処理学会全国大会},
-      year      = {2024},
-      category  = {domestic}
-    }
 }
 
-% ---- ここから業績を追記してください ----
+% =====================================================================
+% Furuhashi research outputs
+% Compiled on 2026-04-12 (Asia/Tokyo).
+% Public metadata (DOI, conference/program info, award pages, repository
+% URLs) were verified where available. Entries marked as provisional in
+% the note field rely partly on user-supplied information because no
+% stable public record was found.
+% =====================================================================
+
+% ---------------------------------------------------------------------
+% §02.1 査読付き論文 (journal)
+% ---------------------------------------------------------------------
+
+@article{furuhashi2025obd_jste,
+  author    = {{古橋 郁一} and {林 由翔} and {大宮 博之} and {石田 貴志} and {羽藤 英二}},
+  title     = {OBDを用いた高速道路上の車群内追従モデルの検証},
+  journal   = {交通工学論文集},
+  volume    = {11},
+  number    = {2},
+  pages     = {A250--A256},
+  year      = {2025},
+  doi       = {10.14954/jste.11.2_A_250},
+  language  = {japanese}
+}
+
+@article{furuhashi2026endogeneity_ssrn,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {Endogeneity in Vehicle Trajectory Prediction through Game-Informed Deep Learning},
+  journal   = {SSRN Electronic Journal},
+  year      = {2026},
+  doi       = {10.2139/ssrn.6254083},
+  note      = {Preprint. User reports parallel submission to Transportation Research Part C: Emerging Technologies.}
+}
+
+@unpublished{furuhashi2026equilibrium_i2i,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {Equilibrium-Embedded Predictive Control for Interaction-to-Interaction (I2I) Autonomous Driving},
+  journal   = {Transportmetrica B: Transport Dynamics (submitted)},
+  year      = {2026},
+  category  = {journal},
+  note      = {Provisional entry. Submitted manuscript; no public DOI or preprint located as of 2026-04-12. User reports submission to Transportmetrica B: Transport Dynamics in March 2026.}
+}
+
+@unpublished{furuhashi2026title_trc,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {{title title title title}},
+  journal   = {Transportation Research Part C: Emerging Technologies (submitted)},
+  year      = {2026},
+  category  = {journal},
+  note      = {Provisional entry. Placeholder title in user-supplied list. User reports submission to Transportation Research Part C: Emerging Technologies in March 2026.}
+}
+
+% ---------------------------------------------------------------------
+% §02.2 国際会議 (conference)
+% ---------------------------------------------------------------------
+
+@inproceedings{he2024sversion_ecf,
+  author    = {He, Tianyu and Furuhashi, Fumihito and Morita, Naoki and Mitsume, Naoto and Shibanuma, Kazuki},
+  title     = {S-version FEM-based strategy for predicting high-speed crack propagation behaviour in 3D structures},
+  booktitle = {European Conference on Fracture 2024},
+  year      = {2024},
+  month     = aug,
+  address   = {Croatia},
+  note      = {Oral presentation}
+}
+
+@inproceedings{furuhashi2024innovative_hksts28,
+  author    = {Furuhashi, Fumihito},
+  title     = {Validation of an Innovative Car-Following Model Using GNNs and PINNs with Multi-Modal AI on On-Board Diagnostics},
+  booktitle = {28th International Conference of Hong Kong Society for Transportation Studies},
+  year      = {2024},
+  month     = dec,
+  address   = {Hong Kong},
+  note      = {Oral presentation}
+}
+
+@inproceedings{furuhashi2025dgpinn_itsc,
+  author    = {Furuhashi, Fumihito},
+  title     = {DG-PINN: Differential Game Based Physics-Informed Neural Network for Vehicle Trajectory Prediction},
+  booktitle = {2025 IEEE 28th International Conference on Intelligent Transportation Systems (ITSC)},
+  year      = {2025},
+  month     = nov,
+  address   = {Australia},
+  doi       = {10.1109/ITSC60802.2025.11423521},
+  note      = {Oral presentation}
+}
+
+@inproceedings{furuhashi2025physicallyconsistent_hksts29,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {Physically Consistent Differential-Game Surrogates for Interaction-Aware AV Trajectory Planning},
+  booktitle = {29th International Conference of Hong Kong Society for Transportation Studies},
+  year      = {2025},
+  month     = dec,
+  address   = {Hong Kong},
+  note      = {OSPA paper no. 270; oral presentation}
+}
+
+@misc{furuhashi2026trb105_mapless_cvae,
+  author       = {Furuhashi, Fumihito and Hato, Eiji},
+  title        = {A Map-less Vision-Based Car-Following Model with String Stability Analysis Using CVAE},
+  year         = {2026},
+  month        = jan,
+  howpublished = {Poster presentation at the 105th Annual Meeting of the Transportation Research Board},
+  address      = {Washington, D.C., USA},
+  category     = {conference},
+  note         = {Provisional entry. Public confirmation found only via social posts; official TRB paper record and paper number were not independently located. The public title variant used {Vision-Based}, whereas the user-supplied list used {Image-Based}.}
+}
+
+@unpublished{furuhashi2026v2g_heart14,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {Mobility-Energy Resilience under Blackout Risk via Optimal V2G Management},
+  booktitle = {14th Symposium of the European Association for Research in Transportation (hEART)},
+  year      = {2026},
+  category  = {conference},
+  note      = {Provisional entry. User lists the 14th Symposium of the European Association for Research in Transportation in France, January 2026. However, the official hEART 2026 conference was listed for Paris, France, 29 September--1 October 2026 as of 2026-04-12, and no title-specific public record was located.}
+}
+
+@unpublished{furuhashi2026title_hksts30,
+  author    = {Furuhashi, Fumihito and Hato, Eiji},
+  title     = {{title title title}},
+  booktitle = {30th International Conference of Hong Kong Society for Transportation Studies},
+  year      = {2026},
+  category  = {conference},
+  note      = {Provisional entry. Placeholder title and paper number in the user-supplied list. User reports a planned presentation at the 30th International Conference of Hong Kong Society for Transportation Studies, Hong Kong, December 2026.}
+}
+
+% ---------------------------------------------------------------------
+% §02.3 国内会議・発表 (domestic)
+% ---------------------------------------------------------------------
+
+@inproceedings{furuhashi2024obd_jste44,
+  author    = {{古橋 郁一} and {林 由翔} and {大宮 博之} and {石田 貴志} and {羽藤 英二}},
+  title     = {OBDを用いた高速道路上の車群内追従モデルの検証},
+  booktitle = {第44回交通工学研究発表会論文集},
+  pages     = {63--69},
+  year      = {2024},
+  address   = {東京},
+  doi       = {10.14954/jsteproceeding.44.0_63},
+  category  = {domestic},
+  note      = {査読あり，口頭発表}
+}
+
+@inproceedings{furuhashi2023applicationphase_mm,
+  author    = {{古橋 郁一} and {He Tianyu} and {松下 寛典} and {森田 直樹} and {三目 直人} and {柴沼 一樹}},
+  title     = {３次元板構造体の高速亀裂伝播・停止現象を対象とした重合メッシュ法に基づくApplication phase解析手法の開発},
+  booktitle = {日本機械学会M\&M2023 材料力学カンファレンス論文集},
+  year      = {2023},
+  month     = sep,
+  address   = {茨城},
+  category  = {domestic},
+  note      = {査読なし，口頭発表}
+}
+
+@inproceedings{furuhashi2024overtaking_jsce70,
+  author    = {{古橋 郁一}},
+  title     = {追い越し過程における車群状態の類型化と状態遷移ダイアグラムの分析},
+  booktitle = {第70回土木計画学研究発表会・秋大会},
+  year      = {2024},
+  month     = nov,
+  address   = {岡山},
+  category  = {domestic},
+  note      = {査読なし，口頭発表。Provisional entry; a title-level public listing was found on a laboratory publication page, but an official conference record was not independently located.}
+}
+
+@inproceedings{furuhashi2025vision_jste45,
+  author    = {{古橋 郁一} and {羽藤 英二}},
+  title     = {画像駆動型車両追従モデルの高精度化},
+  booktitle = {第45回交通工学研究発表会講演集},
+  year      = {2025},
+  pages     = {499--504},
+  address   = {東京},
+  doi       = {10.14954/jsteconfproc.45.0_499},
+  category  = {domestic},
+  note      = {査読なし，口頭発表}
+}
+
+@inproceedings{furuhashi2025vit_jsce72,
+  author    = {{古橋 郁一} and {羽藤 英二}},
+  title     = {Stability Analysis of a Vision Transformer-Based Image-Driven Following Model},
+  booktitle = {第72回土木計画学研究発表会・秋大会},
+  year      = {2025},
+  month     = nov,
+  address   = {福井},
+  category  = {domestic},
+  note      = {口頭発表。Official program title; this differs from the user-supplied draft title.}
+}
+
+@inproceedings{furuhashi2026gamecontrol_jsce73,
+  author    = {{古橋 郁一} and {羽藤 英二}},
+  title     = {非協力微分ゲームに基づく均衡制約埋め込み予測型車群軌道制御},
+  booktitle = {第73回土木計画学研究発表会・春大会},
+  year      = {2026},
+  month     = jun,
+  address   = {愛知},
+  category  = {domestic},
+  note      = {発表予定・採択済み。Official program confirms scheduling on 2026-06-14 at 大同大学. The user-supplied year {2024} appears to be a typo.}
+}
+
+@unpublished{furuhashi2026title_jste46,
+  author    = {{古橋 郁一} and {羽藤 英二}},
+  title     = {{title title title}},
+  booktitle = {第46回交通工学研究発表会},
+  year      = {2026},
+  category  = {domestic},
+  note      = {Provisional entry. Placeholder title in user-supplied list. User reports a presentation at the 46th Conference of Japan Society of Traffic Engineers, Tokyo, August 2026.}
+}
+
+% ---------------------------------------------------------------------
+% 以下のエントリは publications.html の現行 3 セクション
+% (journal / conference / domestic) のいずれにも厳密には該当しません。
+% 受賞・採択プログラム・ソフトウェアリポジトリなどを独立セクションとして
+% 表示する場合は _layouts/publications.html を拡張してください。
+% 当面は参考情報として BibTeX ブロックで保持しています
+% (@comment 内にあるため publications ページには出力されません)。
+% ---------------------------------------------------------------------
+
+@comment{
+
+@misc{furuhashi2025furuichi_award,
+  author       = {Furuhashi, Fumihito},
+  title        = {古市公威賞},
+  year         = {2025},
+  month        = sep,
+  howpublished = {東京大学大学院工学系研究科社会基盤学専攻},
+  note         = {Award for the master's thesis {微分ゲームに基づく自動運転車群の軌道予測モデル}. Provisional entry; public confirmation located only on social posts as of 2026-04-12.}
+}
+
+@misc{furuhashi2025hksts_award,
+  author       = {Furuhashi, Fumihito},
+  title        = {HKSTS Outstanding Student Paper Award (1st Prize)},
+  year         = {2025},
+  month        = dec,
+  howpublished = {The Hong Kong Society for Transportation Studies},
+  note         = {Awarded for {Physically Consistent Differential-Game Surrogates for Interaction-Aware AV Trajectory Planning}.}
+}
+
+@misc{furuhashi2024wings_cfs,
+  author       = {Furuhashi, Fumihito},
+  title        = {東京大学「未来社会協創国際卓越大学院（WINGS-CFS）」プログラム生として採用},
+  year         = {2024},
+  month        = sep,
+  howpublished = {The University of Tokyo},
+  note         = {Provisional entry. The program itself is publicly verifiable, but the individual selection was not independently verified from a public source.}
+}
+
+@misc{furuhashi2025spring_gx,
+  author       = {Furuhashi, Fumihito},
+  title        = {東京大学「グリーントランスフォーメーションを先導する高度人材育成（SPRING-GX）」プログラム生として採用},
+  year         = {2025},
+  month        = sep,
+  howpublished = {The University of Tokyo},
+  note         = {Provisional entry. The program itself is publicly verifiable, but the individual selection was not independently verified from a public source.}
+}
+
+@software{furuhashi2024sversion_fem_software,
+  author    = {Furuhashi, Fumihito},
+  title     = {S-version-FEM-simulating-high-speed-crack-propagation-in-3D-plate-IJMS-2024},
+  year      = {2024},
+  url       = {https://github.com/Shibanuma-Lab/S-version-FEM-simulating-high-speed-crack-propagation-in-3D-plate-IJMS-2024},
+  note      = {GitHub software repository. The user states that they led implementation and evaluation under guidance from students in the laboratory. Related journal article: Strategy for simulating high-speed crack propagation in 3D-plate structures based on S-version FEM, International Journal of Mechanical Sciences, DOI 10.1016/j.ijmecsci.2024.109261.}
+}
+
+}
