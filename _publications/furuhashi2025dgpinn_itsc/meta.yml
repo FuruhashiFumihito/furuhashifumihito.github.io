@@ -1,0 +1,43 @@
+# =============================================================================
+#  furuhashi2025dgpinn_itsc / meta.yml
+# =============================================================================
+#
+#  このファイルは _plugins/bibtex_publications.rb によってビルド時に読み込まれ、
+#  /projects/furuhashi2025dgpinn_itsc/ の仮想ページに merge される。
+#
+#  `src:` は同フォルダ内の画像ファイルを指す相対パスで書ける
+#  (プラグインが /projects/<key>/ に解決する)。絶対パス (/で始まる) や
+#  外部 URL はそのまま使われる。
+#
+#  使えるフィールド:
+#
+#    graphical_abstract:
+#      src:     画像パス (ここでは同フォルダのファイル名でよい)
+#      alt:     代替テキスト (日英共通)
+#      alt_ja:  代替テキスト (日本語ページ用)
+#      alt_en:  代替テキスト (英語ページ用)
+#
+#    figures:
+#      - src:         画像パス
+#        alt / alt_ja / alt_en:          代替テキスト
+#        caption / caption_ja / caption_en: キャプション
+#
+#  論文本文 (Notes セクション) は同フォルダの body_ja.md / body_en.md
+#  に書くと自動的に注入される。
+# =============================================================================
+
+graphical_abstract:
+  src: graphical-abstract.png
+  alt_ja: "DG-PINN のグラフィカル・アブストラクト: 微分ゲームによる均衡制約と PINN を組み合わせた軌道予測の概要図"
+  alt_en: "DG-PINN graphical abstract: differential-game equilibrium constraints coupled with a PINN for trajectory prediction"
+
+figures:
+  - src: fig1-architecture.png
+    caption_ja: "DG-PINN のネットワーク構成。共有エンコーダが周辺車両の状態系列を埋め込み、微分ゲームの均衡条件を損失項として埋め込んだ PINN デコーダが将来軌道を予測する。"
+    caption_en: "Network architecture of DG-PINN. A shared encoder embeds surrounding-vehicle state sequences, and a PINN decoder trained with the equilibrium conditions of a differential game as physics losses predicts the future trajectory."
+  - src: fig2-loss.png
+    caption_ja: "学習に用いた損失関数の内訳。データ適合項に加え、ハミルトン-ヤコビ-アイザックス方程式に由来する均衡制約をソフト制約として与える。"
+    caption_en: "Decomposition of the training loss: a data-fidelity term plus soft constraints derived from the Hamilton–Jacobi–Isaacs equilibrium conditions of the differential game."
+  - src: fig3-results.png
+    caption_ja: "高速道路データセットにおける予測軌道の定性比較。既存の回帰型ベースラインに比べ、相互作用下での振る舞いがより物理的に整合的になる。"
+    caption_en: "Qualitative comparison of predicted trajectories on a highway dataset. Compared with a purely regression-based baseline, DG-PINN yields interactions that are more physically consistent."

@@ -1,6 +1,8 @@
 ---
 # sitemap.xml — jekyll-sitemap プラグインを使わずに Liquid で生成する
-# 静的 HTML ページと _publications コレクションを対象に含める
+# 静的 HTML ページ + bibtex_publications.rb が生成する仮想ページ
+# (/projects/<key>/) を対象に含める。仮想ページも site.pages に入るため
+# ここでは単に site.pages をイテレートする。
 layout: null
 sitemap: false
 ---
@@ -28,13 +30,5 @@ sitemap: false
     {%- endif %}
   </url>
     {%- endif -%}
-  {%- endfor -%}
-  {%- for pub in site.publications -%}
-  <url>
-    <loc>{{ pub.url | absolute_url | xml_escape }}</loc>
-    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
   {%- endfor -%}
 </urlset>

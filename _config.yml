@@ -22,29 +22,13 @@ social:
 plugins:
   - jekyll-seo-tag
 
-# コレクション設定
-collections:
-  publications:
-    output: true
-    permalink: /projects/:name/
-  publications_en:
-    output: true
-    permalink: /projects/:name/
-
-# デフォルト設定
-defaults:
-  - scope:
-      path: ""
-      type: "publications"
-    values:
-      layout: "publication"
-      lang: "ja"
-  - scope:
-      path: ""
-      type: "publications_en"
-    values:
-      layout: "publication"
-      lang: "en"
+# Jekyll が自動処理しないように除外。
+# `_publications/<bibtex_key>/` は _plugins/bibtex_publications.rb が読み込み、
+# 仮想ページと StaticFile として /projects/<key>/ に配置する。
+exclude:
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
 
 # Markdown設定
 markdown: kramdown

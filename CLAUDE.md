@@ -26,13 +26,13 @@ bundle exec jekyll build
   - `default.html` (base)
   - `home.html` extends `default`
   - `publications.html` (plural, list page) extends `default` — renders `site.data.bibliography`
-  - `publication.html` (singular, detail page) extends `default` — used by `_publications/` collection entries
+  - `publication.html` (singular, detail page) extends `default` — rendered for each BibTeX entry at `/projects/<key>/`
 - `_includes/nav.html` - Bilingual navigation component
 - `_data/i18n.yml` - Bilingual labels keyed by `ja` / `en` (accessed via `site.data.i18n[page.lang]`)
 - `_data/diary.yml` - Diary entries (daily memo style) with `date`, `text_ja`, `text_en` fields
-- `_bibliography/references.bib` - **Single source of truth for the publications list page** (BibTeX)
-- `_plugins/bibliography.rb` - Jekyll generator that parses the `.bib` at build time and exposes it as `site.data.bibliography`
-- `_publications/` - Optional Markdown files for per-paper detail pages (Jekyll collection, rendered at `/projects/:name/`)
+- `publications.bib` - **Single source of truth for the publications list page** (BibTeX)
+- `_plugins/bibtex_publications.rb` - Jekyll generator that parses `publications.bib` at build time, populates `site.data.bibliography`, and emits one virtual detail page per entry at `/projects/<key>/`
+- `_publications/<bibtex_key>/` - Per-paper sidecar folder (one folder per paper) holding `meta.yml` (graphical abstract + figures), optional `body_ja.md` / `body_en.md` (Notes body), and image files. Not a Jekyll collection — read manually by the plugin.
 
 ### Hero Banner Slideshow
 
@@ -64,105 +64,115 @@ inlined near the bottom of `_layouts/home.html`.
 
 ### Publications — Data Flow
 
-The publications page has two concerns, handled by two different files:
+The publications system is driven by a single BibTeX file plus an
+optional per-paper sidecar folder. Everything is processed by one
+generator (`_plugins/bibtex_publications.rb`).
 
 **1. The list page (`publications.html` / `publications-e.html`)**
 
-Driven by `_bibliography/references.bib` (BibTeX). At build time,
-`_plugins/bibliography.rb` parses the file with `bibtex-ruby` and populates
-`site.data.bibliography` with the same array-of-hashes shape the layout
-expects — so `_layouts/publications.html` needs no changes. Adding or
-editing an entry on the list page is purely a matter of editing the `.bib`.
+`publications.bib` is the single source of truth. At build time the
+generator parses it, normalizes each entry, and populates
+`site.data.bibliography`. `_layouts/publications.html` iterates over
+that array. Adding or editing an entry on the list page is purely a
+matter of editing `publications.bib`.
 
 Each entry is normalized to:
 ```yaml
-title:   "Paper Title"
-authors: "Author Names"            # " and " → ", "
-venue:   "..."                     # first of: venue / journal / booktitle / howpublished
-year:    2025
-type:    "journal"                 # journal | conference | domestic
-url:     "/projects/sample-paper/" # optional
+key:      "furuhashi2025dgpinn_itsc"    # BibTeX entry key
+slug:     "furuhashi2025dgpinn_itsc"    # URL slug
+title:    "Paper Title"
+authors:  "Author Names"                # "Last, First and ..." → "First Last, ..."
+venue:    "..."                         # journal / booktitle / howpublished / ...
+year:     2025
+type:     "conference"                  # journal | conference | domestic
+links:    { paper: "...", pdf: "...", github: "...", ... }
+abstract: "Abstract text"
+bibtex:   "@inproceedings{...}"         # pretty-printed BibTeX block
+lang:     "ja"                          # ja | en (from BibTeX `lang` field)
+url:      "/projects/<slug>/"
 ```
 
 Category resolution (`type` field):
-1. If the BibTeX entry has a `category = {journal|conference|domestic}`
+1. If the BibTeX entry has a `bib_category = {journal|conference|domestic}`
    field, that value wins.
-2. Otherwise, inferred from the BibTeX entry type via
-   `TYPE_MAP` in `_plugins/bibliography.rb`:
-   - `@article`, `@inbook`, `@incollection` → `journal`
-   - `@inproceedings`, `@conference`, `@proceedings` → `conference`
-   - `@misc`, `@techreport`, `@unpublished` → `domestic`
-
-Use the `category` override when a BibTeX entry type doesn't match the
-desired section — e.g., a domestic conference published as `@inproceedings`
-that should appear under §02.3 Domestic.
+2. Otherwise, inferred from the BibTeX entry type:
+   - `@article` → `journal`
+   - `@inproceedings`, `@conference` → `conference`
+   - `@misc`, `@techreport`, `@unpublished`, other → `domestic`
 
 Entries are sorted by year descending at build time; within a year, the order
 in the `.bib` file is preserved. The list page renders with `<ol reversed>`.
 
-**2. Per-paper detail pages (optional)**
+**2. Per-paper detail pages (auto-generated)**
 
-If a paper needs a dedicated detail page (abstract, BibTeX block, links),
-create a Markdown file in `_publications/` with YAML front matter:
-```yaml
----
-layout: publication
-title: "Paper Title"
-authors: "Author Names"
-venue: "Conference/Journal Name"
-year: 2024
-type: conference
-links:
-  paper: "URL"
-  pdf: "URL"
-  github: "URL"
-abstract: "Abstract text"
-bibtex: |
-  @inproceedings{...}
----
+Every BibTeX entry automatically gets a detail page at `/projects/<key>/`,
+rendered by `_layouts/publication.html`. No hand-written page is needed —
+the plugin creates a virtual `Jekyll::Page` per entry from the normalized
+record above.
+
+**3. Per-paper sidecar folder: `_publications/<bibtex_key>/`**
+
+For papers that need extra content (graphical abstract, figures, notes,
+images), create a folder named after the BibTeX key. One folder per
+paper, everything co-located:
+
 ```
-Jekyll renders this at `/projects/:name/`. To link the list entry to the
-detail page, set `url = {/projects/:name/}` in the matching `.bib` entry.
-The `_publications/` collection is optional — BibTeX entries without a `url`
-field simply render as non-linked items on the list page.
-
-### Adding a Publication
-
-1. Append a BibTeX entry to `_bibliography/references.bib`.
-2. (Optional) If the paper deserves a detail page, create
-   `_publications/<slug>.md` and set `url = {/projects/<slug>/}` in the
-   matching `.bib` entry.
-3. `bundle exec jekyll serve` — the generator logs how many entries it
-   loaded; verify the paper appears in the expected §02.x section.
-
-### Adding figures to a paper detail page
-
-Per-paper graphical abstracts and in-text figures live in the sidecar
-`_data/publication_figures.yml`, keyed by BibTeX entry key (e.g.
-`furuhashi2025dgpinn_itsc`). At build time,
-`_plugins/bibtex_publications.rb` merges the matching entry into the
-virtual `/projects/<key>/` page's front matter, so the paper's auto-
-generated detail page picks them up without needing a hand-written
-`_publications/<slug>.md`.
-
-Supported fields:
-
-```yaml
-<bibtex_key>:
-  graphical_abstract:
-    src: /assets/images/publications/<bibtex_key>/graphical-abstract.png
-    alt_ja: "日本語 alt"          # optional
-    alt_en: "English alt"          # optional
-  figures:
-    - src: /assets/images/publications/<bibtex_key>/fig1.png
-      caption_ja: "図 1 のキャプション"
-      caption_en: "Fig. 1 caption"
-    - src: ...
-      caption_ja: ...
-      caption_en: ...
+_publications/
+  furuhashi2025dgpinn_itsc/
+    meta.yml                # graphical_abstract + figures metadata
+    body_ja.md              # (optional) Japanese "Notes" body
+    body_en.md              # (optional) English "Notes" body
+    graphical-abstract.png  # image files live in the same folder
+    fig1-architecture.png
+    fig2-loss.png
 ```
 
-Rendering rules (see `_layouts/publication.html`):
+The generator reads this folder (if present), merges `meta.yml` into the
+virtual page's front matter, injects the matching `body_<lang>.md` into
+`page.content`, and copies every image into `/projects/<key>/<filename>`
+via `Jekyll::StaticFile`.
+
+`_publications/` is NOT a Jekyll collection — Jekyll ignores it because
+of the leading underscore and the plugin handles everything manually.
+Entries without a folder simply render as plain auto-generated detail
+pages; the sidecar is purely additive.
+
+**meta.yml schema:**
+
+```yaml
+graphical_abstract:
+  src: graphical-abstract.png     # relative filename → /projects/<key>/graphical-abstract.png
+  alt_ja: "日本語 alt"              # optional
+  alt_en: "English alt"            # optional
+
+figures:
+  - src: fig1-architecture.png
+    caption_ja: "図 1 のキャプション"
+    caption_en: "Fig. 1 caption"
+  - src: fig2-loss.png
+    caption_ja: "..."
+    caption_en: "..."
+```
+
+Path resolution for `src`:
+- **Relative filename** (e.g., `graphical-abstract.png`) — auto-resolved
+  to `/projects/<bibtex_key>/graphical-abstract.png` and the file is
+  copied to that URL at build time.
+- **Absolute path** (starts with `/`) — used as-is (e.g., referencing
+  a shared asset under `/assets/...`).
+- **External URL** (starts with `http://` / `https://`) — used as-is.
+
+**Body files:**
+
+- `body_ja.md` is injected into `page.content` when the virtual page's
+  `lang == "ja"` (default).
+- `body_en.md` when `lang == "en"` (set via `lang = {en}` in BibTeX).
+- `body.md` acts as a language-neutral fallback.
+- Markdown is converted to HTML via Jekyll's configured converter
+  (kramdown) before injection. `_layouts/publication.html` wraps it in
+  the "Notes" block.
+
+**Rendering rules (see `_layouts/publication.html`):**
 
 - `graphical_abstract` renders as a prominent block directly below the
   title, before authors/venue.
@@ -171,13 +181,16 @@ Rendering rules (see `_layouts/publication.html`):
   from `_data/i18n.yml`.
 - Captions use `caption_ja` / `caption_en` by language; `caption` alone
   is a language-neutral fallback. `alt_ja` / `alt_en` behave the same.
-- Entries without a matching key simply render a plain detail page —
-  the sidecar is purely additive.
 
-Recommended layout on disk: put image files under
-`assets/images/publications/<bibtex_key>/` so the sidecar paths stay
-predictable. Image files are referenced by path; the sidecar never
-embeds binaries.
+### Adding a Publication
+
+1. Append a BibTeX entry to `publications.bib`.
+2. (Optional) If the paper needs a graphical abstract, figures, or notes,
+   create `_publications/<bibtex_key>/` and drop in `meta.yml`, any
+   `body_ja.md` / `body_en.md`, and the image files.
+3. `bundle exec jekyll serve` — the generator logs how many entries it
+   loaded; verify the paper appears in the expected section and that
+   `/projects/<key>/` renders correctly.
 
 ### URL Generation
 Always use Liquid filters for URLs:
@@ -188,5 +201,7 @@ Always use Liquid filters for URLs:
 
 ## Key Configuration
 
-- `_config.yml`: Site settings, collection definitions, permalink patterns
+- `_config.yml`: Site settings, markdown converter, excludes
 - `baseurl: ""` - User site is served at the domain root, so no subpath prefix
+- No Jekyll collections are defined — per-paper content is assembled by
+  `_plugins/bibtex_publications.rb` at build time.
