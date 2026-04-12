@@ -96,42 +96,6 @@ layout: default
 
 
 <!-- =====================================================================
-     EPIGRAPH PLATE — research manifesto / thesis statement
-     ===================================================================== -->
-<section class="epigraph" aria-label="{% if page.lang == 'en' %}Thesis{% else %}研究の要旨{% endif %}">
-    <div class="epigraph__rule" aria-hidden="true"></div>
-
-    <div class="epigraph__head">
-        <span class="epigraph__tag">
-            {% if page.lang == 'en' %}— Thesis Statement / 研究主題 —{% else %}— 研究主題 / Thesis Statement —{% endif %}
-        </span>
-    </div>
-
-    <blockquote class="epigraph__body">
-        <p>
-            {% if page.lang == 'en' %}
-            “On the geometry of moving bodies —
-            <em>how swarms of autonomous vehicles, the roads beneath them,
-            and the cities around them</em>
-            negotiate a common future.”
-            {% else %}
-            「動くものたちの幾何学について ——
-            <em>自動走行車の群れと、それを支える道路と、</em>
-            <em>その周囲に広がる都市が、</em>
-            いかにして共通の未来を取り決めるか。」
-            {% endif %}
-        </p>
-    </blockquote>
-
-    <ul class="epigraph__threads" aria-label="{{ t.labels.research_topics }}">
-        {% for topic in page.research_topics %}
-        <li><span class="epigraph__thread-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ topic }}</li>
-        {% endfor %}
-    </ul>
-</section>
-
-
-<!-- =====================================================================
      §01 PROFILE — colophon card
      ===================================================================== -->
 <section class="section section--profile" id="profile">
