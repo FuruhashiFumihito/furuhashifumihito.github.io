@@ -844,14 +844,14 @@ a { color: var(--ink); text-decoration: none; }
     background: var(--accent);
 }
 
-/* ---------- News ---------- */
-.news-list {
+/* ---------- Diary ---------- */
+.diary-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.news-list li {
+.diary-list li {
     display: grid;
     grid-template-columns: 9rem 1fr auto;
     gap: 2rem;
@@ -860,9 +860,9 @@ a { color: var(--ink); text-decoration: none; }
     align-items: baseline;
 }
 
-.news-list li:last-child { border-bottom: 1px solid var(--rule); }
+.diary-list li:last-child { border-bottom: 1px solid var(--rule); }
 
-.news-list .news-num {
+.diary-list .diary-num {
     font-family: var(--font-mono);
     font-size: .62rem;
     letter-spacing: .18em;
@@ -871,7 +871,7 @@ a { color: var(--ink); text-decoration: none; }
     font-variant-numeric: tabular-nums;
 }
 
-.news-list .news-date {
+.diary-list .diary-date {
     font-family: var(--font-mono);
     font-size: .78rem;
     letter-spacing: .08em;
@@ -880,16 +880,16 @@ a { color: var(--ink); text-decoration: none; }
     text-transform: uppercase;
 }
 
-.news-list .news-text {
+.diary-list .diary-text {
     font-family: var(--font-body);
     font-size: 1.08rem;
     line-height: 1.55;
     color: var(--ink);
 }
 
-:lang(ja) .news-list .news-text { font-family: var(--font-jp); }
+:lang(ja) .diary-list .diary-text { font-family: var(--font-jp); }
 
-.news-list li:hover .news-text { color: var(--accent); }
+.diary-list li:hover .diary-text { color: var(--accent); }
 
 /* ---------- Publications Catalogue ---------- */
 .pub-group {
@@ -1360,7 +1360,7 @@ a { color: var(--ink); text-decoration: none; }
     .colophon__figure    { max-width: 240px; }
     .timeline li         { grid-template-columns: 1fr; gap: .2rem; padding-left: 1rem; }
     .timeline li::before { left: -.25rem; top: 1.4rem; }
-    .news-list li        { grid-template-columns: 1fr; gap: .3rem; }
+    .diary-list li       { grid-template-columns: 1fr; gap: .3rem; }
     .pub-list li         { grid-template-columns: 1fr; gap: .4rem; }
     .pub-list li::before { display: none; }
     .pub-list .pub-year  { font-size: 1.4rem; }

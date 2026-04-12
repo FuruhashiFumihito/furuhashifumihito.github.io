@@ -6,7 +6,7 @@ ja:
   nav:
     home: "トップ"
     publications: "業績"
-    news: "ニュース"
+    diary: "日記"
   labels:
     affiliation: "所属・連絡先"
     links: "リンク"
@@ -37,7 +37,7 @@ en:
   nav:
     home: "Home"
     publications: "Publications"
-    news: "News"
+    diary: "Diary"
   labels:
     affiliation: "Affiliation & Contact"
     links: "Links"

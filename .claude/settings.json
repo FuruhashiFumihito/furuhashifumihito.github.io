@@ -18,7 +18,12 @@
       "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.jpg)",
       "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.png)",
       "Bash(git mv:*)",
-      "Read(//Users/furuhashikaoruichi/Confidential/**)"
+      "Read(//Users/furuhashikaoruichi/Confidential/**)",
+      "Bash(ls *.html)",
+      "Bash(ls -la /Users/furuhashikaoruichi/MCP/homepage/Gemfile*)",
+      "Bash(ruby -v)",
+      "Bash(bundle -v)",
+      "Bash(bundle install:*)"
     ],
     "additionalDirectories": [
       "/Users/furuhashikaoruichi/Confidential"

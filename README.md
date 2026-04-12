@@ -37,11 +37,11 @@ bundle exec jekyll build
 - `_includes/nav.html` - バイリンガルナビゲーションコンポーネント
 
 ### ページ構成（バイリンガル）
-- 日本語ページ: `index.html`, `publications.html`, `news.html`
+- 日本語ページ: `index.html`, `publications.html`, `diary.html`
 - 英語ページ: `-e.html` サフィックス（例: `index-e.html`, `publications-e.html`）
 
 ### データ・コンテンツ
-- `_data/news.yml` - ニュース項目（`text` と `text_en` フィールド）
+- `_data/diary.yml` - 日記エントリ（日々のメモ。`date`, `text_ja`, `text_en` フィールド）
 - `_publications/` - 研究業績のMarkdownファイル（Jekyllコレクション）
 
 ### 設定ファイル
