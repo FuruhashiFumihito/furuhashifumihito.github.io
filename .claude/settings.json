@@ -4,7 +4,8 @@
       "Bash(gh repo:*)",
       "Bash(git remote:*)",
       "Bash(gh run:*)",
-      "Bash(curl -sI https://furuhashifumihito.github.io/)"
+      "Bash(curl -sI https://furuhashifumihito.github.io/)",
+      "Bash(bundle exec:*)"
     ]
   },
   "enabledPlugins": {

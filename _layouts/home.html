@@ -3,69 +3,253 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
-<section id="photo">
-    <div class="profile-photo">
-        <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="{{ t.site_title }}" width="200" height="200">
+<section class="hero" aria-labelledby="hero-name">
+    <!-- Decorative contour / route lines. Evokes isobars + travel flows. -->
+    <svg class="hero__contour" viewBox="0 0 800 620" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <g stroke-linecap="round">
+            <path d="M-20 60 C 160 20, 260 140, 420 110 S 700 40, 860 90" />
+            <path d="M-20 120 C 160 80, 260 200, 420 170 S 700 100, 860 150" opacity=".85"/>
+            <path d="M-20 180 C 160 140, 260 260, 420 230 S 700 160, 860 210" opacity=".7"/>
+            <path d="M-20 240 C 160 200, 260 320, 420 290 S 700 220, 860 270" opacity=".55"/>
+            <path d="M-20 300 C 160 260, 260 380, 420 350 S 700 280, 860 330" opacity=".4"/>
+            <path d="M-20 360 C 160 320, 260 440, 420 410 S 700 340, 860 390" opacity=".3"/>
+            <path d="M-20 420 C 160 380, 260 500, 420 470 S 700 400, 860 450" opacity=".2"/>
+        </g>
+        <!-- Route overlay -->
+        <g stroke="currentColor" stroke-width="1.4" stroke-dasharray="0" fill="none">
+            <path d="M60 500 L 220 360 L 340 400 L 480 240 L 620 300 L 760 140" />
+        </g>
+        <g fill="currentColor">
+            <circle cx="60"  cy="500" r="3.5"/>
+            <circle cx="220" cy="360" r="3.5"/>
+            <circle cx="340" cy="400" r="3.5"/>
+            <circle cx="480" cy="240" r="3.5"/>
+            <circle cx="620" cy="300" r="3.5"/>
+            <circle cx="760" cy="140" r="3.5"/>
+        </g>
+    </svg>
+
+    <div class="hero__grid">
+        <div>
+            <div class="hero__label">
+                {% if page.lang == 'en' %}
+                Research Portfolio — 2026 Edition
+                {% else %}
+                研究者紹介 — 2026年版
+                {% endif %}
+            </div>
+            <h1 class="hero__name-en" id="hero-name">
+                {% if page.lang == 'en' %}
+                Fumihito<br><em>Furuh<span class="amp">a</span>shi</em>
+                {% else %}
+                Fumihito<br><em>Furuh<span class="amp">a</span>shi</em>
+                {% endif %}
+            </h1>
+            {% if page.lang == 'ja' %}
+            <p class="hero__name-jp" lang="ja">古橋 郁一</p>
+            {% else %}
+            <p class="hero__name-jp" lang="ja">古橋 郁一</p>
+            {% endif %}
+
+            <p class="hero__tagline{% if page.lang == 'ja' %} hero__tagline--jp{% endif %}">
+                {% if page.lang == 'en' %}
+                Modeling the quiet geometry of how people move—and designing the infrastructure that answers.
+                {% else %}
+                人が動くときに立ち現れる、静かな幾何を観察し、それに応える社会基盤のかたちを設計する。
+                {% endif %}
+            </p>
+        </div>
+
+        <dl class="hero__coord" aria-label="Location">
+            <div>
+                <dt>Location</dt>
+                <dd class="coord-val">35.71<span class="accent">°</span>N  139.76<span class="accent">°</span>E</dd>
+            </div>
+            <div>
+                <dt>Campus</dt>
+                <dd class="coord-val">Hongo — 本郷</dd>
+            </div>
+            <div>
+                <dt>Field</dt>
+                <dd class="coord-val">Civil Eng. / Mobility</dd>
+            </div>
+            <div>
+                <dt>Status</dt>
+                <dd class="coord-val">Graduate Student</dd>
+            </div>
+        </dl>
     </div>
 </section>
 
-<section id="profile">
-    <h2>{{ t.labels.affiliation }}</h2>
-    <ul>
-        {% for item in page.affiliation %}
-        <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
 
-    <h3>{{ t.labels.links }}</h3>
-    <ul class="sns-links">
-        {% for link in page.social_links %}
-        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a></li>
-        {% endfor %}
-    </ul>
+<!-- §01 Affiliation / Profile -->
+<section class="section" id="profile">
+    <header class="section__head">
+        <div class="section__num">§ 01 · Profile</div>
+        <h2 class="section__title">{{ t.labels.affiliation }}</h2>
+    </header>
 
-    <p class="cv-download">
-        <a href="{{ '/assets/cv/cv.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">{{ t.labels.cv_download }}</a>
-    </p>
+    <div class="colophon">
+        <figure class="colophon__figure">
+            <!-- Photo with CSS fallback: monogram renders underneath; if img loads it hides monogram via `img + .monogram { display:none }`. If the img 404s, we hide it with onerror. -->
+            <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Fumihito Furuhashi" onerror="this.style.display='none'">
+            <span class="monogram" aria-hidden="true"><em>Ff</em></span>
+            <figcaption class="colophon__caption">
+                {% if page.lang == 'en' %}Hongo Campus, Tokyo{% else %}東京・本郷{% endif %}
+            </figcaption>
+        </figure>
+
+        <div class="colophon__body">
+            <dl>
+                <dt>{{ t.labels.affiliation }}</dt>
+                <dd>
+                    {% for item in page.affiliation %}
+                    <span class="affil-line">{{ item }}</span>
+                    {% endfor %}
+                </dd>
+
+                <dt>{{ t.labels.links }}</dt>
+                <dd>
+                    <ul class="index-list">
+                        {% for link in page.social_links %}
+                        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }}">{{ link.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </dl>
+            <a class="cv-link" href="{{ '/assets/cv/cv.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">{{ t.labels.cv_download }}</a>
+        </div>
+    </div>
 </section>
 
-<section id="research">
-    <h2>{{ t.labels.research }}</h2>
-    <p>{{ page.research_description }}</p>
 
-    <h3>{{ t.labels.research_topics }}</h3>
-    <ul>
-        {% for topic in page.research_topics %}
-        <li>{{ topic }}</li>
-        {% endfor %}
-    </ul>
+<!-- §02 Research -->
+<section class="section" id="research">
+    <header class="section__head">
+        <div class="section__num">§ 02 · Research</div>
+        <h2 class="section__title">
+            {% if page.lang == 'en' %}On Research{% else %}研究について{% endif %}
+        </h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Subject</span>
+            {% if page.lang == 'en' %}
+            Travel Behavior<br>Mobility Design<br>Infrastructure
+            {% else %}
+            交通行動<br>モビリティデザイン<br>社会基盤
+            {% endif %}
+        </aside>
+
+        <div class="section__content">
+            <p>{{ page.research_description }}</p>
+
+            <ol class="topics" aria-label="{{ t.labels.research_topics }}">
+                {% for topic in page.research_topics %}
+                <li data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }} / {{ page.research_topics.size | prepend: '00' | slice: -2, 2 }}">
+                    <span class="topic-label">{{ topic }}</span>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 </section>
 
-<section id="career">
-    <h2>{{ t.labels.career }}</h2>
-    <ul>
-        {% for item in page.career %}
-        <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
+
+<!-- §03 Career -->
+<section class="section" id="career">
+    <header class="section__head">
+        <div class="section__num">§ 03 · Career</div>
+        <h2 class="section__title">{{ t.labels.career }}</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Record</span>
+            {% if page.lang == 'en' %}Professional Path{% else %}職歴・所属{% endif %}
+        </aside>
+        <div class="section__content">
+            <ul class="timeline">
+                {% for item in page.career %}
+                <li>
+                    {% assign parts = item | split: ': ' %}
+                    {% if parts.size > 1 %}
+                    <span class="tl-date">{{ parts[0] }}</span>
+                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
+                    {% else %}
+                    <span class="tl-date"></span>
+                    <span class="tl-text">{{ item }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </section>
 
-<section id="education">
-    <h2>{{ t.labels.education }}</h2>
-    <ul>
-        {% for item in page.education %}
-        <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
+
+<!-- §04 Education -->
+<section class="section" id="education">
+    <header class="section__head">
+        <div class="section__num">§ 04 · Education</div>
+        <h2 class="section__title">{{ t.labels.education }}</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Record</span>
+            {% if page.lang == 'en' %}Schools & Degrees{% else %}学歴・学位{% endif %}
+        </aside>
+        <div class="section__content">
+            <ul class="timeline">
+                {% for item in page.education %}
+                <li>
+                    {% assign parts = item | split: ': ' %}
+                    {% if parts.size > 1 %}
+                    <span class="tl-date">{{ parts[0] }}</span>
+                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
+                    {% else %}
+                    <span class="tl-date"></span>
+                    <span class="tl-text">{{ item }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </section>
 
+
+<!-- §05 Awards -->
 {% if page.awards %}
-<section id="awards">
-    <h2>{{ t.labels.awards }}</h2>
-    <ul>
-        {% for award in page.awards %}
-        <li>{{ award }}</li>
-        {% endfor %}
-    </ul>
+<section class="section awards" id="awards">
+    <header class="section__head">
+        <div class="section__num">§ 05 · Awards</div>
+        <h2 class="section__title">{{ t.labels.awards }}</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Recognition</span>
+            {% if page.lang == 'en' %}Prizes &<br>Honors{% else %}受賞歴{% endif %}
+        </aside>
+        <div class="section__content">
+            <ul class="timeline">
+                {% for award in page.awards %}
+                <li>
+                    {% assign parts = award | split: ': ' %}
+                    {% if parts.size > 1 %}
+                    <span class="tl-date">{{ parts[0] }}</span>
+                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
+                    {% else %}
+                    <span class="tl-date"></span>
+                    <span class="tl-text">{{ award }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </section>
 {% endif %}

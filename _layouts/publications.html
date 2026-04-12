@@ -3,43 +3,110 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
-<section id="publications">
-    <h2>{{ t.nav.publications }}</h2>
-    <p class="note">{{ t.labels.note_publications }}</p>
+<section class="hero" aria-labelledby="pub-title">
+    <div class="hero__label">
+        {% if page.lang == 'en' %}Publications Catalogue — §02{% else %}業績カタログ — §02{% endif %}
+    </div>
+    <h1 class="hero__name-en" id="pub-title" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
+        <em>Publicati<span class="amp">o</span>ns</em>
+    </h1>
+    {% if page.lang == 'ja' %}
+    <p class="hero__name-jp" lang="ja">業績一覧</p>
+    {% endif %}
+    <p class="hero__tagline{% if page.lang == 'ja' %} hero__tagline--jp{% endif %}">
+        {% if page.lang == 'en' %}
+        A running record of peer-reviewed papers, conference proceedings, and domestic reports.
+        {% else %}
+        査読付き論文・国際会議・国内発表の記録。継続的に更新しています。
+        {% endif %}
+    </p>
+</section>
 
-    <h3>{{ t.pub_types.journal }}</h3>
-    <ol reversed>
+<section class="section">
+    <p class="pub-note">{{ t.labels.note_publications }}</p>
+
     {% assign journals = site.publications | where: "type", "journal" | sort: "year" | reverse %}
-    {% for pub in journals %}
-        <li>
-            {{ pub.authors }}.
-            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
-            <i>{{ pub.venue }}</i>, {{ pub.year }}.
-        </li>
-    {% endfor %}
-    </ol>
-
-    <h3>{{ t.pub_types.conference }}</h3>
-    <ol reversed>
     {% assign conferences = site.publications | where: "type", "conference" | sort: "year" | reverse %}
-    {% for pub in conferences %}
-        <li>
-            {{ pub.authors }}.
-            <a href="{{ pub.url | relative_url }}">"{{ pub.title }}"</a>,
-            <i>{{ pub.venue }}</i>, {{ pub.year }}.
-        </li>
-    {% endfor %}
-    </ol>
-
-    <h3>{{ t.pub_types.domestic }}</h3>
-    <ol reversed>
     {% assign domestic = site.publications | where: "type", "domestic" | sort: "year" | reverse %}
-    {% for pub in domestic %}
-        <li>
-            {{ pub.authors }}.
-            "{{ pub.title }}",
-            <i>{{ pub.venue }}</i>, {{ pub.year }}.
-        </li>
-    {% endfor %}
-    </ol>
+
+    <!-- Journal -->
+    <div class="pub-group">
+        <header class="pub-group__head">
+            <span class="pub-group__tag">§ 02.1</span>
+            <h2 class="pub-group__title">{{ t.pub_types.journal }}</h2>
+            <span class="pub-group__count">{{ journals.size | prepend: '00' | slice: -2, 2 }} entries</span>
+        </header>
+        {% if journals.size > 0 %}
+        <ol class="pub-list" reversed>
+            {% for pub in journals %}
+            <li>
+                <span class="pub-year">{{ pub.year }}</span>
+                <a href="{{ pub.url | relative_url }}" class="pub-body">
+                    <span class="pub-title">{{ pub.title }}</span>
+                    <span class="pub-authors">{{ pub.authors }}</span>
+                    <span class="pub-venue">{{ pub.venue }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- Conference -->
+    <div class="pub-group">
+        <header class="pub-group__head">
+            <span class="pub-group__tag">§ 02.2</span>
+            <h2 class="pub-group__title">{{ t.pub_types.conference }}</h2>
+            <span class="pub-group__count">{{ conferences.size | prepend: '00' | slice: -2, 2 }} entries</span>
+        </header>
+        {% if conferences.size > 0 %}
+        <ol class="pub-list" reversed>
+            {% for pub in conferences %}
+            <li>
+                <span class="pub-year">{{ pub.year }}</span>
+                <a href="{{ pub.url | relative_url }}" class="pub-body">
+                    <span class="pub-title">{{ pub.title }}</span>
+                    <span class="pub-authors">{{ pub.authors }}</span>
+                    <span class="pub-venue">{{ pub.venue }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- Domestic -->
+    <div class="pub-group">
+        <header class="pub-group__head">
+            <span class="pub-group__tag">§ 02.3</span>
+            <h2 class="pub-group__title">{{ t.pub_types.domestic }}</h2>
+            <span class="pub-group__count">{{ domestic.size | prepend: '00' | slice: -2, 2 }} entries</span>
+        </header>
+        {% if domestic.size > 0 %}
+        <ol class="pub-list" reversed>
+            {% for pub in domestic %}
+            <li>
+                <span class="pub-year">{{ pub.year }}</span>
+                <div class="pub-body">
+                    <span class="pub-title">{{ pub.title }}</span>
+                    <span class="pub-authors">{{ pub.authors }}</span>
+                    <span class="pub-venue">{{ pub.venue }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+        </p>
+        {% endif %}
+    </div>
 </section>

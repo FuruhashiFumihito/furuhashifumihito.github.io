@@ -1,6 +1,6 @@
 ---
 title: "Example Paper: Travel Behavior Analysis Using Deep Learning"
-authors: "古橋郁人, 羽藤英二"
+authors: "古橋郁一, 羽藤英二"
 venue: "Transportation Research Part C"
 year: 2026
 type: journal  # journal / conference / domestic

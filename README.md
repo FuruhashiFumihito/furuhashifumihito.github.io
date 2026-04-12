@@ -1,6 +1,6 @@
 # Research Homepage
 
-古橋郁人の研究用ホームページ（東京大学大学院生）
+古橋郁一の研究用ホームページ（東京大学大学院生）
 Jekyll-based bilingual (Japanese/English) academic research homepage
 
 🌐 **Public URL**: https://furuhashifumihito.github.io/

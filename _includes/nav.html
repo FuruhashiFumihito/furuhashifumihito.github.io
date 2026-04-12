@@ -9,8 +9,35 @@
   {% assign news_url = '/news.html' %}
 {% endif %}
 
-<nav>
-    {% if page.url == home_url %}<strong>{{ t.nav.home }}</strong>{% else %}<a href="{{ home_url | relative_url }}">{{ t.nav.home }}</a>{% endif %} |
-    {% if page.url == pub_url %}<strong>{{ t.nav.publications }}</strong>{% else %}<a href="{{ pub_url | relative_url }}">{{ t.nav.publications }}</a>{% endif %} |
-    {% if page.url == news_url %}<strong>{{ t.nav.news }}</strong>{% else %}<a href="{{ news_url | relative_url }}">{{ t.nav.news }}</a>{% endif %}
+<nav class="nav" aria-label="Primary">
+    <div class="nav__item"{% if page.url == home_url %} aria-current="page"{% endif %}>
+        <span class="nav__num">§01</span>
+        {% if page.url == home_url %}
+            <span class="nav__label">{{ t.nav.home }}</span>
+        {% else %}
+            <a href="{{ home_url | relative_url }}"><span class="nav__label">{{ t.nav.home }}</span></a>
+        {% endif %}
+    </div>
+    <div class="nav__item"{% if page.url == pub_url %} aria-current="page"{% endif %}>
+        <span class="nav__num">§02</span>
+        {% if page.url == pub_url %}
+            <span class="nav__label">{{ t.nav.publications }}</span>
+        {% else %}
+            <a href="{{ pub_url | relative_url }}"><span class="nav__label">{{ t.nav.publications }}</span></a>
+        {% endif %}
+    </div>
+    <div class="nav__item"{% if page.url == news_url %} aria-current="page"{% endif %}>
+        <span class="nav__num">§03</span>
+        {% if page.url == news_url %}
+            <span class="nav__label">{{ t.nav.news }}</span>
+        {% else %}
+            <a href="{{ news_url | relative_url }}"><span class="nav__label">{{ t.nav.news }}</span></a>
+        {% endif %}
+    </div>
+
+    <div class="nav__spacer"></div>
+
+    {% if page.alternate %}
+    <a class="nav__lang" href="{{ page.alternate | relative_url }}">{{ t.switch_lang }}</a>
+    {% endif %}
 </nav>

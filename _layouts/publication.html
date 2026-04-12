@@ -3,40 +3,64 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
-<article class="project">
-    <h2>{{ page.title }}</h2>
+<article class="folio-article">
 
-    <section class="meta">
-        <p><strong>{{ t.labels.authors }}:</strong> {{ page.authors }}</p>
-        <p><strong>{{ t.labels.published_in }}:</strong> <i>{{ page.venue }}</i>, {{ page.year }}</p>
-    </section>
+    <header class="folio-article__header">
+        <div class="folio-article__tag">
+            {% case page.type %}
+                {% when 'journal' %}§ Journal Paper — {{ page.year }}
+                {% when 'conference' %}§ Conference — {{ page.year }}
+                {% when 'domestic' %}§ Domestic — {{ page.year }}
+                {% else %}§ Paper — {{ page.year }}
+            {% endcase %}
+        </div>
+        <h1 class="folio-article__title">{{ page.title }}</h1>
+    </header>
+
+    <dl class="folio-article__meta">
+        <dt>{{ t.labels.authors }}</dt>
+        <dd>{{ page.authors }}</dd>
+
+        <dt>{{ t.labels.published_in }}</dt>
+        <dd><i>{{ page.venue }}</i>, {{ page.year }}</dd>
+    </dl>
 
     {% if page.links %}
-    <section class="links">
-        <h3>{{ t.labels.links }}</h3>
-        <ul>
+    <div class="folio-article__body">
+        <div class="folio-article__label">{{ t.labels.links }}</div>
+        <ul class="folio-links">
             {% if page.links.paper %}<li><a href="{{ page.links.paper }}">{{ t.labels.paper }}</a></li>{% endif %}
             {% if page.links.pdf %}<li><a href="{{ page.links.pdf }}">{{ t.labels.pdf }}</a></li>{% endif %}
             {% if page.links.github %}<li><a href="{{ page.links.github }}">GitHub</a></li>{% endif %}
             {% if page.links.slides %}<li><a href="{{ page.links.slides }}">{{ t.labels.slides }}</a></li>{% endif %}
             {% if page.links.video %}<li><a href="{{ page.links.video }}">{{ t.labels.video }}</a></li>{% endif %}
         </ul>
-    </section>
+    </div>
     {% endif %}
 
     {% if page.abstract %}
-    <section class="abstract">
-        <h3>{{ t.labels.abstract }}</h3>
-        <p>{{ page.abstract }}</p>
-    </section>
+    <div class="folio-article__body">
+        <div class="folio-article__label">{{ t.labels.abstract }}</div>
+        <div>
+            <p>{{ page.abstract }}</p>
+        </div>
+    </div>
     {% endif %}
 
-    {{ content }}
+    {% if content and content != '' %}
+    <div class="folio-article__body">
+        <div class="folio-article__label">Notes</div>
+        <div>
+            {{ content }}
+        </div>
+    </div>
+    {% endif %}
 
     {% if page.bibtex %}
-    <section class="bibtex">
-        <h3>BibTeX</h3>
+    <div class="folio-article__body bibtex-block">
+        <div class="folio-article__label">BibTeX</div>
         <pre><code>{{ page.bibtex }}</code></pre>
-    </section>
+    </div>
     {% endif %}
+
 </article>

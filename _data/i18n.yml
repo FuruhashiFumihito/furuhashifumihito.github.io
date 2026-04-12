@@ -2,7 +2,7 @@
 # 使用方法: {% assign t = site.data.i18n[page.lang] %}
 
 ja:
-  site_title: "古橋郁人"
+  site_title: "古橋郁一"
   nav:
     home: "トップ"
     publications: "業績"
