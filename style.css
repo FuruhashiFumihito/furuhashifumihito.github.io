@@ -237,18 +237,47 @@ a { color: var(--ink); text-decoration: none; }
 /* ---------- Hero ---------- */
 .hero {
     position: relative;
-    padding: 0 0 clamp(2rem, 5vw, 4.5rem);
+    min-height: min(88vh, 820px);
+    padding: clamp(3rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
     border-bottom: 1px solid var(--rule);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Light palette overrides so name/label/coord stay legible over the photo. */
+    --ink:          #f6f0de;
+    --ink-2:        rgba(246, 240, 222, 0.90);
+    --ink-3:        rgba(246, 240, 222, 0.70);
+    --ink-4:        rgba(246, 240, 222, 0.48);
+    --rule-strong:  rgba(246, 240, 222, 0.32);
+    --accent:       #e8a87c;
 }
 
 .hero__banner {
-    position: relative;
-    margin: 0 0 clamp(2.5rem, 6vw, 5rem);
-    aspect-ratio: 16 / 6;
+    position: absolute;
+    inset: 0;
+    margin: 0;
     overflow: hidden;
-    border-bottom: 1px solid var(--rule);
-    background: var(--rule);
+    background: #1a1612;
+    z-index: 0;
+}
+
+.hero__banner::after {
+    /* Scrim for text readability — subtle at top, stronger near the bottom
+       where the name/coord overlay sits. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(10, 8, 6, 0.42) 0%,
+            rgba(10, 8, 6, 0.08) 28%,
+            rgba(10, 8, 6, 0.18) 55%,
+            rgba(10, 8, 6, 0.78) 100%
+        );
+    pointer-events: none;
+    z-index: 1;
 }
 
 .hero__banner .hero__slide {
@@ -304,6 +333,7 @@ a { color: var(--ink); text-decoration: none; }
     letter-spacing: -.025em;
     color: var(--ink);
     margin: 0;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .hero__name-en .amp {
@@ -321,6 +351,7 @@ a { color: var(--ink); text-decoration: none; }
     color: var(--ink-2);
     margin: .9rem 0 0;
     line-height: 1;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
 .hero__name-jp::before {
@@ -408,7 +439,7 @@ a { color: var(--ink); text-decoration: none; }
     z-index: 0;
 }
 
-.hero > * { position: relative; z-index: 1; }
+.hero > *:not(.hero__banner) { position: relative; z-index: 2; }
 
 /* ---------- Section ---------- */
 .section {
@@ -1219,6 +1250,83 @@ a { color: var(--ink); text-decoration: none; }
     margin: 1.8rem 0;
     border: 1px solid var(--rule-strong);
     background: var(--paper-2);
+}
+
+/* ----- Graphical abstract (prominent top image) ----- */
+.folio-graphical-abstract {
+    margin: 0 0 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .75rem;
+}
+
+.folio-graphical-abstract img {
+    display: block;
+    width: 100%;
+    max-height: 520px;
+    height: auto;
+    object-fit: contain;
+    margin: 0;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+}
+
+.folio-graphical-abstract__label {
+    font-family: var(--font-mono);
+    font-size: .64rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    text-align: right;
+}
+
+/* ----- Figure list (paper figures with bilingual captions) ----- */
+.folio-figure-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    max-width: var(--measure);
+}
+
+.folio-figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+.folio-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+}
+
+.folio-figure__caption {
+    font-size: .88rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+    font-family: var(--font-body);
+    padding-left: .1rem;
+}
+
+:lang(ja) .folio-figure__caption {
+    font-family: var(--font-jp);
+}
+
+.folio-figure__number {
+    display: inline;
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-right: .5rem;
 }
 
 .research-video {

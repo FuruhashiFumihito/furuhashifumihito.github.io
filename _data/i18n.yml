@@ -23,7 +23,9 @@ ja:
     slides: "スライド"
     video: "動画"
     abstract: "概要"
+    graphical_abstract: "グラフィカル・アブストラクト"
     figures: "図表"
+    figure: "図"
     last_updated: "Last updated"
     note_publications: "* 論文タイトルをクリックするとプロジェクトページに移動します"
   pub_types:
@@ -54,7 +56,9 @@ en:
     slides: "Slides"
     video: "Video"
     abstract: "Abstract"
+    graphical_abstract: "Graphical Abstract"
     figures: "Figures"
+    figure: "Fig."
     last_updated: "Last updated"
     note_publications: "* Click on paper titles to view project pages"
   pub_types:

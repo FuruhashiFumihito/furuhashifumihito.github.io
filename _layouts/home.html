@@ -3,72 +3,175 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
-<section class="hero" aria-labelledby="hero-name">
-    <!-- Top banner: auto-advancing slideshow.
-         Drop image files into /assets/images/hero/ (jpg/jpeg/png/webp).
-         Files are sorted alphabetically by filename — use a numeric prefix
-         (01-, 02-, ...) to control the order. Single-image case: static. -->
+{% comment %}
+  Home layout — Furuhashi Laboratory Records
+  Editorial almanac / 研究手帖
+
+  Structure:
+    1. Frontispiece hero (split bilingual name, ticker, route contour)
+    2. Epigraph plate (research manifesto)
+    3. §01 Profile (colophon)
+    4. §02 Research (numbered plates)
+    5. §03 / §04 Record (career + education, double column)
+    6. §05 Awards (elevated seals)
+{% endcomment %}
+
+
+<!-- =====================================================================
+     FRONTISPIECE HERO
+     ===================================================================== -->
+<section class="frontispiece" aria-labelledby="hero-name">
+
     {% assign hero_slides = site.static_files | where_exp: "f", "f.path contains '/assets/images/hero/'" | sort: "name" %}
-    <figure class="hero__banner" aria-roledescription="carousel">
+    <figure class="frontispiece__banner" aria-roledescription="carousel">
         {% for file in hero_slides %}
             {% assign ext = file.extname | downcase %}
             {% if ext == '.jpg' or ext == '.jpeg' or ext == '.png' or ext == '.webp' %}
             <img src="{{ file.path | relative_url }}"
                  alt=""
-                 class="hero__slide{% if forloop.first %} is-active{% endif %}"
+                 class="frontispiece__slide{% if forloop.first %} is-active{% endif %}"
                  {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
                  decoding="async"
                  draggable="false">
             {% endif %}
         {% endfor %}
     </figure>
-    <div class="hero__grid">
-        <div>
-            <div class="hero__label">
+
+    <!-- Decorative route-contour svg: nods at the mobility research field. -->
+    <svg class="frontispiece__contour" viewBox="0 0 800 520" aria-hidden="true" fill="none">
+        <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+            <path d="M-20 420 Q 120 360 240 380 T 520 300 T 820 240" opacity=".9"/>
+            <path d="M-20 460 Q 120 410 240 430 T 520 355 T 820 290" opacity=".55"/>
+            <path d="M-20 500 Q 120 460 240 480 T 520 410 T 820 340" opacity=".35"/>
+            <path d="M40 60 L 760 60" stroke-dasharray="1 6" opacity=".6"/>
+            <path d="M40 110 L 520 110" stroke-dasharray="1 6" opacity=".4"/>
+            <circle cx="240" cy="380" r="3" fill="currentColor" stroke="none"/>
+            <circle cx="400" cy="345" r="3" fill="currentColor" stroke="none"/>
+            <circle cx="580" cy="295" r="4" fill="currentColor" stroke="none"/>
+        </g>
+    </svg>
+
+    <!-- Rotated archival issue stamp, top-right corner of the hero. -->
+    <svg class="frontispiece__stamp" viewBox="0 0 180 180" aria-hidden="true">
+        <defs>
+            <!-- Invisible circular path for the ring-text. Starts at 12 o'clock. -->
+            <path id="stamp-ring-path"
+                  d="M 90 90 m -64 0 a 64 64 0 1 1 128 0 a 64 64 0 1 1 -128 0" />
+        </defs>
+        <circle cx="90" cy="90" r="84" fill="none" stroke="currentColor" stroke-width="1" opacity=".4"/>
+        <circle cx="90" cy="90" r="76" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="90" cy="90" r="52" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1 3" opacity=".7"/>
+        <text class="frontispiece__stamp-ring">
+            <textPath href="#stamp-ring-path" startOffset="0">
                 {% if page.lang == 'en' %}
-                Research Portfolio — 2026 Edition
+                FIELD · NOTES · FROM · HONGŌ · — · FURUHASHI · LAB · RECORDS · —
                 {% else %}
-                研究者紹介 — 2026年版
+                研究手帖 · 東京本郷 · 古橋研究室 · 記録 · 東京大学 ·
                 {% endif %}
+            </textPath>
+        </text>
+        <line x1="52" y1="86" x2="128" y2="86" stroke="currentColor" stroke-width=".8" opacity=".6"/>
+        <line x1="52" y1="102" x2="128" y2="102" stroke="currentColor" stroke-width=".8" opacity=".6"/>
+        <text x="90" y="82" text-anchor="middle" class="frontispiece__stamp-year">{{ site.time | date: "%Y" }}</text>
+        <text x="90" y="118" text-anchor="middle" class="frontispiece__stamp-sub">№ {{ site.time | date: "%j" }}</text>
+    </svg>
+
+    <div class="frontispiece__inner">
+
+        <div class="frontispiece__split">
+            <!-- Vertical Japanese column -->
+            <div class="frontispiece__jp" lang="ja" aria-hidden="{% if page.lang == 'en' %}true{% else %}false{% endif %}">
+                <span class="frontispiece__jp-name">古橋郁一</span>
+                <span class="frontispiece__jp-role">博士後期課程・東京大学</span>
             </div>
-            <h1 class="hero__name-en" id="hero-name">
-                {% if page.lang == 'en' %}
-                Fumihito<br><em>Furuh<span class="amp">a</span>shi</em>
-                {% else %}
-                Fumihito<br><em>Furuh<span class="amp">a</span>shi</em>
-                {% endif %}
-            </h1>
-            {% if page.lang == 'ja' %}
-            <p class="hero__name-jp" lang="ja">古橋 郁一</p>
-            {% else %}
-            <p class="hero__name-jp" lang="ja">古橋 郁一</p>
-            {% endif %}
+
+            <!-- Horizontal Western display -->
+            <div class="frontispiece__en">
+                <span class="frontispiece__eyebrow">
+                    <span class="rule"></span>
+                    {% if page.lang == 'en' %}Field Notes from Hongō{% else %}本郷発・研究手帖{% endif %}
+                </span>
+                <h1 class="frontispiece__name" id="hero-name">
+                    <span class="line-1">Fumihito</span>
+                    <span class="line-2"><em>Furuh<span class="amp">a</span>shi</em></span>
+                </h1>
+                <p class="frontispiece__tagline">
+                    {% if page.lang == 'en' %}
+                    Graduate researcher working on the emergent control
+                    of autonomous vehicle swarms &amp; the resilience
+                    of autonomous cities.
+                    {% else %}
+                    自動走行車群の創発的制御と<br>
+                    自動都市のレジリエンス評価を研究する<br>
+                    工学系大学院生。
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
-        <dl class="hero__coord" aria-label="Location">
+        <!-- Metadata ticker strip at the bottom of the hero -->
+        <dl class="frontispiece__ticker" aria-label="Coordinates">
             <div>
-                <dt>Location</dt>
-                <dd class="coord-val">35.71<span class="accent">°</span>N  139.76<span class="accent">°</span>E</dd>
+                <dt>Lat · Lon</dt>
+                <dd>35.71<span class="accent">°</span>N&nbsp;&nbsp;139.76<span class="accent">°</span>E</dd>
             </div>
             <div>
                 <dt>Campus</dt>
-                <dd class="coord-val">Hongo — 本郷</dd>
+                <dd>Hongō — 本郷</dd>
             </div>
             <div>
                 <dt>Field</dt>
-                <dd class="coord-val">Civil Eng. / Mobility</dd>
+                <dd>Civil Eng. / Mobility</dd>
             </div>
             <div>
                 <dt>Status</dt>
-                <dd class="coord-val">Graduate Student</dd>
+                <dd>Ph.D. Candidate</dd>
             </div>
         </dl>
     </div>
 </section>
 
 
-<!-- §01 Affiliation / Profile -->
-<section class="section" id="profile">
+<!-- =====================================================================
+     EPIGRAPH PLATE — research manifesto / thesis statement
+     ===================================================================== -->
+<section class="epigraph" aria-label="{% if page.lang == 'en' %}Thesis{% else %}研究の要旨{% endif %}">
+    <div class="epigraph__rule" aria-hidden="true"></div>
+
+    <div class="epigraph__head">
+        <span class="epigraph__tag">
+            {% if page.lang == 'en' %}— Thesis Statement / 研究主題 —{% else %}— 研究主題 / Thesis Statement —{% endif %}
+        </span>
+    </div>
+
+    <blockquote class="epigraph__body">
+        <p>
+            {% if page.lang == 'en' %}
+            “On the geometry of moving bodies —
+            <em>how swarms of autonomous vehicles, the roads beneath them,
+            and the cities around them</em>
+            negotiate a common future.”
+            {% else %}
+            「動くものたちの幾何学について ——
+            <em>自動走行車の群れと、それを支える道路と、</em>
+            <em>その周囲に広がる都市が、</em>
+            いかにして共通の未来を取り決めるか。」
+            {% endif %}
+        </p>
+    </blockquote>
+
+    <ul class="epigraph__threads" aria-label="{{ t.labels.research_topics }}">
+        {% for topic in page.research_topics %}
+        <li><span class="epigraph__thread-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ topic }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+
+<!-- =====================================================================
+     §01 PROFILE — colophon card
+     ===================================================================== -->
+<section class="section section--profile" id="profile">
     <header class="section__head">
         <div class="section__num">§ 01 · Profile</div>
         <h2 class="section__title">{{ t.labels.affiliation }}</h2>
@@ -76,11 +179,10 @@ layout: default
 
     <div class="colophon">
         <figure class="colophon__figure">
-            <!-- Photo with CSS fallback: monogram renders underneath; if img loads it hides monogram via `img + .monogram { display:none }`. If the img 404s, we hide it with onerror. -->
             <img src="{{ '/assets/images/selfy.jpeg' | relative_url }}" alt="Fumihito Furuhashi" onerror="this.style.display='none'">
             <span class="monogram" aria-hidden="true"><em>Ff</em></span>
             <figcaption class="colophon__caption">
-                {% if page.lang == 'en' %}Hongo Campus, Tokyo{% else %}東京・本郷{% endif %}
+                {% if page.lang == 'en' %}Hongō Campus, Tokyo{% else %}東京・本郷{% endif %}
             </figcaption>
         </figure>
 
@@ -111,8 +213,10 @@ layout: default
 </section>
 
 
-<!-- §02 Research -->
-<section class="section" id="research">
+<!-- =====================================================================
+     §02 RESEARCH — numbered plates
+     ===================================================================== -->
+<section class="section section--research" id="research">
     <header class="section__head">
         <div class="section__num">§ 02 · Research</div>
         <h2 class="section__title">
@@ -130,13 +234,24 @@ layout: default
             {% endif %}
         </aside>
 
-        <div class="section__content">
+        <div class="section__content section__content--wide">
+            {% if page.research_description and page.research_description != 'TBD' and page.research_description != 'TBD
+' %}
             <p>{{ page.research_description }}</p>
+            {% endif %}
 
-            <ol class="topics" aria-label="{{ t.labels.research_topics }}">
+            <ol class="plates" aria-label="{{ t.labels.research_topics }}">
                 {% for topic in page.research_topics %}
                 <li data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }} / {{ page.research_topics.size | prepend: '00' | slice: -2, 2 }}">
-                    <span class="topic-label">{{ topic }}</span>
+                    <span class="plate__tag">Plate {{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
+                    <svg class="plate__diagram" viewBox="0 0 120 60" aria-hidden="true" fill="none">
+                        <g stroke="currentColor" stroke-width=".9" stroke-linecap="round">
+                            <circle cx="{{ forloop.index | times: 18 | plus: 10 }}" cy="30" r="4" fill="currentColor" stroke="none"/>
+                            <path d="M 6 44 Q 40 {{ forloop.index | times: 8 | plus: 10 }} 70 30 T 118 {{ forloop.index | times: 6 | plus: 18 }}"/>
+                            <path d="M 6 20 L 118 20" stroke-dasharray="1 4" opacity=".55"/>
+                        </g>
+                    </svg>
+                    <span class="plate__label">{{ topic }}</span>
                 </li>
                 {% endfor %}
             </ol>
@@ -145,19 +260,23 @@ layout: default
 </section>
 
 
-<!-- §03 Career -->
-<section class="section" id="career">
+<!-- =====================================================================
+     §03 / §04 RECORD — career + education as double column proof sheet
+     ===================================================================== -->
+<section class="section section--record" id="record">
     <header class="section__head">
-        <div class="section__num">§ 03 · Career</div>
-        <h2 class="section__title">{{ t.labels.career }}</h2>
+        <div class="section__num">§ 03 · Record</div>
+        <h2 class="section__title">
+            {% if page.lang == 'en' %}Career &amp; Education{% else %}経歴と学歴{% endif %}
+        </h2>
     </header>
 
-    <div class="section__body">
-        <aside class="section__aside" aria-hidden="true">
-            <span class="aside-label">Record</span>
-            {% if page.lang == 'en' %}Professional Path{% else %}職歴・所属{% endif %}
-        </aside>
-        <div class="section__content">
+    <div class="record">
+        <article class="record__col" id="career">
+            <header class="record__colhead">
+                <span class="record__coltag">Col. A</span>
+                <h3 class="record__coltitle">{{ t.labels.career }}</h3>
+            </header>
             <ul class="timeline">
                 {% for item in page.career %}
                 <li>
@@ -172,24 +291,13 @@ layout: default
                 </li>
                 {% endfor %}
             </ul>
-        </div>
-    </div>
-</section>
+        </article>
 
-
-<!-- §04 Education -->
-<section class="section" id="education">
-    <header class="section__head">
-        <div class="section__num">§ 04 · Education</div>
-        <h2 class="section__title">{{ t.labels.education }}</h2>
-    </header>
-
-    <div class="section__body">
-        <aside class="section__aside" aria-hidden="true">
-            <span class="aside-label">Record</span>
-            {% if page.lang == 'en' %}Schools & Degrees{% else %}学歴・学位{% endif %}
-        </aside>
-        <div class="section__content">
+        <article class="record__col" id="education">
+            <header class="record__colhead">
+                <span class="record__coltag">Col. B</span>
+                <h3 class="record__coltitle">{{ t.labels.education }}</h3>
+            </header>
             <ul class="timeline">
                 {% for item in page.education %}
                 <li>
@@ -204,15 +312,54 @@ layout: default
                 </li>
                 {% endfor %}
             </ul>
+        </article>
+    </div>
+</section>
+
+
+<!-- =====================================================================
+     §05 AWARDS — seals
+     ===================================================================== -->
+{% if page.awards %}
+<section class="section awards" id="awards">
+    <header class="section__head">
+        <div class="section__num">§ 04 · Awards</div>
+        <h2 class="section__title">{{ t.labels.awards }}</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Recognition</span>
+            {% if page.lang == 'en' %}Prizes &amp;<br>Honors{% else %}受賞歴{% endif %}
+        </aside>
+        <div class="section__content section__content--wide">
+            <ul class="seals">
+                {% for award in page.awards %}
+                <li>
+                    {% assign parts = award | split: ': ' %}
+                    <span class="seals__mark" aria-hidden="true">
+                        <span class="seals__mark-inner">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                    </span>
+                    {% if parts.size > 1 %}
+                    <span class="seals__date">{{ parts[0] }}</span>
+                    <span class="seals__text">{{ parts | shift | join: ': ' }}</span>
+                    {% else %}
+                    <span class="seals__date"></span>
+                    <span class="seals__text">{{ award }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </section>
+{% endif %}
 
 
 <!-- Hero slideshow auto-advance (no-op when <2 slides or reduced motion) -->
 <script>
 (function () {
-    var slides = document.querySelectorAll('.hero__banner .hero__slide');
+    var slides = document.querySelectorAll('.frontispiece__banner .frontispiece__slide');
     if (slides.length < 2) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var i = 0;
@@ -224,36 +371,21 @@ layout: default
 })();
 </script>
 
-
-<!-- §05 Awards -->
-{% if page.awards %}
-<section class="section awards" id="awards">
-    <header class="section__head">
-        <div class="section__num">§ 05 · Awards</div>
-        <h2 class="section__title">{{ t.labels.awards }}</h2>
-    </header>
-
-    <div class="section__body">
-        <aside class="section__aside" aria-hidden="true">
-            <span class="aside-label">Recognition</span>
-            {% if page.lang == 'en' %}Prizes &<br>Honors{% else %}受賞歴{% endif %}
-        </aside>
-        <div class="section__content">
-            <ul class="timeline">
-                {% for award in page.awards %}
-                <li>
-                    {% assign parts = award | split: ': ' %}
-                    {% if parts.size > 1 %}
-                    <span class="tl-date">{{ parts[0] }}</span>
-                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
-                    {% else %}
-                    <span class="tl-date"></span>
-                    <span class="tl-text">{{ award }}</span>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</section>
-{% endif %}
+<!-- Reveal-on-scroll for sections (progressive enhancement; no JS = all visible). -->
+<script>
+(function () {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = document.querySelectorAll('.section, .epigraph');
+    els.forEach(function (el) { el.classList.add('js-reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) {
+                e.target.classList.add('is-revealed');
+                io.unobserve(e.target);
+            }
+        });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    els.forEach(function (el) { io.observe(el); });
+})();
+</script>

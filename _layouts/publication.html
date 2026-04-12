@@ -17,6 +17,19 @@ layout: default
         <h1 class="folio-article__title">{{ page.title }}</h1>
     </header>
 
+    {% if page.graphical_abstract %}
+    {% assign ga = page.graphical_abstract %}
+    {% if page.lang == 'en' %}
+        {% assign ga_alt = ga.alt_en | default: ga.alt | default: t.labels.graphical_abstract %}
+    {% else %}
+        {% assign ga_alt = ga.alt_ja | default: ga.alt | default: t.labels.graphical_abstract %}
+    {% endif %}
+    <figure class="folio-graphical-abstract">
+        <img src="{{ ga.src | relative_url }}" alt="{{ ga_alt }}" loading="eager" fetchpriority="high">
+        <figcaption class="folio-graphical-abstract__label">{{ t.labels.graphical_abstract }}</figcaption>
+    </figure>
+    {% endif %}
+
     <dl class="folio-article__meta">
         <dt>{{ t.labels.authors }}</dt>
         <dd>{{ page.authors }}</dd>
@@ -43,6 +56,32 @@ layout: default
         <div class="folio-article__label">{{ t.labels.abstract }}</div>
         <div>
             <p>{{ page.abstract }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if page.figures and page.figures.size > 0 %}
+    <div class="folio-article__body">
+        <div class="folio-article__label">{{ t.labels.figures }}</div>
+        <div class="folio-figure-list">
+            {% for fig in page.figures %}
+                {% if page.lang == 'en' %}
+                    {% assign cap = fig.caption_en | default: fig.caption %}
+                    {% assign alt = fig.alt_en | default: fig.alt | default: cap %}
+                {% else %}
+                    {% assign cap = fig.caption_ja | default: fig.caption %}
+                    {% assign alt = fig.alt_ja | default: fig.alt | default: cap %}
+                {% endif %}
+            <figure class="folio-figure">
+                <img src="{{ fig.src | relative_url }}" alt="{{ alt }}" loading="lazy">
+                {% if cap %}
+                <figcaption class="folio-figure__caption">
+                    <span class="folio-figure__number">{{ t.labels.figure }} {{ forloop.index }}.</span>
+                    {{ cap }}
+                </figcaption>
+                {% endif %}
+            </figure>
+            {% endfor %}
         </div>
     </div>
     {% endif %}

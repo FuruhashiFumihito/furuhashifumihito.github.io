@@ -25,7 +25,10 @@
       "Bash(bundle -v)",
       "Bash(bundle install:*)",
       "Bash(git -C /Users/furuhashikaoruichi/MCP/homepage mv assets/images/amtrack.jpg assets/images/hero/01-amtrack.jpg)",
-      "Bash(bundle config:*)"
+      "Bash(bundle config:*)",
+      "Bash(git -C /Users/furuhashikaoruichi/MCP/homepage status)",
+      "Bash(git -C /Users/furuhashikaoruichi/MCP/homepage diff _layouts/home.html)",
+      "WebSearch"
     ],
     "additionalDirectories": [
       "/Users/furuhashikaoruichi/Confidential"
