@@ -76,8 +76,14 @@ module Jekyll
       # 各エントリの _publications/<bibtex_key>/ からサイドカー (meta.yml, body_*.md,
       # 画像) を読み込み、仮想ページに merge する。該当フォルダが無ければ
       # プレーンな詳細ページが生成される。
+      # 併せて、一覧ページでも参照できるよう graphical_abstract だけは
+      # site.data.bibliography のエントリ側にも書き戻す。
       normalized.each do |entry|
         sidecar = load_sidecar(site, entry)
+        if sidecar.is_a?(Hash) && sidecar["overrides"].is_a?(Hash)
+          ga = sidecar["overrides"]["graphical_abstract"]
+          entry["graphical_abstract"] = ga if ga.is_a?(Hash) && ga["src"]
+        end
         site.pages << PublicationPage.new(site, entry, sidecar)
       end
     end

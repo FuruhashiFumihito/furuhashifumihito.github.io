@@ -1104,6 +1104,27 @@ a { color: var(--ink); text-decoration: none; }
 
 .pub-list li:hover { background: var(--paper-2); }
 
+/* 一覧ページ用の小さなグラフィカル・アブストラクト (float right で本文が回り込む) */
+.pub-list .pub-thumb {
+    float: right;
+    width: 104px;
+    margin: .15rem 0 .4rem 1.1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    overflow: hidden;
+    line-height: 0;
+    transition: border-color var(--dur-fast) var(--ease);
+}
+
+.pub-list .pub-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.pub-list a:hover .pub-thumb { border-color: var(--ink-3); }
+
 .pub-note {
     font-family: var(--font-mono);
     font-size: .66rem;
@@ -1520,6 +1541,7 @@ a { color: var(--ink); text-decoration: none; }
     .pub-list li         { grid-template-columns: 1fr; gap: .4rem; }
     .pub-list li::before { display: none; }
     .pub-list .pub-year  { font-size: 1.4rem; }
+    .pub-list .pub-thumb { width: 76px; margin-left: .8rem; }
     .masthead            { grid-template-columns: 1fr; gap: .6rem; }
     .masthead__meta      { text-align: left; }
 }
