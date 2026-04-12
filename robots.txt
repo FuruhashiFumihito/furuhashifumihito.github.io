@@ -1,0 +1,8 @@
+---
+# robots.txt — Jekyll に front matter 付きで処理させることで
+# Liquid の absolute_url フィルタを使えるようにしている。
+---
+User-agent: *
+Allow: /
+
+Sitemap: {{ '/sitemap.xml' | absolute_url }}
