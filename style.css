@@ -1298,6 +1298,35 @@ a { color: var(--ink); text-decoration: none; }
     background: var(--paper-2);
 }
 
+/* ----- Diary article media (full-width responsive images/video) -----
+   Diary posts mix images of different native resolutions (large photos
+   alongside downscaled GIFs). Force every piece of media to fill the
+   content column width so they render at a consistent size, and scale
+   fluidly with the viewport. */
+.diary-hero {
+    margin: 0 0 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.diary-hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+}
+
+.folio-article__body .diary-media {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 1.8rem 0;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+}
+
 /* ----- Graphical abstract (prominent top image) ----- */
 .folio-graphical-abstract {
     margin: 0 0 2.5rem;
