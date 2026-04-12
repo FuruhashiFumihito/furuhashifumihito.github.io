@@ -55,8 +55,13 @@ module Jekyll
 
       Jekyll.logger.info "Bibtex:", "loaded #{normalized.size} entries from publications.bib"
 
+      # 図・graphical abstract のサイドカー (_data/publication_figures.yml)。
+      # 各エントリの BibTeX キーで引いて仮想ページに merge する。
+      figures_data = site.data["publication_figures"] || {}
+
       normalized.each do |entry|
-        site.pages << PublicationPage.new(site, entry)
+        overrides = figures_data[entry["key"]]
+        site.pages << PublicationPage.new(site, entry, overrides)
       end
     end
 
@@ -336,7 +341,9 @@ module Jekyll
   # 仮想ページ (ディスク上にファイルが無い Jekyll::Page)
   # ---------------------------------------------------------------
   class PublicationPage < Jekyll::Page
-    def initialize(site, entry)
+    # overrides: _data/publication_figures.yml で当該キーに紐付く追加データ
+    # (graphical_abstract, figures など)。nil なら何もマージしない。
+    def initialize(site, entry, overrides = nil)
       @site = site
       @base = site.source
       @dir  = "projects/#{entry['slug']}"
@@ -357,6 +364,11 @@ module Jekyll
         "lang"      => entry["lang"] || "ja",
         "permalink" => entry["url"],
       }
+
+      if overrides.is_a?(Hash)
+        @data.merge!(overrides)
+      end
+
       @content = ""
 
       data.default_proc = proc do |_, key|

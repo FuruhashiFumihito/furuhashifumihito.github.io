@@ -1,0 +1,48 @@
+# =============================================================================
+#  publication_figures.yml
+# =============================================================================
+#
+#  各論文ページに表示する graphical abstract / 図のメタデータ。
+#  _plugins/bibtex_publications.rb がビルド時に読み込み、該当する
+#  BibTeX キーの仮想ページ (/projects/<key>/) に merge する。
+#
+#  キー:
+#    publications.bib のエントリキー (@inproceedings{ここ, ...}) と一致させる。
+#    キーに該当するエントリが無い場合は単に無視される。
+#
+#  使えるフィールド:
+#
+#    graphical_abstract:
+#      src:     画像パス (絶対パスまたは外部 URL)
+#      alt:     代替テキスト (日英共通にしたい場合)
+#      alt_ja:  代替テキスト (日本語ページ用)
+#      alt_en:  代替テキスト (英語ページ用)
+#
+#    figures:
+#      - src:         画像パス
+#        alt:         代替テキスト (言語共通)
+#        alt_ja:      代替テキスト (日本語ページ用・任意)
+#        alt_en:      代替テキスト (英語ページ用・任意)
+#        caption:     キャプション (言語共通)
+#        caption_ja:  キャプション (日本語ページ用)
+#        caption_en:  キャプション (英語ページ用)
+#
+#  画像ファイルは `assets/images/publications/<bibtex_key>/` に
+#  置く運用を推奨 (本ファイル側では単にパスを指すだけ)。
+# =============================================================================
+
+furuhashi2025dgpinn_itsc:
+  graphical_abstract:
+    src: /assets/images/publications/furuhashi2025dgpinn_itsc/graphical-abstract.png
+    alt_ja: "DG-PINN のグラフィカル・アブストラクト: 微分ゲームによる均衡制約と PINN を組み合わせた軌道予測の概要図"
+    alt_en: "DG-PINN graphical abstract: differential-game equilibrium constraints coupled with a PINN for trajectory prediction"
+  figures:
+    - src: /assets/images/publications/furuhashi2025dgpinn_itsc/fig1-architecture.png
+      caption_ja: "DG-PINN のネットワーク構成。共有エンコーダが周辺車両の状態系列を埋め込み、微分ゲームの均衡条件を損失項として埋め込んだ PINN デコーダが将来軌道を予測する。"
+      caption_en: "Network architecture of DG-PINN. A shared encoder embeds surrounding-vehicle state sequences, and a PINN decoder trained with the equilibrium conditions of a differential game as physics losses predicts the future trajectory."
+    - src: /assets/images/publications/furuhashi2025dgpinn_itsc/fig2-loss.png
+      caption_ja: "学習に用いた損失関数の内訳。データ適合項に加え、ハミルトン-ヤコビ-アイザックス方程式に由来する均衡制約をソフト制約として与える。"
+      caption_en: "Decomposition of the training loss: a data-fidelity term plus soft constraints derived from the Hamilton–Jacobi–Isaacs equilibrium conditions of the differential game."
+    - src: /assets/images/publications/furuhashi2025dgpinn_itsc/fig3-results.png
+      caption_ja: "高速道路データセットにおける予測軌道の定性比較。既存の回帰型ベースラインに比べ、相互作用下での振る舞いがより物理的に整合的になる。"
+      caption_en: "Qualitative comparison of predicted trajectories on a highway dataset. Compared with a purely regression-based baseline, DG-PINN yields interactions that are more physically consistent."
