@@ -10,6 +10,20 @@
 #   2. 各エントリについて /projects/<key>/ に仮想ページを生成
 #      (publication レイアウトで詳細表示)
 #
+#   3. `_publications/<bibtex_key>/` フォルダから論文ごとの追加コンテンツを
+#      取り込む (graphical abstract / 図 / 本文 / 画像ファイル)。
+#      1論文=1フォルダで管理できるようにする仕組み。
+#
+#      対応ファイル:
+#        meta.yml      -- graphical_abstract / figures のメタデータ (任意)
+#        body_ja.md    -- 日本語ページの本文 (Notes セクション)
+#        body_en.md    -- 英語ページの本文
+#        body.md       -- 言語共通フォールバック
+#        *.png|jpg|... -- 画像ファイル (meta.yml から相対パスで参照可)
+#
+#      meta.yml 内の `src:` は相対パスで書くと /projects/<key>/<filename>
+#      に自動解決される (同フォルダの画像を指しているとみなす)。
+#
 # このプラグインは GitHub Actions のカスタムワークフロー (.github/workflows/pages.yml)
 # を前提としており、素のGitHub Pagesサンドボックスでは動作しない点に注意。
 #
@@ -36,6 +50,8 @@ module Jekyll
     priority :high
 
     SUPPORTED_CATEGORIES = %w[journal conference domestic].freeze
+    IMAGE_EXTS = %w[.png .jpg .jpeg .webp .gif .svg].freeze
+    PUBLICATIONS_SRC_DIR = "_publications"
 
     def generate(site)
       bib_path = File.join(site.source, "publications.bib")
@@ -55,13 +71,87 @@ module Jekyll
 
       Jekyll.logger.info "Bibtex:", "loaded #{normalized.size} entries from publications.bib"
 
-      # 図・graphical abstract のサイドカー (_data/publication_figures.yml)。
-      # 各エントリの BibTeX キーで引いて仮想ページに merge する。
-      figures_data = site.data["publication_figures"] || {}
-
+      # 各エントリの _publications/<bibtex_key>/ からサイドカー (meta.yml, body_*.md,
+      # 画像) を読み込み、仮想ページに merge する。該当フォルダが無ければ
+      # プレーンな詳細ページが生成される。
       normalized.each do |entry|
-        overrides = figures_data[entry["key"]]
-        site.pages << PublicationPage.new(site, entry, overrides)
+        sidecar = load_sidecar(site, entry)
+        site.pages << PublicationPage.new(site, entry, sidecar)
+      end
+    end
+
+    # ----- _publications/<key>/ 以下のサイドカー読み込み -----
+    def load_sidecar(site, entry)
+      key = entry["key"]
+      dir = File.join(site.source, PUBLICATIONS_SRC_DIR, key)
+      return nil unless File.directory?(dir)
+
+      sidecar = { "overrides" => {}, "body" => {} }
+      base_url = "/projects/#{entry['slug']}"
+
+      # --- meta.yml ---
+      meta_path = File.join(dir, "meta.yml")
+      if File.exist?(meta_path)
+        begin
+          loaded = YAML.safe_load(File.read(meta_path, encoding: "UTF-8"), permitted_classes: [], aliases: false) || {}
+          sidecar["overrides"] = resolve_meta_paths(loaded, base_url)
+        rescue Psych::SyntaxError => e
+          Jekyll.logger.warn "Bibtex:", "failed to parse #{meta_path}: #{e.message}"
+        end
+      end
+
+      # --- body_ja.md / body_en.md / body.md ---
+      %w[ja en].each do |lang|
+        path = File.join(dir, "body_#{lang}.md")
+        sidecar["body"][lang] = File.read(path, encoding: "UTF-8") if File.exist?(path)
+      end
+      fallback = File.join(dir, "body.md")
+      sidecar["body"]["fallback"] = File.read(fallback, encoding: "UTF-8") if File.exist?(fallback)
+
+      # --- 画像ファイルを StaticFile として登録 ---
+      Dir.foreach(dir) do |name|
+        next if name.start_with?(".")
+        next unless IMAGE_EXTS.include?(File.extname(name).downcase)
+        abs = File.join(dir, name)
+        next unless File.file?(abs)
+        site.static_files << PublicationStaticFile.new(
+          site, site.source, "#{PUBLICATIONS_SRC_DIR}/#{key}", name, base_url
+        )
+      end
+
+      sidecar
+    end
+
+    # meta.yml 内の `src` が相対パスのときだけ /projects/<key>/ に解決する。
+    # 絶対パス (/で始まる) や外部URL (http...) はそのまま維持。
+    def resolve_meta_paths(meta, base_url)
+      meta = deep_dup(meta)
+
+      if meta["graphical_abstract"].is_a?(Hash)
+        meta["graphical_abstract"]["src"] = resolve_src(meta["graphical_abstract"]["src"], base_url)
+      end
+
+      if meta["figures"].is_a?(Array)
+        meta["figures"].each do |fig|
+          next unless fig.is_a?(Hash)
+          fig["src"] = resolve_src(fig["src"], base_url)
+        end
+      end
+
+      meta
+    end
+
+    def resolve_src(src, base_url)
+      return src if src.nil? || src.empty?
+      return src if src.start_with?("/", "http://", "https://")
+      "#{base_url}/#{src}"
+    end
+
+    def deep_dup(obj)
+      case obj
+      when Hash  then obj.each_with_object({}) { |(k, v), h| h[k] = deep_dup(v) }
+      when Array then obj.map { |v| deep_dup(v) }
+      else obj
       end
     end
 
@@ -341,15 +431,18 @@ module Jekyll
   # 仮想ページ (ディスク上にファイルが無い Jekyll::Page)
   # ---------------------------------------------------------------
   class PublicationPage < Jekyll::Page
-    # overrides: _data/publication_figures.yml で当該キーに紐付く追加データ
-    # (graphical_abstract, figures など)。nil なら何もマージしない。
-    def initialize(site, entry, overrides = nil)
+    # sidecar: _publications/<key>/ から読み込んだ補足データ。
+    #   { "overrides" => {...meta.yml...}, "body" => {"ja"=>..., "en"=>..., "fallback"=>...} }
+    # nil なら何もマージしない。
+    def initialize(site, entry, sidecar = nil)
       @site = site
       @base = site.source
       @dir  = "projects/#{entry['slug']}"
       @name = "index.html"
 
       process(@name)
+
+      lang = entry["lang"] || "ja"
 
       @data = {
         "layout"    => "publication",
@@ -361,15 +454,27 @@ module Jekyll
         "links"     => entry["links"],
         "abstract"  => entry["abstract"],
         "bibtex"    => entry["bibtex"],
-        "lang"      => entry["lang"] || "ja",
+        "lang"      => lang,
         "permalink" => entry["url"],
       }
 
-      if overrides.is_a?(Hash)
-        @data.merge!(overrides)
+      body_markdown = ""
+
+      if sidecar.is_a?(Hash)
+        overrides = sidecar["overrides"]
+        @data.merge!(overrides) if overrides.is_a?(Hash)
+
+        body_src = sidecar["body"] || {}
+        body_markdown = body_src[lang] || body_src["fallback"] || ""
       end
 
-      @content = ""
+      # body_*.md を markdown -> HTML に変換して page.content に注入
+      @content =
+        if body_markdown && !body_markdown.strip.empty?
+          site.find_converter_instance(::Jekyll::Converters::Markdown).convert(body_markdown)
+        else
+          ""
+        end
 
       data.default_proc = proc do |_, key|
         site.frontmatter_defaults.find(relative_path, type, key)
@@ -381,6 +486,25 @@ module Jekyll
     # 仮想ページなので物理ファイルからYAMLを読まない
     def read_yaml(*)
       @data ||= {}
+    end
+  end
+
+  # ---------------------------------------------------------------
+  # _publications/<key>/*.png などを /projects/<key>/<file> に出力する
+  # ---------------------------------------------------------------
+  class PublicationStaticFile < Jekyll::StaticFile
+    def initialize(site, base, dir, name, dest_url)
+      super(site, base, dir, name)
+      @dest_url = dest_url
+    end
+
+    # 出力先を /projects/<slug>/<filename> に差し替える
+    def destination_rel_dir
+      @dest_url
+    end
+
+    def url
+      "#{@dest_url}/#{@name}"
     end
   end
 end
