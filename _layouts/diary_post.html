@@ -3,6 +3,22 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
+{%- comment -%}
+    Optional full-bleed hero image. Set `hero_image` (and optionally
+    `hero_alt`) in the diary post's front matter to render an image
+    that spans the full viewport width above the article. The image
+    is rendered OUTSIDE `.folio-article` so that the full-bleed CSS
+    trick (`width: 100vw; margin-left: calc(50% - 50vw)`) has a
+    centered parent to anchor against.
+{%- endcomment -%}
+{% if page.hero_image %}
+<figure class="diary-hero">
+    <img src="{{ page.hero_image | relative_url }}"
+         alt="{{ page.hero_alt | default: page.title }}"
+         loading="eager" fetchpriority="high">
+</figure>
+{% endif %}
+
 <article class="folio-article">
 
     <header class="folio-article__header">

@@ -105,6 +105,11 @@ a { color: var(--ink); text-decoration: none; }
     max-width: var(--page-max);
     margin: 0 auto;
     padding: 0 var(--page-pad);
+    /* Allow full-bleed descendants (`.diary-hero`) to extend past the
+       1280px container up to the viewport edges without causing a
+       horizontal scrollbar. `clip` is like `hidden` but does not
+       create a scroll container. */
+    overflow-x: clip;
 }
 
 /* ---------- Masthead ---------- */
@@ -1303,10 +1308,21 @@ a { color: var(--ink); text-decoration: none; }
    alongside downscaled GIFs). Force every piece of media to fill the
    content column width so they render at a consistent size, and scale
    fluidly with the viewport. */
+
+/* Full-bleed hero above the diary article. The element escapes the
+   `.folio` max-width (1280px) container using the `100vw` +
+   `calc(50% - 50vw)` trick, so the image spans the entire viewport
+   width while keeping its natural aspect ratio. Rendered by
+   `_layouts/diary_post.html` from `page.hero_image`, so the parent is
+   `<main>` which is horizontally centered inside `.folio` — a
+   prerequisite for the trick to work. Horizontal-scroll overflow is
+   prevented by `overflow-x: clip` on `.folio` further up the tree. */
 .diary-hero {
-    margin: 0 0 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--rule);
+    width: 100vw;
+    margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 0;
 }
 
 .diary-hero img {
@@ -1314,7 +1330,7 @@ a { color: var(--ink); text-decoration: none; }
     width: 100%;
     height: auto;
     margin: 0;
-    border: 1px solid var(--rule-strong);
+    border: 0;
     background: var(--paper-2);
 }
 
