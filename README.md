@@ -3,7 +3,7 @@
 古橋郁人の研究用ホームページ（東京大学大学院生）
 Jekyll-based bilingual (Japanese/English) academic research homepage
 
-🌐 **Public URL**: https://furuhashifumihito.github.io/homepage
+🌐 **Public URL**: https://furuhashifumihito.github.io/
 
 ## プロジェクト概要
 
@@ -80,9 +80,8 @@ Jekyllが自動的に `/projects/:name/` にページを生成します。
 
 ## GitHub Pagesでのデプロイ
 
-1. リポジトリをGitHubにpush
-2. Settings → Pages → Source: Deploy from a branch
-3. Branch: main, / (root) を選択
-4. Save
+ユーザーサイト（`furuhashifumihito.github.io`）として配信しています。
+`main` ブランチへの push をトリガーに GitHub Actions (`.github/workflows/pages.yml`) が
+Jekyll 4 でビルドし、`actions/deploy-pages` で Pages に公開します。
 
-`baseurl: /homepage` が `_config.yml` に設定されており、GitHub Pagesのサブディレクトリデプロイに対応しています。
+Settings → Pages → Source は **GitHub Actions** に設定されています。

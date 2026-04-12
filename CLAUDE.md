@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Jekyll-based bilingual (Japanese/English) academic research homepage for a University of Tokyo graduate student. Deploys to GitHub Pages at `https://furuhashifumihito.github.io/homepage`.
+Jekyll-based bilingual (Japanese/English) academic research homepage for a University of Tokyo graduate student. Deploys to GitHub Pages (user site) at `https://furuhashifumihito.github.io/` via the GitHub Actions workflow in `.github/workflows/pages.yml`.
 
 ## Build Commands
 
@@ -66,4 +66,4 @@ Always use Liquid filters for URLs:
 ## Key Configuration
 
 - `_config.yml`: Site settings, collection definitions, permalink patterns
-- `baseurl: /homepage` - Required for GitHub Pages subdirectory deployment
+- `baseurl: ""` - User site is served at the domain root, so no subpath prefix

@@ -2,7 +2,7 @@
 title: "古橋郁人 / Fumihito Furuhashi"
 description: "Research Homepage"
 url: "https://furuhashifumihito.github.io"
-baseurl: "/homepage"
+baseurl: ""
 
 # コレクション設定
 collections:
