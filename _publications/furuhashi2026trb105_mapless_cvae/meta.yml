@@ -1,0 +1,16 @@
+# =============================================================================
+#  furuhashi2026trb105_mapless_cvae / meta.yml
+# =============================================================================
+#
+#  論文: A Map-less Vision-Based Car-Following Model with String Stability
+#        Analysis Using CVAE (Furuhashi & Hato, 2026)
+#        TRB 105th Annual Meeting でのポスター発表。
+#
+#  このファイルは _plugins/bibtex_publications.rb によってビルド時に読み込まれ、
+#  /projects/furuhashi2026trb105_mapless_cvae/ の仮想ページに merge される。
+# =============================================================================
+
+graphical_abstract:
+  src: poster.png
+  alt_ja: "TRB 105 でのポスター『A Map-less Vision-Based Car-Following Model with String Stability Analysis Using CVAE』の全体図。ダッシュカム画像から得た視覚コンテキストを CVAE で潜在ベクトルに埋め込み、古典的な追従状態 (車頭距離・相対速度・速度) と統合して加速度を予測する Mapless Car-Following (MCF) 手法と、String Stability 解析の結果までを 1 枚にまとめたもの。"
+  alt_en: "Poster overview for 'A Map-less Vision-Based Car-Following Model with String Stability Analysis Using CVAE' (TRB 105). Summarizes the Mapless Car-Following (MCF) framework — which encodes dash-cam visual context into a latent vector via a CVAE and fuses it with classical car-following states (headway, relative velocity, velocity) to predict acceleration — together with prediction accuracy and string-stability analysis results."
