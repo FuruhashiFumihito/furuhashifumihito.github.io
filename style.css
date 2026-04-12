@@ -1393,6 +1393,14 @@ a { color: var(--ink); text-decoration: none; }
     transform: translate(2px, -2px);
 }
 
+/* インラインのブランドアイコン (Speaker Deck など) */
+.folio-link__icon {
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+    color: currentColor;
+}
+
 /* BibTeX block */
 .bibtex-block {
     margin: 2.5rem 0 0;

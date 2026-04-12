@@ -46,7 +46,6 @@ layout: default
             {% if page.links.pdf %}<li><a href="{{ page.links.pdf }}">{{ t.labels.pdf }}</a></li>{% endif %}
             {% if page.links.github %}<li><a href="{{ page.links.github }}">GitHub</a></li>{% endif %}
             {% if page.links.slides %}
-            {%- assign slides_is_speakerdeck = page.links.slides | downcase | slice: 0, 256 | escape | slice: 0, 256 -%}
             {%- if page.links.slides contains 'speakerdeck.com' -%}
             <li><a href="{{ page.links.slides }}">
                 <svg class="folio-link__icon" role="img" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M10.15 16.84h4.942c4.25 0 7.695-2.27 7.695-6.4 0-4.128-3.445-6.4-7.695-6.4H1.213v4.596h11.098c1.677 0 2.84.36 2.84 1.804 0 1.443-1.163 1.804-2.84 1.804H7.37c-4.25 0-7.37 2.27-7.37 6.4 0 4.128 3.12 6.4 7.37 6.4h15.422v-4.596H10.15c-1.677 0-2.84-.36-2.84-1.804 0-1.444 1.163-1.804 2.84-1.804z"/></svg>
