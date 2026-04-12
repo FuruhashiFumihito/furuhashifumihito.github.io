@@ -51,23 +51,18 @@ layout: default
         {% if journals.size > 0 %}
         <ol class="pub-list" reversed>
             {% for pub in journals %}
+            {%- assign ga = pub.graphical_abstract -%}
+            {%- assign ga_show = false -%}
+            {%- if ga and ga.src -%}
+              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
+              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
+            {%- endif -%}
             <li>
+                {%- if ga_show -%}
+                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                {%- endif -%}
                 <span class="pub-year">{{ pub.year }}</span>
                 <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    {%- assign ga = pub.graphical_abstract -%}
-                    {%- if ga and ga.src -%}
-                    {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-                    {%- if ga_ext != 'pdf' -%}
-                    {%- if page.lang == 'en' -%}
-                        {%- assign ga_alt = ga.alt_en | default: ga.alt | default: '' -%}
-                    {%- else -%}
-                        {%- assign ga_alt = ga.alt_ja | default: ga.alt | default: '' -%}
-                    {%- endif -%}
-                    <span class="pub-thumb" aria-hidden="true">
-                        <img src="{{ ga.src | relative_url }}" alt="{{ ga_alt }}" loading="lazy" decoding="async">
-                    </span>
-                    {%- endif -%}
-                    {%- endif -%}
                     <span class="pub-title">{{ pub.title }}</span>
                     <span class="pub-authors">{{ pub.authors }}</span>
                     <span class="pub-venue">{{ pub.venue }}</span>
@@ -92,23 +87,18 @@ layout: default
         {% if conferences.size > 0 %}
         <ol class="pub-list" reversed>
             {% for pub in conferences %}
+            {%- assign ga = pub.graphical_abstract -%}
+            {%- assign ga_show = false -%}
+            {%- if ga and ga.src -%}
+              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
+              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
+            {%- endif -%}
             <li>
+                {%- if ga_show -%}
+                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                {%- endif -%}
                 <span class="pub-year">{{ pub.year }}</span>
                 <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    {%- assign ga = pub.graphical_abstract -%}
-                    {%- if ga and ga.src -%}
-                    {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-                    {%- if ga_ext != 'pdf' -%}
-                    {%- if page.lang == 'en' -%}
-                        {%- assign ga_alt = ga.alt_en | default: ga.alt | default: '' -%}
-                    {%- else -%}
-                        {%- assign ga_alt = ga.alt_ja | default: ga.alt | default: '' -%}
-                    {%- endif -%}
-                    <span class="pub-thumb" aria-hidden="true">
-                        <img src="{{ ga.src | relative_url }}" alt="{{ ga_alt }}" loading="lazy" decoding="async">
-                    </span>
-                    {%- endif -%}
-                    {%- endif -%}
                     <span class="pub-title">{{ pub.title }}</span>
                     <span class="pub-authors">{{ pub.authors }}</span>
                     <span class="pub-venue">{{ pub.venue }}</span>
@@ -133,23 +123,18 @@ layout: default
         {% if domestic.size > 0 %}
         <ol class="pub-list" reversed>
             {% for pub in domestic %}
+            {%- assign ga = pub.graphical_abstract -%}
+            {%- assign ga_show = false -%}
+            {%- if ga and ga.src -%}
+              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
+              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
+            {%- endif -%}
             <li>
+                {%- if ga_show -%}
+                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                {%- endif -%}
                 <span class="pub-year">{{ pub.year }}</span>
                 <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    {%- assign ga = pub.graphical_abstract -%}
-                    {%- if ga and ga.src -%}
-                    {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-                    {%- if ga_ext != 'pdf' -%}
-                    {%- if page.lang == 'en' -%}
-                        {%- assign ga_alt = ga.alt_en | default: ga.alt | default: '' -%}
-                    {%- else -%}
-                        {%- assign ga_alt = ga.alt_ja | default: ga.alt | default: '' -%}
-                    {%- endif -%}
-                    <span class="pub-thumb" aria-hidden="true">
-                        <img src="{{ ga.src | relative_url }}" alt="{{ ga_alt }}" loading="lazy" decoding="async">
-                    </span>
-                    {%- endif -%}
-                    {%- endif -%}
                     <span class="pub-title">{{ pub.title }}</span>
                     <span class="pub-authors">{{ pub.authors }}</span>
                     <span class="pub-venue">{{ pub.venue }}</span>
