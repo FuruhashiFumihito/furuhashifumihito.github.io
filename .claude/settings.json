@@ -5,7 +5,13 @@
       "Bash(git remote:*)",
       "Bash(gh run:*)",
       "Bash(curl -sI https://furuhashifumihito.github.io/)",
-      "Bash(bundle exec:*)"
+      "Bash(bundle exec:*)",
+      "Bash(curl -sL https://cdn.simpleicons.org/github)",
+      "Bash(curl -sL https://cdn.simpleicons.org/googlescholar)",
+      "Bash(curl -sL https://cdn.simpleicons.org/orcid)",
+      "Bash(curl -sL https://cdn.simpleicons.org/linkedin)",
+      "Bash(curl -sL -w \"HTTP:%{http_code}\\\\n\" https://cdn.simpleicons.org/linkedin/0A66C2)",
+      "Bash(curl -sL -w \"\\\\nHTTP:%{http_code}\\\\n\" https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/linkedin.svg)"
     ]
   },
   "enabledPlugins": {
