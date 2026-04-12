@@ -12,7 +12,11 @@
       "Bash(curl -sL https://cdn.simpleicons.org/linkedin)",
       "Bash(curl -sL -w \"HTTP:%{http_code}\\\\n\" https://cdn.simpleicons.org/linkedin/0A66C2)",
       "Bash(curl -sL -w \"\\\\nHTTP:%{http_code}\\\\n\" https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/linkedin.svg)",
-      "Bash(curl -sL https://furuhashifumihito.github.io/)"
+      "Bash(curl -sL https://furuhashifumihito.github.io/)",
+      "Bash(sips -Z 2000 -s format jpeg -s formatOptions 82 amtrack.png --out amtrack.jpg)",
+      "Bash(git rm:*)",
+      "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.jpg)",
+      "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.png)"
     ]
   },
   "enabledPlugins": {
