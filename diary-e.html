@@ -1,0 +1,40 @@
+---
+layout: default
+title: Diary
+lang: en
+alternate: /diary.html
+---
+{% assign t = site.data.i18n[page.lang] %}
+
+<section class="hero">
+    <div class="hero__label">Daily Notes — §03</div>
+    <h1 class="hero__name-en" style="font-size: clamp(2.6rem, 7vw, 5.5rem);"><em>D<span class="amp">i</span>ary</em></h1>
+    <p class="hero__tagline">
+        Research progress, papers I've read, passing thoughts, and small everyday moments — jotted down as they come.
+    </p>
+</section>
+
+<section class="section">
+    <header class="section__head">
+        <div class="section__num">§ 03 · Notes</div>
+        <h2 class="section__title">Daily Notes</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Entries</span>
+            {{ site.data.diary.size | prepend: '00' | slice: -2, 2 }} entries
+        </aside>
+        <div class="section__content" style="max-width: none;">
+            <ul class="diary-list">
+            {% for item in site.data.diary %}
+                <li>
+                    <span class="diary-date">{{ item.date | date: "%Y.%m.%d" }}</span>
+                    <span class="diary-text">{{ item.text_en }}</span>
+                    <span class="diary-num">Nº {{ forloop.index | prepend: '00' | slice: -3, 3 }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>

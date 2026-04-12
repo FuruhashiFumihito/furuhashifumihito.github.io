@@ -1,0 +1,55 @@
+@comment{
+  業績一覧のソースファイル。
+  ここに BibTeX 形式で業績を追記すると、
+  publications.html / publications-e.html に自動反映されます。
+  (_plugins/bibliography.rb がビルド時に読み込みます)
+
+  カテゴリの決まり方:
+    @article                      -> §02.1 査読付き論文   (journal)
+    @inproceedings / @conference  -> §02.2 国際会議        (conference)
+    @misc / @techreport           -> §02.3 国内会議・発表  (domestic)
+
+  カテゴリを明示したい場合は category フィールドを追加してください。
+  上記の自動判定より優先されます。
+    category = {journal | conference | domestic}
+
+    (例: 国内会議の proceedings を @inproceedings で書きつつ
+         category = {domestic} と指定して §02.3 に並べる)
+
+  必須フィールド:
+    title, author, year,
+    および venue or journal or booktitle or howpublished のいずれか
+
+  任意フィールド:
+    url   = {/projects/xxx/}   詳細ページへのリンク先
+                               (_publications/xxx.md を用意すると
+                                /projects/xxx/ に生成される)
+    venue = {...}              journal/booktitle/howpublished を上書き表示
+
+  記述例:
+
+    @article{furuhashi2025example,
+      title   = {Example Paper Title},
+      author  = {Furuhashi, Fumihito and Smith, John},
+      journal = {Journal of Example Studies},
+      year    = {2025},
+      url     = {/projects/example/}
+    }
+
+    @inproceedings{furuhashi2024intl,
+      title     = {Another International Paper},
+      author    = {Furuhashi, Fumihito},
+      booktitle = {Proc. of the Example Conference},
+      year      = {2024}
+    }
+
+    @inproceedings{furuhashi2024jp,
+      title     = {国内発表のサンプル},
+      author    = {古橋 郁一},
+      booktitle = {情報処理学会全国大会},
+      year      = {2024},
+      category  = {domestic}
+    }
+}
+
+% ---- ここから業績を追記してください ----

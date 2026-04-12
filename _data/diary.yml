@@ -1,0 +1,11 @@
+# 日記 / Diary
+# 日々のメモ。新しいエントリは上に追加してください。
+#
+# スキーマ:
+#   - date: YYYY-MM-DD       # 日付（必須）
+#     text_ja: "日本語の本文"  # 日本語表示用
+#     text_en: "English text" # 英語表示用
+
+- date: 2026-01-22
+  text_ja: "ホームページを開設しました。"
+  text_en: "Launched this website."

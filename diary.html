@@ -1,0 +1,41 @@
+---
+layout: default
+title: 日記
+lang: ja
+alternate: /diary-e.html
+---
+{% assign t = site.data.i18n[page.lang] %}
+
+<section class="hero">
+    <div class="hero__label">日々のメモ — §03</div>
+    <h1 class="hero__name-en" style="font-size: clamp(2.6rem, 7vw, 5.5rem);"><em>D<span class="amp">i</span>ary</em></h1>
+    <p class="hero__name-jp" lang="ja">日々の記録</p>
+    <p class="hero__tagline hero__tagline--jp">
+        研究の進捗、読んだ論文、考えたこと、ちょっとした出来事。気の向くままに書きとめています。
+    </p>
+</section>
+
+<section class="section">
+    <header class="section__head">
+        <div class="section__num">§ 03 · Notes</div>
+        <h2 class="section__title">日々のメモ</h2>
+    </header>
+
+    <div class="section__body">
+        <aside class="section__aside" aria-hidden="true">
+            <span class="aside-label">Entries</span>
+            {{ site.data.diary.size | prepend: '00' | slice: -2, 2 }} entries
+        </aside>
+        <div class="section__content" style="max-width: none;">
+            <ul class="diary-list">
+            {% for item in site.data.diary %}
+                <li>
+                    <span class="diary-date">{{ item.date | date: "%Y.%m.%d" }}</span>
+                    <span class="diary-text">{{ item.text_ja }}</span>
+                    <span class="diary-num">Nº {{ forloop.index | prepend: '00' | slice: -3, 3 }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>

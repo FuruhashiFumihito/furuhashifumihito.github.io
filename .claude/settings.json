@@ -16,7 +16,12 @@
       "Bash(sips -Z 2000 -s format jpeg -s formatOptions 82 amtrack.png --out amtrack.jpg)",
       "Bash(git rm:*)",
       "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.jpg)",
-      "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.png)"
+      "Bash(curl -sI https://furuhashifumihito.github.io/assets/images/amtrack.png)",
+      "Bash(git mv:*)",
+      "Read(//Users/furuhashikaoruichi/Confidential/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/furuhashikaoruichi/Confidential"
     ]
   },
   "enabledPlugins": {
