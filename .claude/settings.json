@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo:*)",
+      "Bash(git remote:*)",
+      "Bash(gh run:*)",
+      "Bash(curl -sI https://furuhashifumihito.github.io/)"
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}
