@@ -1,10 +1,11 @@
 require "bibtex"
 
-# 受賞歴 (award.bib) と研究助成 (grants.bib) をビルド時に読み込み、
-# 以下の配列として `site.data` に公開する Jekyll Generator。
+# 受賞歴 (award.bib) / 研究助成 (grants.bib) / ソフトウェア (software.bib)
+# をビルド時に読み込み、以下の配列として `site.data` に公開する Jekyll Generator。
 #
-#   site.data["awards"]  <- award.bib
-#   site.data["grants"]  <- grants.bib
+#   site.data["awards"]    <- award.bib
+#   site.data["grants"]    <- grants.bib
+#   site.data["software"]  <- software.bib
 #
 # それぞれのエントリは `_plugins/bibliography.rb` と同じ正規化形
 #   { title, authors, venue, year, note, url }
@@ -17,8 +18,9 @@ module Jekyll
 
     # site.data のキー => プロジェクトルートからの相対パス
     SOURCES = {
-      "awards" => "award.bib",
-      "grants" => "grants.bib",
+      "awards"   => "award.bib",
+      "grants"   => "grants.bib",
+      "software" => "software.bib",
     }.freeze
 
     def generate(site)
