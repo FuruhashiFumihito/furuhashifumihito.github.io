@@ -1,23 +1,75 @@
-% 業績管理用BibTeXファイル
-% 各エントリにproject_pageフィールドを追加してプロジェクトページとリンク
+% =============================================================================
+%  publications.bib — 業績一覧の単一情報源 (Single Source of Truth)
+% =============================================================================
+%
+%  このファイルは _plugins/bibtex_publications.rb によってビルド時にパースされ、
+%  以下の2つに変換されます:
+%
+%    1. 業績一覧ページ  (/publications.html, /publications-e.html)
+%    2. 個別の論文詳細ページ (/projects/<key>/)
+%
+%  新しい論文を追加する手順:
+%
+%    1. 下の該当セクションに @article / @inproceedings / @misc を追記
+%    2. key は一意にする (例: furuhashi2026travel) — URLになります
+%    3. `bundle exec jekyll build` で反映
+%
+%  対応する種別:
+%
+%    @article        -> 査読付き論文 (journal)
+%    @inproceedings  -> 国際会議     (conference)
+%    @misc           -> 国内会議・発表 (domestic)
+%    @techreport     -> 国内会議・発表 (domestic)
+%
+%  種別を手動で上書きしたい場合は独自フィールド bib_category を使えます:
+%
+%    bib_category = {journal}      % journal / conference / domestic のいずれか
+%
+%  プラグインが認識する独自フィールド:
+%
+%    bib_category = {...}   % 種別の強制指定 (省略時はエントリタイプから自動判定)
+%    lang         = {ja}    % 言語 (ja / en、省略時 ja)
+%    pdf          = {URL}   % 直接PDFへのリンク
+%    github       = {URL}   % ソースコードリポジトリ
+%    slides       = {URL}   % 発表スライド
+%    video        = {URL}   % 動画
+%
+%  標準フィールド (そのまま表示に使用):
+%
+%    title    = {...}       % 論文タイトル (必須)
+%    author   = {Last, First and Last, First}  % BibTeX標準の "and" 区切り
+%    journal  = {...}       % @article 用
+%    booktitle = {...}      % @inproceedings 用
+%    year     = {2026}
+%    doi      = {...}       % 設定するとpublisherへのリンクになる
+%    url      = {...}       % doiが無いときのpublisherリンク
+%    abstract = {...}       % 詳細ページに表示
+%
+% =============================================================================
 
-% === 査読付き論文 (Journal Papers) ===
+% -----------------------------------------------------------------------------
+%  査読付き論文 (Journal Papers)
+% -----------------------------------------------------------------------------
 
-@article{furuhashi2026example,
-  author    = {Furuhashi, Fumihito and Hato, Eiji},
-  title     = {Example Paper Title: Travel Behavior Analysis Using Deep Learning},
-  journal   = {Transportation Research Part C},
-  year      = {2026},
-  volume    = {100},
-  pages     = {1--20},
-  doi       = {10.1016/j.trc.2026.01.001},
-  % カスタムフィールド
-  project_page = {projects/trc2026.html},
-  abstract  = {This paper presents...},
-  keywords  = {travel behavior, deep learning, transportation}
+@article{furuhashi2026travel,
+  author   = {Furuhashi, Fumihito and Hato, Eiji},
+  title    = {Example Paper Title: Travel Behavior Analysis Using Deep Learning},
+  journal  = {Transportation Research Part C},
+  year     = {2026},
+  volume   = {100},
+  pages    = {1--20},
+  doi      = {10.1016/j.trc.2026.01.001},
+  abstract = {本研究では、深層学習を用いた交通行動分析の新しいフレームワークを提案する。
+              従来の離散選択モデルと比較して、予測精度が大幅に向上することを示した。},
+  pdf      = {/papers/trc2026.pdf},
+  github   = {https://github.com/FuruhashiFumihito/travel-behavior-dl},
+  slides   = {https://speakerdeck.com/furuhashi/trc2026}
 }
 
-% === 国際会議 (International Conferences) ===
+
+% -----------------------------------------------------------------------------
+%  国際会議 (International Conferences)
+% -----------------------------------------------------------------------------
 
 @inproceedings{furuhashi2026trb,
   author    = {Furuhashi, Fumihito and Matsunaga, Takahiro and Hato, Eiji},
@@ -25,22 +77,18 @@
   booktitle = {Transportation Research Board 105th Annual Meeting},
   year      = {2026},
   address   = {Washington, D.C.},
-  % カスタムフィールド
-  project_page = {projects/trb2026.html}
+  abstract  = {Abstract to appear.}
 }
 
-% === テンプレート ===
-% 新しい論文を追加する際はこのテンプレートをコピーして使用
 
-% @article{furuhashi20XXtopic,
-%   author    = {Furuhashi, Fumihito and ...},
-%   title     = {論文タイトル},
-%   journal   = {ジャーナル名},
-%   year      = {20XX},
-%   volume    = {},
-%   pages     = {},
-%   doi       = {},
-%   project_page = {projects/XXXX.html},
-%   abstract  = {},
-%   keywords  = {}
-% }
+% -----------------------------------------------------------------------------
+%  国内会議・発表 (Domestic Conferences)
+% -----------------------------------------------------------------------------
+
+@misc{furuhashi2025jsce,
+  author       = {古橋郁人 and 羽藤英二},
+  title        = {都市交通ネットワークにおける自動走行車群の創発的制御},
+  howpublished = {土木計画学研究・講演集},
+  year         = {2025},
+  bib_category = {domestic}
+}

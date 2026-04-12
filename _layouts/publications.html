@@ -25,9 +25,10 @@ layout: default
 <section class="section">
     <p class="pub-note">{{ t.labels.note_publications }}</p>
 
-    {% assign journals = site.publications | where: "type", "journal" | sort: "year" | reverse %}
-    {% assign conferences = site.publications | where: "type", "conference" | sort: "year" | reverse %}
-    {% assign domestic = site.publications | where: "type", "domestic" | sort: "year" | reverse %}
+    {% assign bib = site.data.bibliography | default: empty %}
+    {% assign journals    = bib | where: "type", "journal" %}
+    {% assign conferences = bib | where: "type", "conference" %}
+    {% assign domestic    = bib | where: "type", "domestic" %}
 
     <!-- Journal -->
     <div class="pub-group">
@@ -95,11 +96,11 @@ layout: default
             {% for pub in domestic %}
             <li>
                 <span class="pub-year">{{ pub.year }}</span>
-                <div class="pub-body">
+                <a href="{{ pub.url | relative_url }}" class="pub-body">
                     <span class="pub-title">{{ pub.title }}</span>
                     <span class="pub-authors">{{ pub.authors }}</span>
                     <span class="pub-venue">{{ pub.venue }}</span>
-                </div>
+                </a>
             </li>
             {% endfor %}
         </ol>
