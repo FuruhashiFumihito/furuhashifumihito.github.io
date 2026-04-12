@@ -34,6 +34,26 @@ bundle exec jekyll build
 - `_plugins/bibliography.rb` - Jekyll generator that parses the `.bib` at build time and exposes it as `site.data.bibliography`
 - `_publications/` - Optional Markdown files for per-paper detail pages (Jekyll collection, rendered at `/projects/:name/`)
 
+### Hero Banner Slideshow
+
+The top banner on the home layout (`_layouts/home.html`) is an auto-advancing
+slideshow driven by files placed in `assets/images/hero/`. To add or reorder
+slides, just edit the folder contents — no template or config changes needed.
+
+- **Supported extensions**: `.jpg`, `.jpeg`, `.png`, `.webp`
+- **Order**: alphabetical by filename. Use a numeric prefix
+  (`01-`, `02-`, ...) to control it.
+- **Single image**: rendered statically (the rotation JS is a no-op).
+- **Multiple images**: crossfade every 5 s (1 s fade). Respects
+  `prefers-reduced-motion`.
+- **Performance**: the first slide gets `loading="eager"` +
+  `fetchpriority="high"` for LCP; the rest are `loading="lazy"`.
+
+The slideshow is assembled at build time by Liquid iterating over
+`site.static_files` filtered to `/assets/images/hero/`. Styling lives in
+`style.css` under `.hero__banner` / `.hero__slide`; the rotation script is
+inlined near the bottom of `_layouts/home.html`.
+
 ### Bilingual System
 - Japanese pages: `index.html`, `publications.html`, `diary.html`
 - English pages: suffix `-e.html` (e.g., `index-e.html`, `publications-e.html`)
