@@ -946,6 +946,8 @@ a { color: var(--ink); text-decoration: none; }
 
 :lang(ja) .diary-list .diary-text { font-family: var(--font-jp); }
 
+.diary-list .diary-text a { color: inherit; }
+
 .diary-list li:hover .diary-text { color: var(--accent); }
 
 /* ---------- Publications Catalogue ---------- */

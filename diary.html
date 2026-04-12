@@ -44,7 +44,9 @@ hero_image: /assets/images/hero-sub/IMG_5947.webp
             {% for item in site.data.diary %}
                 <li>
                     <span class="diary-date">{{ item.date | date: "%Y.%m.%d" }}</span>
-                    <span class="diary-text">{{ item.text_ja }}</span>
+                    <span class="diary-text">
+                        {% if item.url %}<a href="{{ item.url | relative_url }}">{{ item.text_ja }}</a>{% else %}{{ item.text_ja }}{% endif %}
+                    </span>
                     <span class="diary-num">Nº {{ forloop.index | prepend: '00' | slice: -3, 3 }}</span>
                 </li>
             {% endfor %}

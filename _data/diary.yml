@@ -5,7 +5,15 @@
 #   - date: YYYY-MM-DD       # 日付（必須）
 #     text_ja: "日本語の本文"  # 日本語表示用
 #     text_en: "English text" # 英語表示用
+#     url:    "/diary/<slug>.html"    # 任意。設定するとリスト上でクリック可能になり詳細ページへ遷移する
+#     url_en: "/diary/<slug>-e.html"  # 任意。英語版リストのリンク先（省略時は url にフォールバック）
 
 - date: 2026-04-12
   text_ja: "ホームページを開設しました。バナー画像の一つは、TRB2026後にNYへ向かったAmtrack道中の写真です。研究全然関係ないですけど、お気に入りの写真を気分で載せてます。"
   text_en: "I launched this website. One of the banner images is a photo taken during my Amtrak trip to New York after TRB2026. It has nothing to do with my research, but I like it and decided to use it as a banner image."
+
+- date: 2025-12-31
+  text_ja: "2025年の振り返り。"
+  text_en: "Reflections on 2025."
+  url: /diary/2025-review.html
+  url_en: /diary/2025-review-e.html

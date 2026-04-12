@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+
+<article class="folio-article">
+
+    <header class="folio-article__header">
+        <div class="folio-article__tag">§ Diary — {{ page.date | date: "%Y.%m.%d" }}</div>
+        <h1 class="folio-article__title">{{ page.title }}</h1>
+    </header>
+
+    <div class="folio-article__body">
+        <div class="folio-article__label">{% if page.lang == 'en' %}Entry{% else %}本文{% endif %}</div>
+        <div>
+            {{ content }}
+        </div>
+    </div>
+
+    <div class="folio-article__body">
+        <div class="folio-article__label">↵</div>
+        <div>
+            <p>
+                <a href="{% if page.lang == 'en' %}{{ '/diary-e.html' | relative_url }}{% else %}{{ '/diary.html' | relative_url }}{% endif %}">
+                    {% if page.lang == 'en' %}← Back to Diary index{% else %}← 日記一覧へ戻る{% endif %}
+                </a>
+            </p>
+        </div>
+    </div>
+
+</article>
