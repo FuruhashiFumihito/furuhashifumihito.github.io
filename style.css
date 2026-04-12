@@ -505,6 +505,14 @@ a { color: var(--ink); text-decoration: none; }
     align-items: start;
 }
 
+/* Keep the content column aligned with the section title even when the
+   left-hand <aside> has been omitted (e.g. Research). Without this the
+   single .section__content falls into col 1 and its plates overflow. */
+.section__body > .section__content {
+    grid-column: 2;
+    min-width: 0;
+}
+
 .section__aside {
     font-family: var(--font-mono);
     font-size: .66rem;
@@ -1667,54 +1675,15 @@ a { color: var(--ink); text-decoration: none; }
 }
 
 .frontispiece__split {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: clamp(1.25rem, 4vw, 3rem);
-    align-items: end;
-}
-
-/* Vertical Japanese column. */
-.frontispiece__jp {
-    writing-mode: vertical-rl;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding-left: .5rem;
-    font-family: var(--font-jp);
-    color: var(--ink);
-    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.55);
-}
-
-.frontispiece__jp-name {
-    font-weight: 500;
-    font-size: clamp(1.9rem, 4.2vw, 3rem);
-    letter-spacing: .25em;
-    line-height: 1;
-    padding-left: 4px;
-}
-
-.frontispiece__jp-role {
-    font-weight: 400;
-    font-size: .82rem;
-    letter-spacing: .3em;
-    color: var(--ink-3);
-    padding-left: 4px;
-}
-
-.frontispiece__jp-role::before {
-    content: "";
-    display: inline-block;
-    inline-size: 1.6rem;
-    block-size: 1px;
-    background: var(--accent);
-    margin-block-end: .7rem;
+    /* Single column — the previous vertical JP block was removed, so the
+       name fills the available width on its own. */
+    display: block;
 }
 
 /* Western display column. */
 .frontispiece__en {
     position: relative;
-    padding-bottom: .5rem;
-    max-width: 920px;
+    padding-bottom: .25rem;
 }
 
 .frontispiece__eyebrow {
