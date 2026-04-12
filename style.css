@@ -243,17 +243,35 @@ a { color: var(--ink); text-decoration: none; }
 }
 
 .hero__banner {
+    position: relative;
     margin: 0 0 clamp(2.5rem, 6vw, 5rem);
     aspect-ratio: 16 / 6;
     overflow: hidden;
     border-bottom: 1px solid var(--rule);
+    background: var(--rule);
 }
 
-.hero__banner img {
+.hero__banner .hero__slide {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+.hero__banner .hero__slide.is-active {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero__banner .hero__slide {
+        transition: none;
+    }
 }
 
 .hero__label {

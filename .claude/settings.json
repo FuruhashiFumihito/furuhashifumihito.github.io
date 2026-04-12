@@ -23,7 +23,9 @@
       "Bash(ls -la /Users/furuhashikaoruichi/MCP/homepage/Gemfile*)",
       "Bash(ruby -v)",
       "Bash(bundle -v)",
-      "Bash(bundle install:*)"
+      "Bash(bundle install:*)",
+      "Bash(git -C /Users/furuhashikaoruichi/MCP/homepage mv assets/images/amtrack.jpg assets/images/hero/01-amtrack.jpg)",
+      "Bash(bundle config:*)"
     ],
     "additionalDirectories": [
       "/Users/furuhashikaoruichi/Confidential"

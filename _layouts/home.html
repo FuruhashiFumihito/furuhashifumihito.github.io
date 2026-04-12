@@ -4,9 +4,23 @@ layout: default
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
 <section class="hero" aria-labelledby="hero-name">
-    <!-- Top banner image -->
-    <figure class="hero__banner">
-        <img src="{{ '/assets/images/amtrack.jpg' | relative_url }}" alt="" loading="eager" decoding="async">
+    <!-- Top banner: auto-advancing slideshow.
+         Drop image files into /assets/images/hero/ (jpg/jpeg/png/webp).
+         Files are sorted alphabetically by filename — use a numeric prefix
+         (01-, 02-, ...) to control the order. Single-image case: static. -->
+    {% assign hero_slides = site.static_files | where_exp: "f", "f.path contains '/assets/images/hero/'" | sort: "name" %}
+    <figure class="hero__banner" aria-roledescription="carousel">
+        {% for file in hero_slides %}
+            {% assign ext = file.extname | downcase %}
+            {% if ext == '.jpg' or ext == '.jpeg' or ext == '.png' or ext == '.webp' %}
+            <img src="{{ file.path | relative_url }}"
+                 alt=""
+                 class="hero__slide{% if forloop.first %} is-active{% endif %}"
+                 {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                 decoding="async"
+                 draggable="false">
+            {% endif %}
+        {% endfor %}
     </figure>
     <div class="hero__grid">
         <div>
@@ -193,6 +207,22 @@ layout: default
         </div>
     </div>
 </section>
+
+
+<!-- Hero slideshow auto-advance (no-op when <2 slides or reduced motion) -->
+<script>
+(function () {
+    var slides = document.querySelectorAll('.hero__banner .hero__slide');
+    if (slides.length < 2) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var i = 0;
+    setInterval(function () {
+        slides[i].classList.remove('is-active');
+        i = (i + 1) % slides.length;
+        slides[i].classList.add('is-active');
+    }, 5000);
+})();
+</script>
 
 
 <!-- §05 Awards -->
