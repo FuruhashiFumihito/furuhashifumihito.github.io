@@ -50,7 +50,9 @@ module Jekyll
     priority :high
 
     SUPPORTED_CATEGORIES = %w[journal conference domestic].freeze
-    IMAGE_EXTS = %w[.png .jpg .jpeg .webp .gif .svg].freeze
+    # サイドカーフォルダから /projects/<key>/ にコピーするファイル拡張子。
+    # 画像に加え、補足資料の PDF も配信対象にする。
+    SERVED_EXTS = %w[.png .jpg .jpeg .webp .gif .svg .pdf].freeze
     PUBLICATIONS_SRC_DIR = "_publications"
 
     def generate(site)
@@ -108,10 +110,11 @@ module Jekyll
       fallback = File.join(dir, "body.md")
       sidecar["body"]["fallback"] = File.read(fallback, encoding: "UTF-8") if File.exist?(fallback)
 
-      # --- 画像ファイルを StaticFile として登録 ---
+      # --- 画像・PDF を StaticFile として登録 ---
+      # SERVED_EXTS に該当するファイルは /projects/<key>/<filename> に配信される。
       Dir.foreach(dir) do |name|
         next if name.start_with?(".")
-        next unless IMAGE_EXTS.include?(File.extname(name).downcase)
+        next unless SERVED_EXTS.include?(File.extname(name).downcase)
         abs = File.join(dir, name)
         next unless File.file?(abs)
         site.static_files << PublicationStaticFile.new(
