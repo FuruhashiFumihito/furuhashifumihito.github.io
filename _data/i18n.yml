@@ -29,6 +29,8 @@ ja:
     figures: "図表"
     figure: "図"
     last_updated: "Last updated"
+    visitors_today: "本日"
+    visitors_total: "通算"
     note_publications: "* 論文タイトルをクリックするとプロジェクトページに移動します"
   pub_types:
     journal: "査読付き論文"
@@ -64,6 +66,8 @@ en:
     figures: "Figures"
     figure: "Fig."
     last_updated: "Last updated"
+    visitors_today: "Today"
+    visitors_total: "Total"
     note_publications: "* Click on paper titles to view project pages"
   pub_types:
     journal: "Journal Papers"
