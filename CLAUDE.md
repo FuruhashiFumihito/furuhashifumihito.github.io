@@ -25,12 +25,13 @@ bundle exec jekyll build
 - `_layouts/` - Template hierarchy:
   - `default.html` (base)
   - `home.html` extends `default`
-  - `publications.html` (plural, list page) extends `default` — reads from `_data/bibliography.yml`
+  - `publications.html` (plural, list page) extends `default` — renders `site.data.bibliography`
   - `publication.html` (singular, detail page) extends `default` — used by `_publications/` collection entries
 - `_includes/nav.html` - Bilingual navigation component
 - `_data/i18n.yml` - Bilingual labels keyed by `ja` / `en` (accessed via `site.data.i18n[page.lang]`)
 - `_data/news.yml` - News items with `date`, `text_ja`, `text_en` fields
-- `_data/bibliography.yml` - **Single source of truth for the publications list page**
+- `_bibliography/references.bib` - **Single source of truth for the publications list page** (BibTeX)
+- `_plugins/bibliography.rb` - Jekyll generator that parses the `.bib` at build time and exposes it as `site.data.bibliography`
 - `_publications/` - Optional Markdown files for per-paper detail pages (Jekyll collection, rendered at `/projects/:name/`)
 
 ### Bilingual System

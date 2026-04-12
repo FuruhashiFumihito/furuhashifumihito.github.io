@@ -2,11 +2,11 @@
 {% if page.lang == 'en' %}
   {% assign home_url = '/index-e.html' %}
   {% assign pub_url = '/publications-e.html' %}
-  {% assign news_url = '/news-e.html' %}
+  {% assign diary_url = '/diary-e.html' %}
 {% else %}
   {% assign home_url = '/index.html' %}
   {% assign pub_url = '/publications.html' %}
-  {% assign news_url = '/news.html' %}
+  {% assign diary_url = '/diary.html' %}
 {% endif %}
 
 <nav class="nav" aria-label="Primary">
@@ -26,12 +26,12 @@
             <a href="{{ pub_url | relative_url }}"><span class="nav__label">{{ t.nav.publications }}</span></a>
         {% endif %}
     </div>
-    <div class="nav__item"{% if page.url == news_url %} aria-current="page"{% endif %}>
+    <div class="nav__item"{% if page.url == diary_url %} aria-current="page"{% endif %}>
         <span class="nav__num">§03</span>
-        {% if page.url == news_url %}
-            <span class="nav__label">{{ t.nav.news }}</span>
+        {% if page.url == diary_url %}
+            <span class="nav__label">{{ t.nav.diary }}</span>
         {% else %}
-            <a href="{{ news_url | relative_url }}"><span class="nav__label">{{ t.nav.news }}</span></a>
+            <a href="{{ diary_url | relative_url }}"><span class="nav__label">{{ t.nav.diary }}</span></a>
         {% endif %}
     </div>
 
