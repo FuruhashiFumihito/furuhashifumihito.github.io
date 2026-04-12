@@ -135,6 +135,50 @@ field simply render as non-linked items on the list page.
 3. `bundle exec jekyll serve` — the generator logs how many entries it
    loaded; verify the paper appears in the expected §02.x section.
 
+### Adding figures to a paper detail page
+
+Per-paper graphical abstracts and in-text figures live in the sidecar
+`_data/publication_figures.yml`, keyed by BibTeX entry key (e.g.
+`furuhashi2025dgpinn_itsc`). At build time,
+`_plugins/bibtex_publications.rb` merges the matching entry into the
+virtual `/projects/<key>/` page's front matter, so the paper's auto-
+generated detail page picks them up without needing a hand-written
+`_publications/<slug>.md`.
+
+Supported fields:
+
+```yaml
+<bibtex_key>:
+  graphical_abstract:
+    src: /assets/images/publications/<bibtex_key>/graphical-abstract.png
+    alt_ja: "日本語 alt"          # optional
+    alt_en: "English alt"          # optional
+  figures:
+    - src: /assets/images/publications/<bibtex_key>/fig1.png
+      caption_ja: "図 1 のキャプション"
+      caption_en: "Fig. 1 caption"
+    - src: ...
+      caption_ja: ...
+      caption_en: ...
+```
+
+Rendering rules (see `_layouts/publication.html`):
+
+- `graphical_abstract` renders as a prominent block directly below the
+  title, before authors/venue.
+- `figures` renders as a labelled list inside the body column after the
+  abstract, with auto-numbered captions (`図 N.` / `Fig. N.`) picked
+  from `_data/i18n.yml`.
+- Captions use `caption_ja` / `caption_en` by language; `caption` alone
+  is a language-neutral fallback. `alt_ja` / `alt_en` behave the same.
+- Entries without a matching key simply render a plain detail page —
+  the sidecar is purely additive.
+
+Recommended layout on disk: put image files under
+`assets/images/publications/<bibtex_key>/` so the sidecar paths stay
+predictable. Image files are referenced by path; the sidecar never
+embeds binaries.
+
 ### URL Generation
 Always use Liquid filters for URLs:
 ```liquid
