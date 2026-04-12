@@ -4,6 +4,17 @@ layout: default
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
 <section class="hero" aria-labelledby="pub-title">
+    <figure class="hero__banner" aria-hidden="true">
+        {% if page.hero_image %}
+        <img src="{{ page.hero_image | relative_url }}"
+             alt=""
+             class="hero__slide is-active"
+             loading="eager"
+             fetchpriority="high"
+             decoding="async"
+             draggable="false">
+        {% endif %}
+    </figure>
     <div class="hero__label">
         {% if page.lang == 'en' %}Publications Catalogue — §02{% else %}業績カタログ — §02{% endif %}
     </div>

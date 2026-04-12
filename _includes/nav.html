@@ -3,13 +3,13 @@
   {% assign home_url = '/index-e.html' %}
   {% assign pub_url = '/publications-e.html' %}
   {% assign awards_url = '/awards-e.html' %}
-  {% assign grants_url = '/grants-e.html' %}
+  {% assign software_url = '/software-e.html' %}
   {% assign diary_url = '/diary-e.html' %}
 {% else %}
   {% assign home_url = '/index.html' %}
   {% assign pub_url = '/publications.html' %}
   {% assign awards_url = '/awards.html' %}
-  {% assign grants_url = '/grants.html' %}
+  {% assign software_url = '/software.html' %}
   {% assign diary_url = '/diary.html' %}
 {% endif %}
 
@@ -30,28 +30,28 @@
             <a href="{{ pub_url | relative_url }}"><span class="nav__label">{{ t.nav.publications }}</span></a>
         {% endif %}
     </div>
-    <div class="nav__item"{% if page.url == diary_url %} aria-current="page"{% endif %}>
+    <div class="nav__item"{% if page.url == awards_url %} aria-current="page"{% endif %}>
         <span class="nav__num">§03</span>
+        {% if page.url == awards_url %}
+            <span class="nav__label">{{ t.nav.awards_grants }}</span>
+        {% else %}
+            <a href="{{ awards_url | relative_url }}"><span class="nav__label">{{ t.nav.awards_grants }}</span></a>
+        {% endif %}
+    </div>
+    <div class="nav__item"{% if page.url == software_url %} aria-current="page"{% endif %}>
+        <span class="nav__num">§04</span>
+        {% if page.url == software_url %}
+            <span class="nav__label">{{ t.nav.software }}</span>
+        {% else %}
+            <a href="{{ software_url | relative_url }}"><span class="nav__label">{{ t.nav.software }}</span></a>
+        {% endif %}
+    </div>
+    <div class="nav__item"{% if page.url == diary_url %} aria-current="page"{% endif %}>
+        <span class="nav__num">§05</span>
         {% if page.url == diary_url %}
             <span class="nav__label">{{ t.nav.diary }}</span>
         {% else %}
             <a href="{{ diary_url | relative_url }}"><span class="nav__label">{{ t.nav.diary }}</span></a>
-        {% endif %}
-    </div>
-    <div class="nav__item"{% if page.url == awards_url %} aria-current="page"{% endif %}>
-        <span class="nav__num">§04</span>
-        {% if page.url == awards_url %}
-            <span class="nav__label">{{ t.nav.awards }}</span>
-        {% else %}
-            <a href="{{ awards_url | relative_url }}"><span class="nav__label">{{ t.nav.awards }}</span></a>
-        {% endif %}
-    </div>
-    <div class="nav__item"{% if page.url == grants_url %} aria-current="page"{% endif %}>
-        <span class="nav__num">§05</span>
-        {% if page.url == grants_url %}
-            <span class="nav__label">{{ t.nav.grants }}</span>
-        {% else %}
-            <a href="{{ grants_url | relative_url }}"><span class="nav__label">{{ t.nav.grants }}</span></a>
         {% endif %}
     </div>
 

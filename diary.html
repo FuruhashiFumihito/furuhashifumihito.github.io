@@ -7,6 +7,17 @@ alternate: /diary-e.html
 {% assign t = site.data.i18n[page.lang] %}
 
 <section class="hero">
+    <figure class="hero__banner" aria-hidden="true">
+        {% if page.hero_image %}
+        <img src="{{ page.hero_image | relative_url }}"
+             alt=""
+             class="hero__slide is-active"
+             loading="eager"
+             fetchpriority="high"
+             decoding="async"
+             draggable="false">
+        {% endif %}
+    </figure>
     <div class="hero__label">日々のメモ — §03</div>
     <h1 class="hero__name-en" style="font-size: clamp(2.6rem, 7vw, 5.5rem);"><em>D<span class="amp">i</span>ary</em></h1>
     <p class="hero__name-jp" lang="ja">日々の記録</p>

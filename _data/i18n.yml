@@ -6,8 +6,8 @@ ja:
   nav:
     home: "トップ"
     publications: "業績"
-    awards: "受賞"
-    grants: "助成"
+    awards_grants: "受賞・助成"
+    software: "ソフトウェア"
     diary: "日記"
   labels:
     affiliation: "所属・連絡先"
@@ -41,8 +41,8 @@ en:
   nav:
     home: "Home"
     publications: "Publications"
-    awards: "Awards"
-    grants: "Grants"
+    awards_grants: "Awards & Grants"
+    software: "Software"
     diary: "Diary"
   labels:
     affiliation: "Affiliation & Contact"

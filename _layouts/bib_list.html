@@ -2,21 +2,48 @@
 layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
-{% assign entries = site.data[page.bib_source] | default: empty %}
 
 {% comment %}
-  Generic BibTeX-list layout shared by awards / grants pages.
+  Generic BibTeX-list layout shared by awards / grants / software pages.
 
-  Expected front-matter:
-    bib_source:      "awards" | "grants"   (key in site.data)
-    section_tag:     "§ 04" / "§ 05"       (printed in hero label & list head)
-    section_title_ja / section_title_en    (section heading)
-    hero_display:    HTML fragment for the big title
-                     (e.g. "Aw<span class='amp'>a</span>rds")
-    hero_display_jp: Optional Japanese sub-title under the hero
+  Supports two front-matter shapes:
+
+  (A) Single-section page:
+        bib_source:      "awards" | "grants" | "software"  (key in site.data)
+        section_tag:     "§ 03" / "§ 04"                  (printed in hero label & list head)
+        section_title_ja / section_title_en               (section heading)
+
+  (B) Multi-section page (e.g. awards + grants combined):
+        sections:
+          - bib_source: awards
+            tag: "§ 03.1"
+            title_ja: 受賞歴
+            title_en: Awards & Honours
+          - bib_source: grants
+            tag: "§ 03.2"
+            title_ja: 研究助成・フェローシップ
+            title_en: Fellowships & Grants
+
+  Common hero fields (both shapes):
+        section_tag:     shown in the hero label
+        section_title_ja / section_title_en
+        hero_display:    HTML fragment for the big title
+                         (e.g. "Aw<span class='amp'>a</span>rds")
+        hero_display_jp: Optional Japanese sub-title under the hero
 {% endcomment %}
 
 <section class="hero" aria-labelledby="bib-title">
+    <figure class="hero__banner" aria-hidden="true">
+        {% if page.hero_image %}
+        <img src="{{ page.hero_image | relative_url }}"
+             alt=""
+             class="hero__slide is-active"
+             loading="eager"
+             fetchpriority="high"
+             decoding="async"
+             draggable="false">
+        {% endif %}
+    </figure>
     <div class="hero__label">
         {% if page.lang == 'en' %}{{ page.section_title_en }} — {{ page.section_tag }}{% else %}{{ page.section_title_ja }} — {{ page.section_tag }}{% endif %}
     </div>
@@ -29,35 +56,73 @@ layout: default
 </section>
 
 <section class="section">
-    <div class="pub-group">
-        <header class="pub-group__head">
-            <span class="pub-group__tag">{{ page.section_tag }}</span>
-            <h2 class="pub-group__title">{% if page.lang == 'en' %}{{ page.section_title_en }}{% else %}{{ page.section_title_ja }}{% endif %}</h2>
-            <span class="pub-group__count">{{ entries.size | prepend: '00' | slice: -2, 2 }} entries</span>
-        </header>
-        {% if entries.size > 0 %}
-        <ol class="pub-list" reversed>
-            {% for e in entries %}
-            <li>
-                <span class="pub-year">{{ e.year }}</span>
-                {% if e.url %}
-                <a href="{{ e.url | relative_url }}" class="pub-body">
-                    <span class="pub-title">{{ e.title }}</span>
-                    {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
-                </a>
+    {% if page.sections %}
+        {% for sec in page.sections %}
+            {% assign entries = site.data[sec.bib_source] | default: empty %}
+            <div class="pub-group">
+                <header class="pub-group__head">
+                    <span class="pub-group__tag">{{ sec.tag }}</span>
+                    <h2 class="pub-group__title">{% if page.lang == 'en' %}{{ sec.title_en }}{% else %}{{ sec.title_ja }}{% endif %}</h2>
+                    <span class="pub-group__count">{{ entries.size | prepend: '00' | slice: -2, 2 }} entries</span>
+                </header>
+                {% if entries.size > 0 %}
+                <ol class="pub-list" reversed>
+                    {% for e in entries %}
+                    <li>
+                        <span class="pub-year">{{ e.year }}</span>
+                        {% if e.url %}
+                        <a href="{{ e.url | relative_url }}" class="pub-body">
+                            <span class="pub-title">{{ e.title }}</span>
+                            {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                        </a>
+                        {% else %}
+                        <div class="pub-body">
+                            <span class="pub-title">{{ e.title }}</span>
+                            {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
                 {% else %}
-                <div class="pub-body">
-                    <span class="pub-title">{{ e.title }}</span>
-                    {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
-                </div>
+                <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+                    {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+                </p>
                 {% endif %}
-            </li>
-            {% endfor %}
-        </ol>
-        {% else %}
-        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
-            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
-        </p>
-        {% endif %}
-    </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% assign entries = site.data[page.bib_source] | default: empty %}
+        <div class="pub-group">
+            <header class="pub-group__head">
+                <span class="pub-group__tag">{{ page.section_tag }}</span>
+                <h2 class="pub-group__title">{% if page.lang == 'en' %}{{ page.section_title_en }}{% else %}{{ page.section_title_ja }}{% endif %}</h2>
+                <span class="pub-group__count">{{ entries.size | prepend: '00' | slice: -2, 2 }} entries</span>
+            </header>
+            {% if entries.size > 0 %}
+            <ol class="pub-list" reversed>
+                {% for e in entries %}
+                <li>
+                    <span class="pub-year">{{ e.year }}</span>
+                    {% if e.url %}
+                    <a href="{{ e.url | relative_url }}" class="pub-body">
+                        <span class="pub-title">{{ e.title }}</span>
+                        {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                    </a>
+                    {% else %}
+                    <div class="pub-body">
+                        <span class="pub-title">{{ e.title }}</span>
+                        {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                    </div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+            {% else %}
+            <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+                {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+            </p>
+            {% endif %}
+        </div>
+    {% endif %}
 </section>

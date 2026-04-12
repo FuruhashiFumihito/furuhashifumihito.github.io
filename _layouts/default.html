@@ -63,7 +63,7 @@
         <header class="masthead">
             <div class="masthead__mark">
                 <span>{{ site.title }}</span>
-                <span class="vol">— Vol. {{ site.time | date: "%y" }} / {{ site.time | date: "%j" }}</span>
+                <span class="vol" id="visitor-count" aria-live="polite">— No. —</span>
             </div>
             <div class="masthead__meta">
                 <span>{{ t.labels.last_updated }} — {{ site.time | date: "%Y.%m.%d" }}</span>
@@ -87,5 +87,23 @@
         </footer>
 
     </div>
+
+    {% comment %} Visitor counter — powered by abacus.jasoncameron.dev (no signup, free).
+        The /hit endpoint auto-creates the counter on first request and returns
+        { "value": N }. Silent on failure so a down API never breaks the header. {% endcomment %}
+    <script>
+    (function () {
+        var el = document.getElementById('visitor-count');
+        if (!el) return;
+        fetch('https://abacus.jasoncameron.dev/hit/furuhashifumihito-github-io/visits')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+                if (data && typeof data.value === 'number') {
+                    el.textContent = '— No. ' + data.value.toLocaleString();
+                }
+            })
+            .catch(function () { /* silent */ });
+    })();
+    </script>
 </body>
 </html>
