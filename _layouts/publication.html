@@ -24,8 +24,15 @@ layout: default
     {% else %}
         {% assign ga_alt = ga.alt_ja | default: ga.alt | default: t.labels.graphical_abstract %}
     {% endif %}
+    {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
     <figure class="folio-graphical-abstract">
+        {% if ga_ext == 'pdf' %}
+        <object class="folio-graphical-abstract__pdf" data="{{ ga.src | relative_url }}#view=FitH" type="application/pdf" aria-label="{{ ga_alt }}">
+            <a href="{{ ga.src | relative_url }}">{{ ga_alt }}</a>
+        </object>
+        {% else %}
         <img src="{{ ga.src | relative_url }}" alt="{{ ga_alt }}" loading="eager" fetchpriority="high">
+        {% endif %}
         <figcaption class="folio-graphical-abstract__label">{{ t.labels.graphical_abstract }}</figcaption>
     </figure>
     {% endif %}
