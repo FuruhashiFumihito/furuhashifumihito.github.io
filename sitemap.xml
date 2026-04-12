@@ -1,0 +1,40 @@
+---
+# sitemap.xml — jekyll-sitemap プラグインを使わずに Liquid で生成する
+# 静的 HTML ページと _publications コレクションを対象に含める
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {%- assign sitemap_pages = site.pages | where_exp: "p", "p.sitemap != false" -%}
+  {%- for page in sitemap_pages -%}
+    {%- assign ext = page.path | split: '.' | last -%}
+    {%- if ext == 'html' or ext == 'md' -%}
+  <url>
+    <loc>{{ page.url | absolute_url | xml_escape }}</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    {%- if page.url == '/' or page.url == '/index.html' %}
+    <priority>1.0</priority>
+    {%- elsif page.url == '/index-e.html' %}
+    <priority>0.9</priority>
+    {%- else %}
+    <priority>0.7</priority>
+    {%- endif %}
+    {%- if page.alternate %}
+    <xhtml:link rel="alternate" hreflang="{% if page.lang == 'en' %}ja{% else %}en{% endif %}" href="{{ page.alternate | absolute_url | xml_escape }}"/>
+    <xhtml:link rel="alternate" hreflang="{{ page.lang | default: 'ja' }}" href="{{ page.url | absolute_url | xml_escape }}"/>
+    {%- endif %}
+  </url>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- for pub in site.publications -%}
+  <url>
+    <loc>{{ pub.url | absolute_url | xml_escape }}</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  {%- endfor -%}
+</urlset>
