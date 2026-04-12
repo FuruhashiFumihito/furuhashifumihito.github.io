@@ -1,0 +1,63 @@
+---
+layout: default
+---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% assign entries = site.data[page.bib_source] | default: empty %}
+
+{% comment %}
+  Generic BibTeX-list layout shared by awards / grants pages.
+
+  Expected front-matter:
+    bib_source:      "awards" | "grants"   (key in site.data)
+    section_tag:     "§ 04" / "§ 05"       (printed in hero label & list head)
+    section_title_ja / section_title_en    (section heading)
+    hero_display:    HTML fragment for the big title
+                     (e.g. "Aw<span class='amp'>a</span>rds")
+    hero_display_jp: Optional Japanese sub-title under the hero
+{% endcomment %}
+
+<section class="hero" aria-labelledby="bib-title">
+    <div class="hero__label">
+        {% if page.lang == 'en' %}{{ page.section_title_en }} — {{ page.section_tag }}{% else %}{{ page.section_title_ja }} — {{ page.section_tag }}{% endif %}
+    </div>
+    <h1 class="hero__name-en" id="bib-title" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
+        <em>{{ page.hero_display }}</em>
+    </h1>
+    {% if page.lang == 'ja' and page.hero_display_jp %}
+    <p class="hero__name-jp" lang="ja">{{ page.hero_display_jp }}</p>
+    {% endif %}
+</section>
+
+<section class="section">
+    <div class="pub-group">
+        <header class="pub-group__head">
+            <span class="pub-group__tag">{{ page.section_tag }}</span>
+            <h2 class="pub-group__title">{% if page.lang == 'en' %}{{ page.section_title_en }}{% else %}{{ page.section_title_ja }}{% endif %}</h2>
+            <span class="pub-group__count">{{ entries.size | prepend: '00' | slice: -2, 2 }} entries</span>
+        </header>
+        {% if entries.size > 0 %}
+        <ol class="pub-list" reversed>
+            {% for e in entries %}
+            <li>
+                <span class="pub-year">{{ e.year }}</span>
+                {% if e.url %}
+                <a href="{{ e.url | relative_url }}" class="pub-body">
+                    <span class="pub-title">{{ e.title }}</span>
+                    {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                </a>
+                {% else %}
+                <div class="pub-body">
+                    <span class="pub-title">{{ e.title }}</span>
+                    {% if e.venue %}<span class="pub-venue">{{ e.venue }}</span>{% endif %}
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+        </p>
+        {% endif %}
+    </div>
+</section>

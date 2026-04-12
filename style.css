@@ -1511,7 +1511,829 @@ a { color: var(--ink); text-decoration: none; }
 
 /* Print — treat as real monograph */
 @media print {
-    body::before, body::after, .nav, .hero__contour { display: none; }
+    body::before, body::after, .nav, .hero__contour, .frontispiece__contour, .frontispiece__stamp { display: none; }
     body { background: #fff; color: #000; }
-    .section, .hero { border-color: #000; }
+    .section, .hero, .frontispiece, .epigraph { border-color: #000; }
+}
+
+
+/* =========================================================================
+   ▣ FRONTISPIECE  —  bilingual frontispiece hero
+   ========================================================================= */
+
+.frontispiece {
+    position: relative;
+    min-height: min(94vh, 880px);
+    padding: clamp(3rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    isolation: isolate;
+
+    /* Light palette override — keep text legible over photography. */
+    --ink:         #f5efdc;
+    --ink-2:       rgba(245, 239, 220, 0.92);
+    --ink-3:       rgba(245, 239, 220, 0.70);
+    --ink-4:       rgba(245, 239, 220, 0.48);
+    --rule:        rgba(245, 239, 220, 0.22);
+    --rule-strong: rgba(245, 239, 220, 0.38);
+    --accent:      #e8a87c;
+    --accent-hot:  #f2b885;
+}
+
+.frontispiece__banner {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    overflow: hidden;
+    background: #141008;
+    z-index: 0;
+}
+
+.frontispiece__banner::after {
+    /* Warm duotone scrim — vignette for text legibility, heavier top+bottom. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg,
+            rgba(14, 10, 6, 0.72) 0%,
+            rgba(14, 10, 6, 0.22) 22%,
+            rgba(14, 10, 6, 0.12) 45%,
+            rgba(14, 10, 6, 0.55) 82%,
+            rgba(14, 10, 6, 0.90) 100%),
+        radial-gradient(ellipse at 78% 12%,
+            rgba(232, 168, 124, 0.25),
+            transparent 55%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.frontispiece__banner::before {
+    /* Paper-grain burned into the photograph. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .88  0 0 0 0 .78  0 0 0 0 .58  0 0 0 .38 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: .35;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.frontispiece__slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+    user-select: none;
+    filter: saturate(.78) contrast(1.08) brightness(.86) sepia(.12);
+}
+
+.frontispiece__slide.is-active { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .frontispiece__slide { transition: none; }
+}
+
+/* Route-contour decoration, top area. */
+.frontispiece__contour {
+    position: absolute;
+    left: -4%;
+    top: 6%;
+    width: 72%;
+    max-width: 860px;
+    height: auto;
+    color: var(--accent);
+    opacity: .45;
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: screen;
+}
+
+/* Archival issue stamp — top-right, rotated, double-ruled. */
+.frontispiece__stamp {
+    position: absolute;
+    top: clamp(1.25rem, 4vw, 3rem);
+    right: clamp(1.25rem, 4vw, 3rem);
+    width: clamp(108px, 11vw, 168px);
+    height: clamp(108px, 11vw, 168px);
+    color: var(--accent);
+    z-index: 4;
+    transform: rotate(-8deg);
+    filter: drop-shadow(0 1px 0 rgba(20, 14, 6, 0.45));
+}
+
+.frontispiece__stamp-ring {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    fill: var(--accent);
+}
+
+.frontispiece__stamp-year {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 340;
+    font-size: 30px;
+    fill: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.frontispiece__stamp-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    fill: var(--accent);
+}
+
+/* Inner content column — above the banner, below the stamp. */
+.frontispiece__inner {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.frontispiece__split {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: end;
+}
+
+/* Vertical Japanese column. */
+.frontispiece__jp {
+    writing-mode: vertical-rl;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-left: .5rem;
+    font-family: var(--font-jp);
+    color: var(--ink);
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.55);
+}
+
+.frontispiece__jp-name {
+    font-weight: 500;
+    font-size: clamp(1.9rem, 4.2vw, 3rem);
+    letter-spacing: .25em;
+    line-height: 1;
+    padding-left: 4px;
+}
+
+.frontispiece__jp-role {
+    font-weight: 400;
+    font-size: .82rem;
+    letter-spacing: .3em;
+    color: var(--ink-3);
+    padding-left: 4px;
+}
+
+.frontispiece__jp-role::before {
+    content: "";
+    display: inline-block;
+    inline-size: 1.6rem;
+    block-size: 1px;
+    background: var(--accent);
+    margin-block-end: .7rem;
+}
+
+/* Western display column. */
+.frontispiece__en {
+    position: relative;
+    padding-bottom: .5rem;
+    max-width: 920px;
+}
+
+.frontispiece__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+
+.frontispiece__eyebrow .rule {
+    display: inline-block;
+    width: 2.2rem;
+    height: 1px;
+    background: var(--accent);
+}
+
+.frontispiece__name {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 1;
+    font-weight: 340;
+    font-size: clamp(3.2rem, 11vw, 10rem);
+    line-height: .88;
+    letter-spacing: -.03em;
+    color: var(--ink);
+    margin: 0;
+    text-shadow: 0 3px 36px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.frontispiece__name .line-1 {
+    display: block;
+    font-weight: 340;
+    font-style: normal;
+}
+
+.frontispiece__name .line-2 {
+    display: block;
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 1;
+    margin-left: clamp(.5rem, 3vw, 2.2rem);
+}
+
+.frontispiece__name .amp {
+    display: inline-block;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+}
+
+.frontispiece__tagline {
+    margin: clamp(1.4rem, 3vw, 2rem) 0 0;
+    max-width: 38ch;
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 22, "SOFT" 30;
+    font-style: italic;
+    font-weight: 380;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+    border-left: 1px solid var(--rule-strong);
+    padding-left: 1.1rem;
+}
+
+:lang(ja) .frontispiece__tagline {
+    font-family: var(--font-jp);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.9;
+    letter-spacing: .04em;
+    font-size: clamp(.98rem, 1.3vw, 1.08rem);
+}
+
+/* Metadata ticker at the foot of the hero. */
+.frontispiece__ticker {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 1.1rem 0 0;
+    border-top: 1px solid var(--rule-strong);
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.frontispiece__ticker > div {
+    position: relative;
+    padding: .25rem 1rem .1rem;
+}
+
+.frontispiece__ticker > div + div {
+    border-left: 1px solid var(--rule);
+}
+
+.frontispiece__ticker > div:first-child {
+    padding-left: 0;
+}
+
+.frontispiece__ticker dt {
+    display: block;
+    color: var(--ink-4);
+    margin-bottom: .35rem;
+    font-size: .62rem;
+}
+
+.frontispiece__ticker dd {
+    margin: 0;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-size: .78rem;
+}
+
+.frontispiece__ticker .accent { color: var(--accent); }
+
+
+/* =========================================================================
+   ▣ EPIGRAPH  —  research thesis plate
+   ========================================================================= */
+
+.epigraph {
+    position: relative;
+    padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5rem);
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+}
+
+.epigraph__rule {
+    position: absolute;
+    left: 50%;
+    top: clamp(1.25rem, 4vw, 2.5rem);
+    width: 1px;
+    height: clamp(2rem, 5vw, 3.5rem);
+    background: var(--accent);
+    transform: translateX(-50%);
+}
+
+.epigraph__head {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.epigraph__tag {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.epigraph__body {
+    max-width: 26ch;
+    margin: 0 auto;
+    quotes: none;
+    padding: 0;
+    border: none;
+}
+
+.epigraph__body p {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 96, "SOFT" 30;
+    font-weight: 360;
+    font-style: italic;
+    font-size: clamp(1.7rem, 4.2vw, 3.1rem);
+    line-height: 1.18;
+    letter-spacing: -.018em;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+}
+
+:lang(ja) .epigraph__body { max-width: 30ch; }
+
+:lang(ja) .epigraph__body p {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-style: normal;
+    font-size: clamp(1.3rem, 2.8vw, 2.1rem);
+    line-height: 1.85;
+    letter-spacing: .05em;
+}
+
+.epigraph__body em {
+    color: var(--accent);
+    font-style: italic;
+    font-variation-settings: "opsz" 96, "SOFT" 80, "WONK" 1;
+}
+
+:lang(ja) .epigraph__body em {
+    font-style: normal;
+    font-weight: 500;
+}
+
+.epigraph__threads {
+    list-style: none;
+    margin: clamp(2.5rem, 5vw, 3.5rem) auto 0;
+    padding: 0;
+    max-width: var(--page-max);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+}
+
+.epigraph__threads li {
+    padding: 1.1rem 1.6rem .9rem;
+    border-right: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    display: flex;
+    align-items: baseline;
+    gap: .75rem;
+}
+
+:lang(ja) .epigraph__threads li {
+    font-family: var(--font-jp);
+    text-transform: none;
+    letter-spacing: .08em;
+    font-size: .9rem;
+}
+
+.epigraph__threads li:last-child { border-right: none; }
+
+.epigraph__thread-num {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+}
+
+
+/* =========================================================================
+   ▣ PLATES  —  numbered research cards
+   ========================================================================= */
+
+.section__content--wide { max-width: none; }
+
+.plates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+    list-style: none;
+    margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--rule);
+}
+
+.plates li {
+    list-style: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.6rem 1.5rem 1.8rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    min-height: 14rem;
+    transition: background var(--dur) var(--ease);
+    overflow: hidden;
+}
+
+.plates li::before {
+    content: attr(data-num);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    font-variant-numeric: tabular-nums;
+}
+
+.plate__tag {
+    position: absolute;
+    top: 1.35rem;
+    right: 1.4rem;
+    font-family: var(--font-mono);
+    font-size: .58rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: .25rem .55rem;
+    border: 1px solid var(--accent);
+}
+
+.plate__diagram {
+    width: 100%;
+    height: 54px;
+    color: var(--ink-4);
+    margin-top: auto;
+    opacity: .85;
+    transition: color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.plate__label {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36, "SOFT" 40;
+    font-weight: 420;
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    color: var(--ink);
+    max-width: 22ch;
+}
+
+:lang(ja) .plate__label {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.22rem;
+    letter-spacing: .04em;
+    line-height: 1.55;
+}
+
+.plates li:hover { background: var(--paper-2); }
+.plates li:hover .plate__diagram { color: var(--accent); opacity: 1; }
+.plates li:hover::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+}
+
+
+/* =========================================================================
+   ▣ RECORD  —  career + education as a double-column proof sheet
+   ========================================================================= */
+
+.section--record .section__head { grid-template-columns: 9rem 1fr; }
+
+.record {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    position: relative;
+}
+
+.record::before {
+    /* Center rule between the two columns. */
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--rule);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.record__col { min-width: 0; }
+
+.record__colhead {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: .9rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--ink);
+    position: relative;
+}
+
+.record__colhead::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -5px;
+    width: .45rem; height: .45rem;
+    background: var(--accent);
+}
+
+.record__coltag {
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    flex: none;
+}
+
+.record__coltitle {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36, "SOFT" 40;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    line-height: 1;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: -.01em;
+}
+
+:lang(ja) .record__coltitle {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: .05em;
+}
+
+.record .timeline { margin: 0; }
+
+.record .timeline li {
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1.2rem;
+    padding: .95rem 0;
+}
+
+.record .timeline .tl-date {
+    font-size: .66rem;
+    padding-left: .6rem;
+}
+
+.record .timeline .tl-text {
+    font-size: .93rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================================
+   ▣ SEALS  —  awards list with numbered press-seal marks
+   ========================================================================= */
+
+.seals {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+}
+
+.seals li {
+    display: grid;
+    grid-template-columns: 4.25rem 10rem 1fr;
+    gap: 1.4rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px dotted var(--rule-strong);
+    align-items: start;
+    position: relative;
+    transition: background var(--dur) var(--ease);
+}
+
+.seals li:hover { background: var(--paper-2); }
+
+.seals__mark {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    letter-spacing: .08em;
+    font-variant-numeric: tabular-nums;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.seals__mark::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    border: 1px dashed var(--accent);
+    opacity: .7;
+}
+
+.seals__mark-inner {
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+}
+
+.seals li:hover .seals__mark {
+    background: var(--accent);
+    color: var(--paper);
+}
+
+.seals__date {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    padding-top: 1rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.seals__text {
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: var(--ink);
+    padding-top: .85rem;
+}
+
+:lang(ja) .seals__text { font-family: var(--font-jp); }
+
+.seals__text a {
+    color: var(--ink);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: color var(--dur-fast) var(--ease);
+}
+
+.seals__text a:hover { color: var(--accent); }
+
+
+/* =========================================================================
+   ▣ MOTION  —  frontispiece entrance + scroll-reveal
+   ========================================================================= */
+
+@keyframes stamp-press {
+    0%   { opacity: 0; transform: rotate(-8deg) scale(1.35); }
+    60%  { opacity: 1; transform: rotate(-6deg) scale(.96); }
+    100% { opacity: 1; transform: rotate(-8deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .frontispiece__eyebrow,
+    .frontispiece__name .line-1,
+    .frontispiece__name .line-2,
+    .frontispiece__tagline,
+    .frontispiece__jp-name,
+    .frontispiece__jp-role,
+    .frontispiece__ticker > div,
+    .frontispiece__contour {
+        animation: fade-rise .9s var(--ease) both;
+    }
+
+    .frontispiece__contour        { animation-delay: .05s; animation-duration: 1.4s; }
+    .frontispiece__eyebrow        { animation-delay: .20s; }
+    .frontispiece__name .line-1   { animation-delay: .30s; }
+    .frontispiece__name .line-2   { animation-delay: .42s; }
+    .frontispiece__jp-name        { animation-delay: .55s; animation-duration: 1.2s; }
+    .frontispiece__tagline        { animation-delay: .62s; }
+    .frontispiece__jp-role        { animation-delay: .70s; }
+    .frontispiece__ticker > div:nth-child(1) { animation-delay: .70s; }
+    .frontispiece__ticker > div:nth-child(2) { animation-delay: .78s; }
+    .frontispiece__ticker > div:nth-child(3) { animation-delay: .86s; }
+    .frontispiece__ticker > div:nth-child(4) { animation-delay: .94s; }
+
+    .frontispiece__stamp {
+        transform-origin: center;
+        animation: stamp-press 1.1s var(--ease) .15s both;
+    }
+}
+
+/* Scroll-reveal — JS adds .js-reveal then .is-revealed on enter. */
+.js-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .9s var(--ease), transform .9s var(--ease);
+    will-change: opacity, transform;
+}
+
+.js-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* =========================================================================
+   ▣ RESPONSIVE  —  new components
+   ========================================================================= */
+
+@media (max-width: 1100px) {
+    .frontispiece__contour { opacity: .3; width: 85%; }
+}
+
+@media (max-width: 900px) {
+    .frontispiece                 { min-height: min(86vh, 760px); }
+    .frontispiece__split          { grid-template-columns: 1fr; gap: 2rem; }
+    .frontispiece__jp             { writing-mode: horizontal-tb; flex-direction: row; align-items: baseline; gap: 1rem; padding-left: 0; }
+    .frontispiece__jp-name        { font-size: clamp(1.5rem, 5vw, 2rem); letter-spacing: .18em; padding-left: 0; }
+    .frontispiece__jp-role        { font-size: .7rem; padding-left: 0; }
+    .frontispiece__jp-role::before{ display: inline-block; margin-inline-end: .6rem; margin-block-end: 0; vertical-align: middle; }
+    .frontispiece__ticker         { grid-template-columns: 1fr 1fr; }
+    .frontispiece__ticker > div:nth-child(3) { border-left: none; }
+    .frontispiece__stamp          { width: 96px; height: 96px; top: 1rem; right: 1rem; }
+
+    .record                       { grid-template-columns: 1fr; gap: 2.5rem; }
+    .record::before               { display: none; }
+
+    .seals li                     { grid-template-columns: 3rem 1fr; gap: 1rem; }
+    .seals__date                  { grid-column: 2; padding-top: 0; }
+    .seals__text                  { grid-column: 2; padding-top: .2rem; }
+
+    .epigraph__body p             { font-size: clamp(1.4rem, 5vw, 2.2rem); }
+    .epigraph__threads li         { padding: .9rem 1.1rem; }
+}
+
+@media (max-width: 640px) {
+    .frontispiece__name           { font-size: clamp(2.6rem, 15vw, 4.5rem); }
+    .frontispiece__name .line-2   { margin-left: 0; }
+    .frontispiece__tagline        { border-left: none; padding-left: 0; }
+    .frontispiece__ticker         { grid-template-columns: 1fr; }
+    .frontispiece__ticker > div + div { border-left: none; border-top: 1px solid var(--rule); padding-top: .6rem; margin-top: .4rem; }
+    .frontispiece__ticker > div   { padding-left: 0; padding-right: 0; }
+
+    .plates                       { grid-template-columns: 1fr; }
+    .plates li                    { min-height: 12rem; }
+
+    .epigraph__threads            { flex-direction: column; }
+    .epigraph__threads li         { border-right: none; border-bottom: 1px solid var(--rule); justify-content: center; }
+    .epigraph__threads li:last-child { border-bottom: none; }
 }

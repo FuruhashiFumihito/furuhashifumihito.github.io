@@ -1,8 +1,26 @@
 # Jekyll設定
 title: "古橋郁一 / Fumihito Furuhashi"
-description: "Research Homepage"
+description: "古橋郁一 (Furuhashi Fumihito) の研究ホームページ。東京大学大学院 工学系研究科 社会基盤学専攻 博士後期課程。自動走行車群の創発的制御と自動都市のレジリエンス評価を研究。"
 url: "https://furuhashifumihito.github.io"
 baseurl: ""
+lang: ja
+
+# SEO / sitemap 用のメタ情報（jekyll-seo-tag が参照する）
+author:
+  name: "古橋郁一 (Furuhashi Fumihito)"
+  url: "https://furuhashifumihito.github.io/"
+
+social:
+  name: "古橋郁一 (Furuhashi Fumihito)"
+  links:
+    - https://scholar.google.com/citations?user=beIKTAgAAAAJ
+    - https://github.com/FuruhashiFumihito
+    - https://orcid.org/0009-0001-9066-7823
+    - https://www.linkedin.com/in/fumihito-furuhashi/
+
+# Jekyll プラグイン
+plugins:
+  - jekyll-seo-tag
 
 # コレクション設定
 collections:

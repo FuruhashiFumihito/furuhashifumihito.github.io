@@ -37,7 +37,12 @@ module Jekyll
         return []
       end
 
-      bib = BibTeX.open(path)
+      # bibtex-ruby のレキサーは `%` で始まる行コメントに含まれる
+      # `@article` や `->`、`(domestic)` のようなトークンに噛むことが
+      # あるため、事前に取り除いてから渡す。
+      raw     = File.read(path, encoding: "UTF-8")
+      cleaned = raw.gsub(/^[ \t]*%.*$/, "")
+      bib     = BibTeX.parse(cleaned)
       entries = bib.select(&:entry?).map { |entry| normalize(entry) }
 
       # 新しい年ほど先頭に (同年内はファイル登録順を維持)

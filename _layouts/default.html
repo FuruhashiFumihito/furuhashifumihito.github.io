@@ -4,8 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} — {{ site.title }}</title>
-    <meta name="description" content="{{ site.description }}">
+
+    {% comment %} SEO: title, description, canonical, Open Graph, Twitter, JSON-LD
+        はすべて jekyll-seo-tag が出力する。page.title / site.description などを参照する。 {% endcomment %}
+    {% seo %}
+
+    {% comment %} 日本語版 ⇔ 英語版の対応関係を Google に伝える hreflang。
+        各ページの front matter の `alternate` キーに対になるページの URL を書いている。 {% endcomment %}
+    {% if page.alternate %}
+    <link rel="alternate" hreflang="{% if page.lang == 'en' %}ja{% else %}en{% endif %}" href="{{ page.alternate | absolute_url }}">
+    <link rel="alternate" hreflang="{{ page.lang | default: 'ja' }}" href="{{ page.url | absolute_url }}">
+    <link rel="alternate" hreflang="x-default" href="{{ '/' | absolute_url }}">
+    {% endif %}
+
+    {% comment %} Person 構造化データ。ホーム（/ または /index-e.html）のみに出力して、
+        Google に「このサイトは 古橋郁一 という人物のホームページ」だと明示する。 {% endcomment %}
+    {% if page.url == '/' or page.url == '/index.html' or page.url == '/index-e.html' %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "古橋郁一",
+      "alternateName": ["Fumihito Furuhashi", "Furuhashi Fumihito", "古橋 郁一"],
+      "jobTitle": "博士後期課程 / Ph.D. Candidate",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "東京大学大学院 工学系研究科 社会基盤学専攻",
+        "sameAs": "https://www.t.u-tokyo.ac.jp/"
+      },
+      "url": "{{ '/' | absolute_url }}",
+      "image": "{{ '/assets/images/selfy.jpeg' | absolute_url }}",
+      "sameAs": [
+        "https://scholar.google.com/citations?user=beIKTAgAAAAJ",
+        "https://github.com/FuruhashiFumihito",
+        "https://orcid.org/0009-0001-9066-7823",
+        "https://www.linkedin.com/in/fumihito-furuhashi/"
+      ],
+      "knowsAbout": [
+        "自動走行車群の創発的制御",
+        "自動都市のレジリエンス評価",
+        "Autonomous Vehicles",
+        "Mobility Design",
+        "Civil Engineering"
+      ]
+    }
+    </script>
+    {% endif %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
