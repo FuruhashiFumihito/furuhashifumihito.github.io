@@ -11,6 +11,7 @@ layout: default
                 {% when 'journal' %}§ Journal Paper — {{ page.year }}
                 {% when 'conference' %}§ Conference — {{ page.year }}
                 {% when 'domestic' %}§ Domestic — {{ page.year }}
+                {% when 'other' %}§ {{ t.pub_types.other }} — {{ page.year }}
                 {% else %}§ Paper — {{ page.year }}
             {% endcase %}
         </div>

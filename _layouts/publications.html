@@ -40,6 +40,7 @@ layout: default
     {% assign journals    = bib | where: "type", "journal" %}
     {% assign conferences = bib | where: "type", "conference" %}
     {% assign domestic    = bib | where: "type", "domestic" %}
+    {% assign others      = bib | where: "type", "other" %}
 
     <!-- Journal -->
     <div class="pub-group">
@@ -123,6 +124,42 @@ layout: default
         {% if domestic.size > 0 %}
         <ol class="pub-list" reversed>
             {% for pub in domestic %}
+            {%- assign ga = pub.graphical_abstract -%}
+            {%- assign ga_show = false -%}
+            {%- if ga and ga.src -%}
+              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
+              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
+            {%- endif -%}
+            <li>
+                {%- if ga_show -%}
+                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                {%- endif -%}
+                <span class="pub-year">{{ pub.year }}</span>
+                <a href="{{ pub.url | relative_url }}" class="pub-body">
+                    <span class="pub-title">{{ pub.title }}</span>
+                    <span class="pub-authors">{{ pub.authors }}</span>
+                    <span class="pub-venue">{{ pub.venue }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
+            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- Other -->
+    <div class="pub-group">
+        <header class="pub-group__head">
+            <span class="pub-group__tag">§ 02.4</span>
+            <h2 class="pub-group__title">{{ t.pub_types.other }}</h2>
+            <span class="pub-group__count">{{ others.size | prepend: '00' | slice: -2, 2 }} entries</span>
+        </header>
+        {% if others.size > 0 %}
+        <ol class="pub-list" reversed>
+            {% for pub in others %}
             {%- assign ga = pub.graphical_abstract -%}
             {%- assign ga_show = false -%}
             {%- if ga and ga.src -%}

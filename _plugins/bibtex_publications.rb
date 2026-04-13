@@ -49,7 +49,7 @@ module Jekyll
     safe true
     priority :high
 
-    SUPPORTED_CATEGORIES = %w[journal conference domestic].freeze
+    SUPPORTED_CATEGORIES = %w[journal conference domestic other].freeze
     # サイドカーフォルダから /projects/<key>/ にコピーするファイル拡張子。
     # 画像に加え、補足資料の PDF も配信対象にする。
     SERVED_EXTS = %w[.png .jpg .jpeg .webp .gif .svg .pdf].freeze
