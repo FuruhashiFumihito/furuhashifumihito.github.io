@@ -9,6 +9,7 @@ ja:
     awards_grants: "受賞・助成"
     software: "ソフトウェア"
     diary: "日記"
+    contact: "連絡先"
   labels:
     affiliation: "所属・連絡先"
     links: "リンク"
@@ -47,6 +48,7 @@ en:
     awards_grants: "Awards & Grants"
     software: "Software"
     diary: "Diary"
+    contact: "Contact"
   labels:
     affiliation: "Affiliation & Contact"
     links: "Links"

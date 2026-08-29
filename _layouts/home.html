@@ -3,85 +3,57 @@ layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
 
-{% comment %}
-  Home layout — Furuhashi Laboratory Records
-
-  Structure:
-    1. Frontispiece hero (split bilingual name, ticker, route contour)
-    2. Epigraph plate (research manifesto)
-    3. §01 Profile (colophon)
-    4. §02 Research (numbered plates)
-    5. §03 / §04 Record (career + education, double column)
-    6. §05 Awards (elevated seals)
-{% endcomment %}
-
-
-<!-- =====================================================================
-     FRONTISPIECE HERO
-     ===================================================================== -->
-<section class="frontispiece" aria-labelledby="hero-name">
-
-    {% assign hero_slides = site.static_files | where_exp: "f", "f.path contains '/assets/images/hero/'" | sort: "name" %}
-    <figure class="frontispiece__banner" aria-roledescription="carousel">
-        {% for file in hero_slides %}
-            {% assign ext = file.extname | downcase %}
-            {% if ext == '.jpg' or ext == '.jpeg' or ext == '.png' or ext == '.webp' %}
-            <img src="{{ file.path | relative_url }}"
-                 alt=""
-                 class="frontispiece__slide{% if forloop.first %} is-active{% endif %}"
-                 {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                 decoding="async"
-                 draggable="false">
-            {% endif %}
-        {% endfor %}
-    </figure>
-
-    <!-- Decorative route-contour svg: nods at the mobility research field. -->
-    <svg class="frontispiece__contour" viewBox="0 0 800 520" aria-hidden="true" fill="none">
-        <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
-            <path d="M-20 420 Q 120 360 240 380 T 520 300 T 820 240" opacity=".9"/>
-            <path d="M-20 460 Q 120 410 240 430 T 520 355 T 820 290" opacity=".55"/>
-            <path d="M-20 500 Q 120 460 240 480 T 520 410 T 820 340" opacity=".35"/>
-            <path d="M40 60 L 760 60" stroke-dasharray="1 6" opacity=".6"/>
-            <path d="M40 110 L 520 110" stroke-dasharray="1 6" opacity=".4"/>
-            <circle cx="240" cy="380" r="3" fill="currentColor" stroke="none"/>
-            <circle cx="400" cy="345" r="3" fill="currentColor" stroke="none"/>
-            <circle cx="580" cy="295" r="4" fill="currentColor" stroke="none"/>
-        </g>
-    </svg>
-
-    <div class="frontispiece__inner">
-
-        <div class="frontispiece__split">
-            <!-- Horizontal Western display -->
-            <div class="frontispiece__en">
-                <h1 class="frontispiece__name" id="hero-name">
-                    <span class="line-1">Fumihito</span>
-                    <span class="line-2"><em>Furuh<span class="amp">a</span>shi</em></span>
-                </h1>
-            </div>
+{% comment %}Research-first home: the first viewport communicates the work before the biographical record.{% endcomment %}
+<section class="mobility-hero" aria-labelledby="hero-title">
+    <div class="mobility-hero__copy">
+        <p class="mobility-hero__eyebrow">
+            <span>Furuhashi Mobility Research</span>
+            <span>{% if page.lang == 'en' %}The University of Tokyo{% else %}東京大学 社会基盤学専攻{% endif %}</span>
+        </p>
+        <h1 class="mobility-hero__title" id="hero-title">
+            {% if page.lang == 'en' %}From autonomous<br>vehicle fleets <em>to cities.</em>{% else %}自動走行車群から、<br><em>自動都市へ。</em>{% endif %}
+        </h1>
+        <p class="mobility-hero__lead">{{ page.hero_description }}</p>
+        <div class="mobility-hero__actions">
+            <a class="hero-action hero-action--primary" href="#research">{% if page.lang == 'en' %}Explore research{% else %}研究を見る{% endif %} <span aria-hidden="true">↘</span></a>
+            <a class="hero-action" href="{% if page.lang == 'en' %}{{ '/publications-e.html' | relative_url }}{% else %}{{ '/publications.html' | relative_url }}{% endif %}">{{ t.nav.publications }} <span aria-hidden="true">↗</span></a>
         </div>
-
-        <!-- Metadata ticker strip at the bottom of the hero -->
-        <dl class="frontispiece__ticker" aria-label="Coordinates">
-            <div>
-                <dt>Lat · Lon</dt>
-                <dd>35.71<span class="accent">°</span>N&nbsp;&nbsp;139.76<span class="accent">°</span>E</dd>
-            </div>
-            <div>
-                <dt>Campus</dt>
-                <dd>Hongō — 本郷</dd>
-            </div>
-            <div>
-                <dt>Field</dt>
-                <dd>Civil Eng. / Mobility</dd>
-            </div>
-            <div>
-                <dt>Status</dt>
-                <dd>Ph.D. Candidate</dd>
-            </div>
-        </dl>
     </div>
+
+    <div class="mobility-hero__visual" aria-hidden="true">
+        <span class="visual-label visual-label--top">Interaction field · t → t+1</span>
+        <span class="visual-label visual-label--bottom">35.71°N / 139.76°E</span>
+        <svg class="mobility-field" viewBox="0 0 720 680" fill="none">
+            <defs>
+                <linearGradient id="route-fade" x1="80" y1="600" x2="640" y2="80" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#58B7D7" stop-opacity=".12"/><stop offset=".52" stop-color="#58B7D7" stop-opacity=".95"/><stop offset="1" stop-color="#A8E0EF" stop-opacity=".2"/>
+                </linearGradient>
+                <filter id="soft-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>
+            </defs>
+            <g class="field-grid" stroke="#A8E0EF" stroke-width="1">
+                <path d="M0 80H720M0 200H720M0 320H720M0 440H720M0 560H720"/><path d="M120 0V680M240 0V680M360 0V680M480 0V680M600 0V680"/>
+            </g>
+            <g class="field-routes" stroke="url(#route-fade)" stroke-linecap="round">
+                <path class="route route--1" d="M-30 610C130 562 170 395 310 362C448 330 502 214 750 172" stroke-width="9"/>
+                <path class="route route--2" d="M-40 538C115 510 198 468 279 390C368 304 414 182 515 98C581 43 650 35 755 44" stroke-width="3"/>
+                <path class="route route--3" d="M62 720C86 570 170 496 305 464C475 424 578 350 688 246" stroke-width="2"/>
+            </g>
+            <g class="field-links" stroke="#A8E0EF" stroke-width="1" stroke-dasharray="4 8">
+                <path d="M175 490L286 397L431 306L568 219"/><path d="M286 397L305 464M431 306L515 98M568 219L688 246"/>
+            </g>
+            <g class="field-nodes">
+                <circle class="node-glow" cx="431" cy="306" r="30" fill="#58B7D7" filter="url(#soft-glow)"/>
+                <circle cx="175" cy="490" r="7" fill="#F8FCFF"/><circle cx="286" cy="397" r="10" fill="#58B7D7"/><circle cx="431" cy="306" r="12" fill="#F8FCFF"/><circle cx="568" cy="219" r="8" fill="#58B7D7"/><circle cx="305" cy="464" r="5" fill="#A8E0EF"/><circle cx="515" cy="98" r="5" fill="#A8E0EF"/><circle cx="688" cy="246" r="5" fill="#A8E0EF"/>
+            </g>
+            <g class="field-agent" transform="translate(392 278)">
+                <path d="M0 18L13 0H56L70 18V38H0V18Z" fill="#EE6C4D"/><circle cx="16" cy="39" r="6" fill="#082B45" stroke="#F8FCFF" stroke-width="2"/><circle cx="55" cy="39" r="6" fill="#082B45" stroke="#F8FCFF" stroke-width="2"/>
+            </g>
+        </svg>
+    </div>
+
+    <ol class="mobility-hero__focus" aria-label="{{ t.labels.research_topics }}">
+        {% for topic in page.research_topics %}<li><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><strong>{{ topic }}</strong></li>{% endfor %}
+    </ol>
 </section>
 
 
@@ -90,7 +62,7 @@ layout: default
      ===================================================================== -->
 <section class="section section--profile" id="profile">
     <header class="section__head">
-        <div class="section__num">§ 01 · Profile</div>
+        <div class="section__num">01 · Profile</div>
         <h2 class="section__title">{{ t.labels.affiliation }}</h2>
     </header>
 
@@ -135,7 +107,7 @@ layout: default
      ===================================================================== -->
 <section class="section section--research" id="research">
     <header class="section__head">
-        <div class="section__num">§ 02 · Research</div>
+        <div class="section__num">02 · Research</div>
         <h2 class="section__title">
             {% if page.lang == 'en' %}On Research{% else %}研究{% endif %}
         </h2>
@@ -143,21 +115,17 @@ layout: default
 
     <div class="section__body">
         <div class="section__content section__content--wide">
-            {% if page.research_description and page.research_description != 'TBD' and page.research_description != 'TBD
-' %}
             <p>{{ page.research_description }}</p>
-            {% endif %}
 
             <ol class="plates" aria-label="{{ t.labels.research_topics }}">
                 {% for topic in page.research_topics %}
                 <li data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }} / {{ page.research_topics.size | prepend: '00' | slice: -2, 2 }}">
-                    <span class="plate__tag">Plate {{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
-                    <svg class="plate__diagram" viewBox="0 0 120 60" aria-hidden="true" fill="none">
-                        <g stroke="currentColor" stroke-width=".9" stroke-linecap="round">
-                            <circle cx="{{ forloop.index | times: 18 | plus: 10 }}" cy="30" r="4" fill="currentColor" stroke="none"/>
-                            <path d="M 6 44 Q 40 {{ forloop.index | times: 8 | plus: 10 }} 70 30 T 118 {{ forloop.index | times: 6 | plus: 18 }}"/>
-                            <path d="M 6 20 L 118 20" stroke-dasharray="1 4" opacity=".55"/>
-                        </g>
+                    <span class="plate__tag">Focus {{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
+                    <svg class="plate__diagram" viewBox="0 0 240 76" aria-hidden="true" fill="none">
+                        <path d="M0 59C45 57 55 25 94 29C135 33 151 54 188 37C210 27 224 12 246 11" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M0 69C45 67 66 39 98 42C137 46 164 62 196 48C218 38 229 25 246 23" stroke="currentColor" stroke-width=".75" opacity=".45"/>
+                        <circle cx="94" cy="29" r="4" fill="currentColor"/>
+                        <circle cx="188" cy="37" r="4" fill="currentColor"/>
                     </svg>
                     <span class="plate__label">{{ topic }}</span>
                 </li>
@@ -173,7 +141,7 @@ layout: default
      ===================================================================== -->
 <section class="section section--record" id="record">
     <header class="section__head">
-        <div class="section__num">§ 03 · Record</div>
+        <div class="section__num">03 · Record</div>
         <h2 class="section__title">
             {% if page.lang == 'en' %}Career &amp; Education{% else %}経歴/学歴{% endif %}
         </h2>
@@ -231,7 +199,7 @@ layout: default
 {% if page.awards %}
 <section class="section awards" id="awards">
     <header class="section__head">
-        <div class="section__num">§ 04 · Awards</div>
+        <div class="section__num">04 · Awards</div>
         <h2 class="section__title">{{ t.labels.awards }}</h2>
     </header>
 
@@ -263,21 +231,6 @@ layout: default
 </section>
 {% endif %}
 
-
-<!-- Hero slideshow auto-advance (no-op when <2 slides or reduced motion) -->
-<script>
-(function () {
-    var slides = document.querySelectorAll('.frontispiece__banner .frontispiece__slide');
-    if (slides.length < 2) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var i = 0;
-    setInterval(function () {
-        slides[i].classList.remove('is-active');
-        i = (i + 1) % slides.length;
-        slides[i].classList.add('is-active');
-    }, 5000);
-})();
-</script>
 
 <!-- Reveal-on-scroll for sections (progressive enhancement; no JS = all visible). -->
 <script>
