@@ -60,4 +60,8 @@
     {% if page.alternate %}
     <a class="nav__lang" href="{{ page.alternate | relative_url }}">{{ t.switch_lang }}</a>
     {% endif %}
+
+    <a class="nav__contact" href="mailto:furuhashi@bin.t.u-tokyo.ac.jp">
+        <span aria-hidden="true">✉</span>{{ t.nav.contact }}
+    </a>
 </nav>
