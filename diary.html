@@ -1,56 +1,8 @@
 ---
-layout: default
+layout: diary
 title: 日記
 lang: ja
 alternate: /diary-e.html
 hero_image: /assets/images/hero-sub/IMG_5947.webp
 ---
-{% assign t = site.data.i18n[page.lang] %}
-
-<section class="hero">
-    <figure class="hero__banner" aria-hidden="true">
-        {% if page.hero_image %}
-        <img src="{{ page.hero_image | relative_url }}"
-             alt=""
-             class="hero__slide is-active"
-             loading="eager"
-             fetchpriority="high"
-             decoding="async"
-             draggable="false">
-        {% endif %}
-    </figure>
-    <div class="hero__label">日々のメモ — §05</div>
-    <h1 class="hero__name-en" style="font-size: clamp(2.6rem, 7vw, 5.5rem);"><em>D<span class="amp">i</span>ary</em></h1>
-    <p class="hero__name-jp" lang="ja">日々の記録</p>
-    <p class="hero__tagline hero__tagline--jp">
-        このページは古橋の個人的なメモです。
-        内容は私自身の見解であり、所属機関の立場や意見を代表するものではありません。
-    </p>
-</section>
-
-<section class="section">
-    <header class="section__head">
-        <div class="section__num">§ 05 · Notes</div>
-        <h2 class="section__title">日々のメモ</h2>
-    </header>
-
-    <div class="section__body">
-        <aside class="section__aside" aria-hidden="true">
-            <span class="aside-label">Entries</span>
-            {{ site.data.diary.size | prepend: '00' | slice: -2, 2 }} entries
-        </aside>
-        <div class="section__content" style="max-width: none;">
-            <ul class="diary-list">
-            {% for item in site.data.diary %}
-                <li>
-                    <span class="diary-date">{{ item.date | date: "%Y.%m.%d" }}</span>
-                    <span class="diary-text">
-                        {% if item.url %}<a href="{{ item.url | relative_url }}">{{ item.text_ja }}</a>{% else %}{{ item.text_ja }}{% endif %}
-                    </span>
-                    <span class="diary-num">Nº {{ forloop.index | prepend: '00' | slice: -3, 3 }}</span>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-    </div>
-</section>
+このページは古橋の個人的なメモです。内容は私自身の見解であり、所属機関の立場や意見を代表するものではありません。

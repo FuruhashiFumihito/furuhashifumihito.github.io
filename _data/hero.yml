@@ -1,0 +1,6 @@
+# トップのスライドショー（assets/images/hero/ 内の画像）で、帯の中に写真のどこを見せるか。
+# キーはファイル名、値は CSS の object-position。書かなければ中央。
+positions:
+  01-amtrack.jpg: "center 70%"
+  02-abasiri.jpg: "center 45%"
+  03-wadabori.jpg: "center 60%"

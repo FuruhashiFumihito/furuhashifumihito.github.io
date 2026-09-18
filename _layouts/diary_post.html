@@ -2,46 +2,28 @@
 layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% if page.lang == 'en' %}{% assign diary_url = '/diary-e.html' %}{% else %}{% assign diary_url = '/diary.html' %}{% endif %}
 
-{%- comment -%}
-    Optional full-bleed hero image. Set `hero_image` (and optionally
-    `hero_alt`) in the diary post's front matter to render an image
-    that spans the full viewport width above the article. The image
-    is rendered OUTSIDE `.folio-article` so that the full-bleed CSS
-    trick (`width: 100vw; margin-left: calc(50% - 50vw)`) has a
-    centered parent to anchor against.
-{%- endcomment -%}
+{% comment %} Optional photo band: set `hero_image` (and `hero_position`) in the post's front matter. {% endcomment %}
 {% if page.hero_image %}
-<figure class="diary-hero">
-    <img src="{{ page.hero_image | relative_url }}"
-         alt="{{ page.hero_alt | default: page.title }}"
-         loading="eager" fetchpriority="high">
-</figure>
+<div class="band band--sub"><img class="band__slide is-active" src="{{ page.hero_image | relative_url }}" alt="{{ page.hero_alt | default: '' }}" fetchpriority="high"{% if page.hero_position %} style="object-position: {{ page.hero_position }}"{% endif %}></div>
 {% endif %}
 
-<article class="folio-article">
+<article class="wrap article">
 
-    <header class="folio-article__header">
-        <div class="folio-article__tag">§ Diary — {{ page.date | date: "%Y.%m.%d" }}</div>
-        <h1 class="folio-article__title">{{ page.title }}</h1>
+    <p class="back"><a href="{{ diary_url | relative_url }}">{{ t.ui.back_diary }}</a></p>
+
+    <header class="id id--sub">
+        <div class="id__text">
+            <p class="id__tag">{{ page.date | date: "%Y.%m.%d" }}</p>
+            <h1>{{ page.title }}</h1>
+        </div>
     </header>
 
-    <div class="folio-article__body">
-        <div class="folio-article__label">{% if page.lang == 'en' %}Entry{% else %}本文{% endif %}</div>
-        <div>
-            {{ content }}
-        </div>
+    <div class="prose" style="margin-top:32px">
+        {{ content }}
     </div>
 
-    <div class="folio-article__body">
-        <div class="folio-article__label">↵</div>
-        <div>
-            <p>
-                <a href="{% if page.lang == 'en' %}{{ '/diary-e.html' | relative_url }}{% else %}{{ '/diary.html' | relative_url }}{% endif %}">
-                    {% if page.lang == 'en' %}← Back to Diary index{% else %}← 日記一覧へ戻る{% endif %}
-                </a>
-            </p>
-        </div>
-    </div>
+    <p class="more" style="margin-top:40px"><a href="{{ diary_url | relative_url }}">{{ t.ui.back_diary }}</a></p>
 
 </article>

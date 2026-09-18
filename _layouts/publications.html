@@ -2,187 +2,50 @@
 layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% if page.lang == 'en' %}{% assign other = 'ja' %}{% else %}{% assign other = 'en' %}{% endif %}
+{% assign o = site.data.i18n[other] %}
 
-<section class="hero" aria-labelledby="pub-title">
-    <figure class="hero__banner" aria-hidden="true">
-        {% if page.hero_image %}
-        <img src="{{ page.hero_image | relative_url }}"
-             alt=""
-             class="hero__slide is-active"
-             loading="eager"
-             fetchpriority="high"
-             decoding="async"
-             draggable="false">
-        {% endif %}
-    </figure>
-    <div class="hero__label">
-        {% if page.lang == 'en' %}Publications Catalogue — §02{% else %}業績 — §02{% endif %}
-    </div>
-    <h1 class="hero__name-en" id="pub-title" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
-        <em>Publicati<span class="amp">o</span>ns</em>
-    </h1>
-    {% if page.lang == 'ja' %}
-    <p class="hero__name-jp" lang="ja">業績一覧</p>
-    {% endif %}
-    <!-- <p class="hero__tagline{% if page.lang == 'ja' %} hero__tagline--jp{% endif %}">
-        {% if page.lang == 'en' %}
-        A running record of peer-reviewed papers, conference proceedings, and domestic reports.
-        {% else %}
-        査読付き論文・国際会議・国内発表の記録。継続的に更新しています。
-        {% endif %}
-    </p> -->
-</section>
+{% comment %} page-head.html opens <div class="wrap">; it is closed at the end of this layout. {% endcomment %}
+{% include page-head.html title=t.sections.publications title_alt=o.sections.publications %}
 
-<section class="section">
-    <p class="pub-note">{{ t.labels.note_publications }}</p>
+    <nav class="links" aria-label="{{ t.sections.links }}">
+        <a href="https://scholar.google.com/citations?user=beIKTAgAAAAJ" rel="me">{% include icons/scholar.svg %}Google Scholar</a>
+        <a href="https://researchmap.jp/researchers?name=%E5%8F%A4%E6%A9%8B%20%E9%83%81%E4%B8%80" rel="me">researchmap</a>
+        <a href="https://orcid.org/0009-0001-9066-7823" rel="me">{% include icons/orcid.svg %}ORCID</a>
+        <a href="https://speakerdeck.com/furuhashifumihito" rel="me">Speaker Deck</a>
+    </nav>
 
     {% assign bib = site.data.bibliography | default: empty %}
-    {% assign journals    = bib | where: "type", "journal" %}
-    {% assign conferences = bib | where: "type", "conference" %}
-    {% assign domestic    = bib | where: "type", "domestic" %}
-    {% assign others      = bib | where: "type", "other" %}
+    {% assign groups = "journal,conference,domestic,other" | split: "," %}
 
-    <!-- Journal -->
-    <div class="pub-group">
-        <header class="pub-group__head">
-            <span class="pub-group__tag">§ 02.1</span>
-            <h2 class="pub-group__title">{{ t.pub_types.journal }}</h2>
-            <span class="pub-group__count">{{ journals.size | prepend: '00' | slice: -2, 2 }} entries</span>
-        </header>
-        {% if journals.size > 0 %}
-        <ol class="pub-list" reversed>
-            {% for pub in journals %}
+    {% for group in groups %}
+    {% assign entries = bib | where: "type", group %}
+    {% if entries.size > 0 %}
+    <section class="section section--tight section--list">
+        <h2>{{ t.pub_types[group] }} <span lang="{{ other }}">{{ o.pub_types[group] }}</span></h2>
+        <ol class="list" reversed>
+            {% for pub in entries %}
             {%- assign ga = pub.graphical_abstract -%}
             {%- assign ga_show = false -%}
             {%- if ga and ga.src -%}
               {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
               {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
-            {%- endif -%}
-            <li>
-                {%- if ga_show -%}
-                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                {%- endif -%}
-                <span class="pub-year">{{ pub.year }}</span>
-                <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    <span class="pub-title">{{ pub.title }}</span>
-                    <span class="pub-authors">{{ pub.authors }}</span>
-                    <span class="pub-venue">{{ pub.venue }}</span>
-                </a>
+            {%- endif %}
+            <li class="item">
+                <span class="item__year">{{ pub.year }}</span>
+                {% if ga_show %}<a class="item__fig" href="{{ pub.url | relative_url }}" tabindex="-1" aria-hidden="true"><img src="{{ ga.src | relative_url }}" alt="" loading="lazy" decoding="async"></a>
+                {% else %}<div class="item__fig item__fig--empty"></div>{% endif %}
+                <div class="item__body">
+                    <p class="item__title"><a href="{{ pub.url | relative_url }}">{{ pub.title }}</a></p>
+                    <p class="item__meta">{{ pub.authors }}</p>
+                    <p class="item__meta">{{ pub.venue }}</p>
+                    {% include pub-links.html links=pub.links %}
+                </div>
             </li>
             {% endfor %}
         </ol>
-        {% else %}
-        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
-            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
-        </p>
-        {% endif %}
-    </div>
+    </section>
+    {% endif %}
+    {% endfor %}
 
-    <!-- Conference -->
-    <div class="pub-group">
-        <header class="pub-group__head">
-            <span class="pub-group__tag">§ 02.2</span>
-            <h2 class="pub-group__title">{{ t.pub_types.conference }}</h2>
-            <span class="pub-group__count">{{ conferences.size | prepend: '00' | slice: -2, 2 }} entries</span>
-        </header>
-        {% if conferences.size > 0 %}
-        <ol class="pub-list" reversed>
-            {% for pub in conferences %}
-            {%- assign ga = pub.graphical_abstract -%}
-            {%- assign ga_show = false -%}
-            {%- if ga and ga.src -%}
-              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
-            {%- endif -%}
-            <li>
-                {%- if ga_show -%}
-                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                {%- endif -%}
-                <span class="pub-year">{{ pub.year }}</span>
-                <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    <span class="pub-title">{{ pub.title }}</span>
-                    <span class="pub-authors">{{ pub.authors }}</span>
-                    <span class="pub-venue">{{ pub.venue }}</span>
-                </a>
-            </li>
-            {% endfor %}
-        </ol>
-        {% else %}
-        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
-            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
-        </p>
-        {% endif %}
-    </div>
-
-    <!-- Domestic -->
-    <div class="pub-group">
-        <header class="pub-group__head">
-            <span class="pub-group__tag">§ 02.3</span>
-            <h2 class="pub-group__title">{{ t.pub_types.domestic }}</h2>
-            <span class="pub-group__count">{{ domestic.size | prepend: '00' | slice: -2, 2 }} entries</span>
-        </header>
-        {% if domestic.size > 0 %}
-        <ol class="pub-list" reversed>
-            {% for pub in domestic %}
-            {%- assign ga = pub.graphical_abstract -%}
-            {%- assign ga_show = false -%}
-            {%- if ga and ga.src -%}
-              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
-            {%- endif -%}
-            <li>
-                {%- if ga_show -%}
-                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                {%- endif -%}
-                <span class="pub-year">{{ pub.year }}</span>
-                <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    <span class="pub-title">{{ pub.title }}</span>
-                    <span class="pub-authors">{{ pub.authors }}</span>
-                    <span class="pub-venue">{{ pub.venue }}</span>
-                </a>
-            </li>
-            {% endfor %}
-        </ol>
-        {% else %}
-        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
-            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
-        </p>
-        {% endif %}
-    </div>
-
-    <!-- Other -->
-    <div class="pub-group">
-        <header class="pub-group__head">
-            <span class="pub-group__tag">§ 02.4</span>
-            <h2 class="pub-group__title">{{ t.pub_types.other }}</h2>
-            <span class="pub-group__count">{{ others.size | prepend: '00' | slice: -2, 2 }} entries</span>
-        </header>
-        {% if others.size > 0 %}
-        <ol class="pub-list" reversed>
-            {% for pub in others %}
-            {%- assign ga = pub.graphical_abstract -%}
-            {%- assign ga_show = false -%}
-            {%- if ga and ga.src -%}
-              {%- assign ga_ext = ga.src | split: '?' | first | split: '#' | first | split: '.' | last | downcase -%}
-              {%- if ga_ext != 'pdf' -%}{%- assign ga_show = true -%}{%- endif -%}
-            {%- endif -%}
-            <li>
-                {%- if ga_show -%}
-                <img class="pub-ga-bg" src="{{ ga.src | relative_url }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                {%- endif -%}
-                <span class="pub-year">{{ pub.year }}</span>
-                <a href="{{ pub.url | relative_url }}" class="pub-body">
-                    <span class="pub-title">{{ pub.title }}</span>
-                    <span class="pub-authors">{{ pub.authors }}</span>
-                    <span class="pub-venue">{{ pub.venue }}</span>
-                </a>
-            </li>
-            {% endfor %}
-        </ol>
-        {% else %}
-        <p class="pub-note" style="border: 0; color: var(--ink-4); padding-left: 0;">
-            {% if page.lang == 'en' %}No entries yet.{% else %}該当なし{% endif %}
-        </p>
-        {% endif %}
-    </div>
-</section>
+</div>

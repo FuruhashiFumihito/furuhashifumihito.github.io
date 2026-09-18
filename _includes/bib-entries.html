@@ -1,0 +1,19 @@
+{%- comment -%} List of entries from site.data[include.source]. Used by _layouts/bib_list.html. {%- endcomment -%}
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% assign entries = site.data[include.source] | default: empty %}
+{% if entries.size > 0 %}
+<ol class="list" reversed>
+    {% for e in entries %}
+    {% if page.lang == 'en' %}{% assign e_title = e.title_en | default: e.title %}{% assign e_venue = e.venue_en | default: e.venue %}{% else %}{% assign e_title = e.title %}{% assign e_venue = e.venue %}{% endif %}
+    <li class="item">
+        <span class="item__year">{{ e.year }}</span>
+        <div class="item__body">
+            <p class="item__title">{% if e.url %}<a href="{{ e.url | relative_url }}">{{ e_title }}</a>{% else %}{{ e_title }}{% endif %}</p>
+            {% if e_venue %}<p class="item__meta">{{ e_venue }}</p>{% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ol>
+{% else %}
+<p class="empty">{{ t.ui.no_entries }}</p>
+{% endif %}

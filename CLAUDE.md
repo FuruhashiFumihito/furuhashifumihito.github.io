@@ -22,37 +22,54 @@ bundle exec jekyll build
 ## Architecture
 
 ### Jekyll Structure
-- `_layouts/` - Template hierarchy:
-  - `default.html` (base)
-  - `home.html` extends `default`
-  - `publications.html` (plural, list page) extends `default` — renders `site.data.bibliography`
-  - `publication.html` (singular, detail page) extends `default` — rendered for each BibTeX entry at `/projects/<key>/`
-- `_includes/nav.html` - Bilingual navigation component
-- `_data/i18n.yml` - Bilingual labels keyed by `ja` / `en` (accessed via `site.data.i18n[page.lang]`)
+- `_layouts/` - Template hierarchy (all extend `default`):
+  - `default.html` (base: top bar, footer with visitor counter)
+  - `home.html` — top page; content comes from the page's front matter (see "Home page content")
+  - `publications.html` (plural, list page) — renders `site.data.bibliography`
+  - `publication.html` (singular, detail page) — rendered for each BibTeX entry at `/projects/<key>/`
+  - `bib_list.html` — awards/grants and software pages (`award.bib`, `grants.bib`, `software.bib`)
+  - `diary.html` (index, from `_data/diary.yml`) and `diary_post.html`
+- `_includes/nav.html` - Bilingual top bar with the language switch
+- `_includes/page-head.html` - Photo band + back link + title for list pages (opens `<div class="wrap">`, the layout closes it)
+- `_includes/pub-links.html`, `_includes/bib-entries.html` - shared list fragments
+- `_data/i18n.yml` - Bilingual labels keyed by `ja` / `en` (accessed via `site.data.i18n[page.lang]`). Section headings show the page language plus the other language in a muted `<span>`
+- `_data/news.yml` - News rows on the top page (`date`, `text_ja`, `text_en`, optional `url`)
 - `_data/diary.yml` - Diary entries (daily memo style) with `date`, `text_ja`, `text_en` fields
 - `publications.bib` - **Single source of truth for the publications list page** (BibTeX)
 - `_plugins/bibtex_publications.rb` - Jekyll generator that parses `publications.bib` at build time, populates `site.data.bibliography`, and emits one virtual detail page per entry at `/projects/<key>/`
+- `_plugins/bibtex_extras.rb` - loads `award.bib` / `grants.bib` / `software.bib`. Optional `title_en` / `venue_en` fields are used on English pages
 - `_publications/<bibtex_key>/` - Per-paper sidecar folder (one folder per paper) holding `meta.yml` (graphical abstract + figures), optional `body_ja.md` / `body_en.md` (Notes body), and image files. Not a Jekyll collection — read manually by the plugin.
+
+### Design
+White ground, Inter, one left-aligned 880px column, no ornament (from the Claude Design project "研究者向けHP デザイン刷新"). Everything is in `style.css`: design tokens on `:root`, then small components — `.band`, `.wrap`, `.id`, `.links`, `.section`, `.topics`, `.list`/`.item`, `.rows`/`.row`, `.article`, `.prose`, `.foot`. Below 600px the gutters shrink and dated rows stack.
+
+### Home page content
+`index.html` (ja) and `index-e.html` (en) hold the top page's text in front matter: `name_primary`/`name_secondary`, `role`, `about`, `profile_links`, `research_figure`, `research_topics` (`title`/`body`), `selected_publications` (BibTeX keys, in display order), `education` (`when`/`title`/`body`), `tools`. "Awards and grants" is generated from `award.bib` + `grants.bib`; "News" from `_data/news.yml`.
 
 ### Hero Banner Slideshow
 
-The top banner on the home layout (`_layouts/home.html`) is an auto-advancing
+The photo band on the home layout (`_layouts/home.html`) is an auto-advancing
 slideshow driven by files placed in `assets/images/hero/`. To add or reorder
-slides, just edit the folder contents — no template or config changes needed.
+slides, just edit the folder contents — no template changes needed.
 
 - **Supported extensions**: `.jpg`, `.jpeg`, `.png`, `.webp`
 - **Order**: alphabetical by filename. Use a numeric prefix
   (`01-`, `02-`, ...) to control it.
+- **File size**: keep slides around 2000px wide / ~0.5 MB (the original
+  11 MB PNGs were recompressed to JPEG).
+- **Framing**: the band is a wide strip, so `_data/hero.yml` maps a
+  filename to a CSS `object-position` (default: center).
 - **Single image**: rendered statically (the rotation JS is a no-op).
 - **Multiple images**: crossfade every 5 s (1 s fade). Respects
   `prefers-reduced-motion`.
-- **Performance**: the first slide gets `loading="eager"` +
-  `fetchpriority="high"` for LCP; the rest are `loading="lazy"`.
+- **Performance**: the first slide gets `fetchpriority="high"`; the rest
+  carry `data-src` and are fetched after the page has loaded.
 
 The slideshow is assembled at build time by Liquid iterating over
 `site.static_files` filtered to `/assets/images/hero/`. Styling lives in
-`style.css` under `.hero__banner` / `.hero__slide`; the rotation script is
-inlined near the bottom of `_layouts/home.html`.
+`style.css` under `.band` / `.band__slide`; the rotation script is
+inlined near the bottom of `_layouts/home.html`. Sub pages show a single
+photo via `hero_image` (optional `hero_position`) in their front matter.
 
 ### Bilingual System
 - Japanese pages: `index.html`, `publications.html`, `diary.html`

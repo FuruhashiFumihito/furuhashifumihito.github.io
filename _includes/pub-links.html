@@ -1,0 +1,12 @@
+{%- comment -%} Link row for a bibliography entry. Usage: {% include pub-links.html links=pub.links %} {%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] -%}
+{%- assign l = include.links -%}
+{% if l and l.size > 0 %}
+<p class="item__links">
+    {%- if l.paper %}<a href="{{ l.paper }}">{{ t.labels.paper_short }}</a>{% endif -%}
+    {%- if l.pdf %}<a href="{{ l.pdf }}">{{ t.labels.pdf }}</a>{% endif -%}
+    {%- if l.slides %}<a href="{{ l.slides }}">{{ t.labels.slides }}</a>{% endif -%}
+    {%- if l.video %}<a href="{{ l.video }}">{{ t.labels.video }}</a>{% endif -%}
+    {%- if l.github %}<a href="{{ l.github }}">GitHub</a>{% endif -%}
+</p>
+{% endif %}
