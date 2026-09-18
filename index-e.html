@@ -1,49 +1,96 @@
 ---
 layout: home
 title: Fumihito Furuhashi
-description: "Fumihito Furuhashi. Ph.D. student, Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo. Research interests: emergent control of autonomous vehicle fleets, resilience assessment of autonomous cities."
+description: "Fumihito Furuhashi. Ph.D. student, Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo. Traffic-flow theory, differential games, and data-driven modelling of vehicle interaction."
 lang: en
 alternate: /index.html
 
-affiliation:
-  - Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo
-  - 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-8656, Japan
-  - "E-mail: furuhashi [at] bin.t.u-tokyo.ac.jp"
+name_primary: Fumihito Furuhashi
+name_secondary: 古橋 郁一
+role: Ph.D. student, Department of Civil Engineering, The University of Tokyo
+role_sub: Graduate School of Engineering · Hato Laboratory
 
-social_links:
+about: >
+  I study interactions among human-driven and automated vehicles, combining traffic-flow theory,
+  differential games, and data-driven modelling into prediction and control methods.
+  Supervised by Prof. Eiji Hato.
+
+# icon: _includes/icons/<icon>.svg. internal: true marks links within this site
+profile_links:
+  - name: furuhashi [at] bin.t.u-tokyo.ac.jp
+    url: mailto:furuhashi@bin.t.u-tokyo.ac.jp
+  - name: Publications
+    url: /publications-e.html
+    internal: true
   - name: Google Scholar
     icon: scholar
     url: https://scholar.google.com/citations?user=beIKTAgAAAAJ
-  - name: GitHub
-    icon: github
-    url: https://github.com/FuruhashiFumihito
+    me: true
   - name: ORCID
     icon: orcid
     url: https://orcid.org/0009-0001-9066-7823
+    me: true
+  - name: researchmap
+    url: https://researchmap.jp/researchers?name=%E5%8F%A4%E6%A9%8B%20%E9%83%81%E4%B8%80
+    me: true
+  - name: J-GLOBAL
+    url: https://jglobal.jst.go.jp/en/detail?JGLOBAL_ID=202601013210475944
+    me: true
+  - name: GitHub
+    icon: github
+    url: https://github.com/FuruhashiFumihito
+    me: true
   - name: LinkedIn
     icon: linkedin
     url: https://www.linkedin.com/in/fumihito-furuhashi/
+    me: true
+  - name: CV (PDF)
+    url: /assets/cv/cv.pdf
+    internal: true
 
-research_description: >
-  TBD
+research_figure: /projects/furuhashi2025dgpinn_itsc/fig-framework.png
 
 research_topics:
-  - Emergent Control of Autonomous Vehicle Fleets
-  - Resilience Assessment of Autonomous Cities
+  - title: Game-informed trajectory prediction and control
+    body: Differential games, Nash-equilibrium constraints, interaction-aware prediction, equilibrium-embedded predictive control.
+  - title: Physics-informed mobility learning
+    body: Physics-informed neural networks, graph learning, vehicle dynamics, interpretable surrogate models.
+  - title: Vision-driven traffic modelling
+    body: Map-less car-following models, trajectory data, traffic-flow stability, mixed traffic.
+  - title: Mobility–energy resilience
+    body: Electric vehicles, vehicle-to-grid coordination, blackout risk, resilient urban systems.
+  - title: Travel behaviour modelling
+    body: Activity-based analysis, discrete-choice models, computational tools for mobility research.
 
-career:
-  - "Oct. 2025 - Present: Ph.D. Program, Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo"
-  - "Apr. 2024 - Sep. 2025: Master's Program (Early Completion), Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo"
-  - "Apr. 2022 - Mar. 2024: Bachelor's Program, Department of Civil Engineering, Faculty of Engineering, The University of Tokyo"
-  - "Apr. 2020 - Mar. 2022: Junior Division, College of Arts and Sciences, The University of Tokyo"
-  - "Apr. 2016 - Mar. 2019: Tsuchiura Daiichi Senior High School"
+# Keys from publications.bib, shown in this order
+selected_publications:
+  - furuhashi2026endogeneity_ssrn
+  - furuhashi2025dgpinn_itsc
+  - furuhashi2025physicallyconsistent_hksts29
+  - furuhashi2025obd_jste
 
 education:
-  - "Apr. 2024 - Sep. 2025: M.S., Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo"
-  - "Apr. 2022 - Mar. 2024: B.S., Department of Civil Engineering, Faculty of Engineering, The University of Tokyo"
-  - "Apr. 2016 - Mar. 2019: Tsuchiura Daiichi Senior High School"
+  - when: "2025.10 –"
+    title: Ph.D. Program, Civil Engineering
+    body: Graduate School of Engineering, The University of Tokyo
+  - when: "2024.04 – 2025.09"
+    title: M.S., Civil Engineering
+    body: Graduate School of Engineering, The University of Tokyo — early completion
+  - when: "2022.04 – 2024.03"
+    title: B.S., Civil Engineering
+    body: Faculty of Engineering, The University of Tokyo
+  - when: "2020.04 – 2022.03"
+    title: Junior Division, College of Arts and Sciences
+    body: The University of Tokyo
 
-awards:
-  - "Sep. 2025: <a href='https://utcivil.org/awards.html'>Furuichi Kimitake Prize</a>, Master's thesis 'Differential-game-based trajectory prediction model for autonomous vehicle fleets,' Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo."
-  - "Dec. 2025: <a href='https://www.hksts.org/awards_frame.htm'>HKSTS Outstanding Student Paper Award (1st Prize)</a>, Physically consistent differential-game surrogates for interaction-aware AV trajectory planning, The Hong Kong Society for Transportation Studies."
+tools:
+  - Python
+  - PyTorch
+  - PyTorch Geometric
+  - Scientific machine learning
+  - Optimization and control
+  - Graph neural networks
+  - Computer vision
+  - LaTeX
+  - Git
 ---

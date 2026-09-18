@@ -2,298 +2,180 @@
 layout: default
 ---
 {% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% if page.lang == 'en' %}{% assign other = 'ja' %}{% assign sfx = '-e.html' %}{% else %}{% assign other = 'en' %}{% assign sfx = '.html' %}{% endif %}
+{% assign o = site.data.i18n[other] %}
+{% assign pubs_url = '/publications' | append: sfx | relative_url %}
 
 {% comment %}
-  Home layout — Furuhashi Laboratory Records
-
-  Structure:
-    1. Frontispiece hero (split bilingual name, ticker, route contour)
-    2. Epigraph plate (research manifesto)
-    3. §01 Profile (colophon)
-    4. §02 Research (numbered plates)
-    5. §03 / §04 Record (career + education, double column)
-    6. §05 Awards (elevated seals)
+  Home layout.
+    1. Header band: slideshow of every image in assets/images/hero/ (alphabetical)
+    2. Identity + links                      <- page front matter
+    3. About / Research                      <- page front matter
+    4. Selected publications                 <- page.selected_publications (BibTeX keys)
+    5. Awards and grants                     <- award.bib + grants.bib
+    6. Education / News / Methods and tools  <- front matter, _data/news.yml
 {% endcomment %}
 
-
-<!-- =====================================================================
-     FRONTISPIECE HERO
-     ===================================================================== -->
-<section class="frontispiece" aria-labelledby="hero-name">
-
-    {% assign hero_slides = site.static_files | where_exp: "f", "f.path contains '/assets/images/hero/'" | sort: "name" %}
-    <figure class="frontispiece__banner" aria-roledescription="carousel">
-        {% for file in hero_slides %}
-            {% assign ext = file.extname | downcase %}
-            {% if ext == '.jpg' or ext == '.jpeg' or ext == '.png' or ext == '.webp' %}
-            <img src="{{ file.path | relative_url }}"
-                 alt=""
-                 class="frontispiece__slide{% if forloop.first %} is-active{% endif %}"
-                 {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                 decoding="async"
-                 draggable="false">
-            {% endif %}
-        {% endfor %}
-    </figure>
-
-    <!-- Decorative route-contour svg: nods at the mobility research field. -->
-    <svg class="frontispiece__contour" viewBox="0 0 800 520" aria-hidden="true" fill="none">
-        <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
-            <path d="M-20 420 Q 120 360 240 380 T 520 300 T 820 240" opacity=".9"/>
-            <path d="M-20 460 Q 120 410 240 430 T 520 355 T 820 290" opacity=".55"/>
-            <path d="M-20 500 Q 120 460 240 480 T 520 410 T 820 340" opacity=".35"/>
-            <path d="M40 60 L 760 60" stroke-dasharray="1 6" opacity=".6"/>
-            <path d="M40 110 L 520 110" stroke-dasharray="1 6" opacity=".4"/>
-            <circle cx="240" cy="380" r="3" fill="currentColor" stroke="none"/>
-            <circle cx="400" cy="345" r="3" fill="currentColor" stroke="none"/>
-            <circle cx="580" cy="295" r="4" fill="currentColor" stroke="none"/>
-        </g>
-    </svg>
-
-    <div class="frontispiece__inner">
-
-        <div class="frontispiece__split">
-            <!-- Horizontal Western display -->
-            <div class="frontispiece__en">
-                <h1 class="frontispiece__name" id="hero-name">
-                    <span class="line-1">Fumihito</span>
-                    <span class="line-2"><em>Furuh<span class="amp">a</span>shi</em></span>
-                </h1>
-            </div>
-        </div>
-
-        <!-- Metadata ticker strip at the bottom of the hero -->
-        <dl class="frontispiece__ticker" aria-label="Coordinates">
-            <div>
-                <dt>Lat · Lon</dt>
-                <dd>35.71<span class="accent">°</span>N&nbsp;&nbsp;139.76<span class="accent">°</span>E</dd>
-            </div>
-            <div>
-                <dt>Campus</dt>
-                <dd>Hongō — 本郷</dd>
-            </div>
-            <div>
-                <dt>Field</dt>
-                <dd>Civil Eng. / Mobility</dd>
-            </div>
-            <div>
-                <dt>Status</dt>
-                <dd>Ph.D. Candidate</dd>
-            </div>
-        </dl>
-    </div>
-</section>
-
-
-<!-- =====================================================================
-     §01 PROFILE — colophon card
-     ===================================================================== -->
-<section class="section section--profile" id="profile">
-    <header class="section__head">
-        <div class="section__num">§ 01 · Profile</div>
-        <h2 class="section__title">{{ t.labels.affiliation }}</h2>
-    </header>
-
-    <div class="colophon">
-        <figure class="colophon__figure">
-            <img src="{{ '/assets/images/selfy.jpeg' | relative_url }}" alt="Fumihito Furuhashi" onerror="this.style.display='none'">
-            <span class="monogram" aria-hidden="true"><em>Ff</em></span>
-            <figcaption class="colophon__caption">
-                {% if page.lang == 'en' %}Hongō Campus, Tokyo{% else %}東京・本郷{% endif %}
-            </figcaption>
-        </figure>
-
-        <div class="colophon__body">
-            <dl>
-                <dt>{{ t.labels.affiliation }}</dt>
-                <dd>
-                    {% for item in page.affiliation %}
-                    <span class="affil-line">{{ item }}</span>
-                    {% endfor %}
-                </dd>
-
-                <dt>{{ t.labels.links }}</dt>
-                <dd>
-                    <ul class="index-list">
-                        {% for link in page.social_links %}
-                        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ link.name }}" data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }}">
-                            {% if link.icon %}{% include icons/{{ link.icon }}.svg %}{% endif %}
-                            <span class="sns-label">{{ link.name }}</span>
-                        </a></li>
-                        {% endfor %}
-                    </ul>
-                </dd>
-            </dl>
-            <a class="cv-link" href="{{ '/assets/cv/cv.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">{{ t.labels.cv_download }}</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- =====================================================================
-     §02 RESEARCH — numbered plates
-     ===================================================================== -->
-<section class="section section--research" id="research">
-    <header class="section__head">
-        <div class="section__num">§ 02 · Research</div>
-        <h2 class="section__title">
-            {% if page.lang == 'en' %}On Research{% else %}研究{% endif %}
-        </h2>
-    </header>
-
-    <div class="section__body">
-        <div class="section__content section__content--wide">
-            {% if page.research_description and page.research_description != 'TBD' and page.research_description != 'TBD
-' %}
-            <p>{{ page.research_description }}</p>
-            {% endif %}
-
-            <ol class="plates" aria-label="{{ t.labels.research_topics }}">
-                {% for topic in page.research_topics %}
-                <li data-num="{{ forloop.index | prepend: '00' | slice: -2, 2 }} / {{ page.research_topics.size | prepend: '00' | slice: -2, 2 }}">
-                    <span class="plate__tag">Plate {{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
-                    <svg class="plate__diagram" viewBox="0 0 120 60" aria-hidden="true" fill="none">
-                        <g stroke="currentColor" stroke-width=".9" stroke-linecap="round">
-                            <circle cx="{{ forloop.index | times: 18 | plus: 10 }}" cy="30" r="4" fill="currentColor" stroke="none"/>
-                            <path d="M 6 44 Q 40 {{ forloop.index | times: 8 | plus: 10 }} 70 30 T 118 {{ forloop.index | times: 6 | plus: 18 }}"/>
-                            <path d="M 6 20 L 118 20" stroke-dasharray="1 4" opacity=".55"/>
-                        </g>
-                    </svg>
-                    <span class="plate__label">{{ topic }}</span>
-                </li>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-</section>
-
-
-<!-- =====================================================================
-     §03 / §04 RECORD — career + education as double column proof sheet
-     ===================================================================== -->
-<section class="section section--record" id="record">
-    <header class="section__head">
-        <div class="section__num">§ 03 · Record</div>
-        <h2 class="section__title">
-            {% if page.lang == 'en' %}Career &amp; Education{% else %}経歴/学歴{% endif %}
-        </h2>
-    </header>
-
-    <div class="record">
-        <article class="record__col" id="career">
-            <header class="record__colhead">
-                <span class="record__coltag">Col. A</span>
-                <h3 class="record__coltitle">{{ t.labels.career }}</h3>
-            </header>
-            <ul class="timeline">
-                {% for item in page.career %}
-                <li>
-                    {% assign parts = item | split: ': ' %}
-                    {% if parts.size > 1 %}
-                    <span class="tl-date">{{ parts[0] }}</span>
-                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
-                    {% else %}
-                    <span class="tl-date"></span>
-                    <span class="tl-text">{{ item }}</span>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-        </article>
-
-        <article class="record__col" id="education">
-            <header class="record__colhead">
-                <span class="record__coltag">Col. B</span>
-                <h3 class="record__coltitle">{{ t.labels.education }}</h3>
-            </header>
-            <ul class="timeline">
-                {% for item in page.education %}
-                <li>
-                    {% assign parts = item | split: ': ' %}
-                    {% if parts.size > 1 %}
-                    <span class="tl-date">{{ parts[0] }}</span>
-                    <span class="tl-text">{{ parts | shift | join: ': ' }}</span>
-                    {% else %}
-                    <span class="tl-date"></span>
-                    <span class="tl-text">{{ item }}</span>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-        </article>
-    </div>
-</section>
-
-
-<!-- =====================================================================
-     §05 AWARDS — seals
-     ===================================================================== -->
-{% if page.awards %}
-<section class="section awards" id="awards">
-    <header class="section__head">
-        <div class="section__num">§ 04 · Awards</div>
-        <h2 class="section__title">{{ t.labels.awards }}</h2>
-    </header>
-
-    <div class="section__body">
-        <aside class="section__aside" aria-hidden="true">
-            <span class="aside-label">Recognition</span>
-            {% if page.lang == 'en' %}Prizes &amp;<br>Honors{% else %}受賞歴{% endif %}
-        </aside>
-        <div class="section__content section__content--wide">
-            <ul class="seals">
-                {% for award in page.awards %}
-                <li>
-                    {% assign parts = award | split: ': ' %}
-                    <span class="seals__mark" aria-hidden="true">
-                        <span class="seals__mark-inner">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-                    </span>
-                    {% if parts.size > 1 %}
-                    <span class="seals__date">{{ parts[0] }}</span>
-                    <span class="seals__text">{{ parts | shift | join: ': ' }}</span>
-                    {% else %}
-                    <span class="seals__date"></span>
-                    <span class="seals__text">{{ award }}</span>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</section>
+{% assign hero_slides = site.static_files | where_exp: "f", "f.path contains '/assets/images/hero/'" | sort: "name" %}
+{% if hero_slides.size > 0 %}
+<div class="band" id="hero-band">
+    {% for file in hero_slides %}
+        {% assign ext = file.extname | downcase %}
+        {% if ext == '.jpg' or ext == '.jpeg' or ext == '.png' or ext == '.webp' %}
+        {% assign pos = site.data.hero.positions[file.name] %}
+        <img class="band__slide{% if forloop.first %} is-active{% endif %}"
+             {% if forloop.first %}src="{{ file.path | relative_url }}" fetchpriority="high"{% else %}data-src="{{ file.path | relative_url }}"{% endif %}
+             alt="" decoding="async" draggable="false"{% if pos %} style="object-position: {{ pos }}"{% endif %}>
+        {% endif %}
+    {% endfor %}
+</div>
 {% endif %}
 
+<div class="wrap">
 
-<!-- Hero slideshow auto-advance (no-op when <2 slides or reduced motion) -->
+    <header class="id">
+        <img class="id__photo" src="{{ '/assets/images/selfy.jpeg' | relative_url }}" alt="{{ page.name_primary }}" width="88" height="88">
+        <div class="id__text">
+            <h1>{{ page.name_primary }}</h1>
+            <p class="id__alt" lang="{{ other }}">{{ page.name_secondary }}</p>
+            <p>{{ page.role }}</p>
+            {% if page.role_sub %}<p class="sub">{{ page.role_sub }}</p>{% endif %}
+        </div>
+    </header>
+
+    <nav class="links" aria-label="{{ t.ui.links_label }}">
+        {% for link in page.profile_links %}
+        <a href="{% if link.internal %}{{ link.url | relative_url }}{% else %}{{ link.url }}{% endif %}"{% if link.me %} rel="me"{% endif %}>{% if link.icon %}{% include icons/{{ link.icon }}.svg %}{% endif %}{{ link.name }}</a>
+        {% endfor %}
+    </nav>
+
+    <section id="about" class="section section--first">
+        <h2>{{ t.sections.about }} <span lang="{{ other }}">{{ o.sections.about }}</span></h2>
+        <p>{{ page.about }}</p>
+    </section>
+
+    <section id="research" class="section section--research">
+        <h2>{{ t.sections.research }} <span lang="{{ other }}">{{ o.sections.research }}</span></h2>
+        {% if page.research_figure %}
+        <a class="figure" href="{{ page.research_figure | relative_url }}"><img src="{{ page.research_figure | relative_url }}" alt="" loading="lazy"></a>
+        {% endif %}
+        <div class="topics">
+            {% for topic in page.research_topics %}
+            <div>
+                <h3>{{ topic.title }}</h3>
+                <p>{{ topic.body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if page.selected_publications %}
+    <section id="publications" class="section section--list">
+        <h2>{{ t.sections.selected }} <span lang="{{ other }}">{{ o.sections.selected }}</span></h2>
+        <ul class="list">
+            {% for key in page.selected_publications %}
+            {% assign pub = site.data.bibliography | where: "key", key | first %}
+            {% if pub %}
+            <li class="item">
+                <div class="item__body">
+                    <p class="item__title"><a href="{{ pub.url | relative_url }}">{{ pub.title }}</a></p>
+                    <p class="item__meta">{{ pub.authors }} · {{ pub.venue }}, {{ pub.year }}</p>
+                    {% include pub-links.html links=pub.links %}
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        <p class="more"><a href="{{ pubs_url }}">{{ t.ui.all_publications }}</a></p>
+    </section>
+    {% endif %}
+
+    {% assign honours = site.data.awards | concat: site.data.grants | sort: "year" | reverse %}
+    {% if honours.size > 0 %}
+    <section id="awards" class="section">
+        <h2>{{ t.sections.awards }} <span lang="{{ other }}">{{ o.sections.awards }}</span></h2>
+        <ul class="rows rows--year">
+            {% for e in honours %}
+            {% if page.lang == 'en' %}{% assign e_title = e.title_en | default: e.title %}{% assign e_venue = e.venue_en | default: e.venue %}{% else %}{% assign e_title = e.title %}{% assign e_venue = e.venue %}{% endif %}
+            <li class="row">
+                <span class="row__when">{{ e.year }}</span>
+                <div>
+                    <p>{% if e.url %}<a href="{{ e.url }}">{{ e_title }}</a>{% else %}{{ e_title }}{% endif %}</p>
+                    {% if e_venue %}<p class="sub">{{ e_venue }}</p>{% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if page.education %}
+    <section id="education" class="section">
+        <h2>{{ t.sections.education }} <span lang="{{ other }}">{{ o.sections.education }}</span></h2>
+        <ul class="rows">
+            {% for row in page.education %}
+            <li class="row">
+                <span class="row__when">{{ row.when }}</span>
+                <div>
+                    <p>{{ row.title }}</p>
+                    {% if row.body %}<p class="sub">{{ row.body }}</p>{% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if site.data.news and site.data.news.size > 0 %}
+    <section id="news" class="section">
+        <h2>{{ t.sections.news }} <span lang="{{ other }}">{{ o.sections.news }}</span></h2>
+        <ul class="rows rows--news">
+            {% for item in site.data.news %}
+            {% if page.lang == 'en' %}{% assign text = item.text_en | default: item.text_ja %}{% else %}{% assign text = item.text_ja %}{% endif %}
+            <li class="row">
+                <span class="row__when">{{ item.date }}</span>
+                <p>{% if item.url %}<a href="{{ item.url }}">{{ text }}</a>{% else %}{{ text }}{% endif %}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if page.tools %}
+    <section id="tools" class="section section--note">
+        <h2>{{ t.sections.tools }} <span lang="{{ other }}">{{ o.sections.tools }}</span></h2>
+        <p class="note">{{ page.tools | join: " · " }}</p>
+    </section>
+    {% endif %}
+
+</div>
+
+<!-- Header slideshow: cross-fades every 5 s. Slides after the first are fetched
+     once the page has loaded. No-op with <2 slides or prefers-reduced-motion. -->
 <script>
 (function () {
-    var slides = document.querySelectorAll('.frontispiece__banner .frontispiece__slide');
+    var slides = document.querySelectorAll('#hero-band .band__slide');
     if (slides.length < 2) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var i = 0;
-    setInterval(function () {
-        slides[i].classList.remove('is-active');
-        i = (i + 1) % slides.length;
-        slides[i].classList.add('is-active');
-    }, 5000);
-})();
-</script>
-
-<!-- Reveal-on-scroll for sections (progressive enhancement; no JS = all visible). -->
-<script>
-(function () {
-    if (!('IntersectionObserver' in window)) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var els = document.querySelectorAll('.section, .epigraph');
-    els.forEach(function (el) { el.classList.add('js-reveal'); });
-    var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-            if (e.isIntersecting) {
-                e.target.classList.add('is-revealed');
-                io.unobserve(e.target);
-            }
-        });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    els.forEach(function (el) { io.observe(el); });
+    var current = 0;
+    function load(img) {
+        if (img.getAttribute('data-src')) {
+            img.src = img.getAttribute('data-src');
+            img.removeAttribute('data-src');
+        }
+    }
+    function advance() {
+        if (document.hidden) return;
+        var next = (current + 1) % slides.length;
+        load(slides[next]);
+        if (!slides[next].complete || !slides[next].naturalWidth) return;
+        slides[current].classList.remove('is-active');
+        slides[next].classList.add('is-active');
+        current = next;
+        load(slides[(current + 1) % slides.length]);
+    }
+    function start() { load(slides[1]); setInterval(advance, 5000); }
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start);
 })();
 </script>

@@ -8,7 +8,7 @@ require "bibtex"
 #   site.data["software"]  <- software.bib
 #
 # それぞれのエントリは `_plugins/bibliography.rb` と同じ正規化形
-#   { title, authors, venue, year, note, url }
+#   { title, title_en, authors, venue, venue_en, year, note, url }
 # に揃えてあるので、`_layouts/bib_list.html` から `page.bib_source`
 # で差し替えるだけで同じレイアウトが使い回せる。
 module Jekyll
@@ -61,12 +61,15 @@ module Jekyll
 
     def normalize(entry)
       {
-        "title"   => clean(entry["title"]),
-        "authors" => authors_for(entry),
-        "venue"   => venue_for(entry),
-        "year"    => year_for(entry),
-        "note"    => entry.field?("note") ? clean(entry["note"]) : nil,
-        "url"     => entry.field?("url") ? clean(entry["url"]) : nil,
+        "title"    => clean(entry["title"]),
+        # 英語ページ用の任意フィールド (title_en / venue_en)。無ければ title / venue を使う
+        "title_en" => entry.field?("title_en") ? clean(entry["title_en"]) : nil,
+        "authors"  => authors_for(entry),
+        "venue"    => venue_for(entry),
+        "venue_en" => entry.field?("venue_en") ? clean(entry["venue_en"]) : nil,
+        "year"     => year_for(entry),
+        "note"     => entry.field?("note") ? clean(entry["note"]) : nil,
+        "url"      => entry.field?("url") ? clean(entry["url"]) : nil,
       }.compact
     end
 

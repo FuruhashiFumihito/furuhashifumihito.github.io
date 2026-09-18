@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% if page.lang == 'en' %}{% assign other = 'ja' %}{% else %}{% assign other = 'en' %}{% endif %}
+{% assign o = site.data.i18n[other] %}
+
+{% comment %} Diary index: entries come from _data/diary.yml; page.content is the disclaimer. {% endcomment %}
+{% include page-head.html title=t.sections.diary title_alt=o.sections.diary %}
+
+    <div class="note" style="padding-top:16px">{{ content }}</div>
+
+    <section class="section section--tight">
+        <ul class="rows">
+            {% for item in site.data.diary %}
+            {% if page.lang == 'en' %}
+                {% assign text = item.text_en | default: item.text_ja %}
+                {% assign url = item.url_en | default: item.url %}
+            {% else %}
+                {% assign text = item.text_ja %}
+                {% assign url = item.url %}
+            {% endif %}
+            <li class="row">
+                <span class="row__when">{{ item.date | date: "%Y.%m.%d" }}</span>
+                <p>{% if url %}<a href="{{ url | relative_url }}">{{ text }}</a>{% else %}{{ text }}{% endif %}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</div>

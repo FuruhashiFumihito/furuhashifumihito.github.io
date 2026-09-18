@@ -1,0 +1,17 @@
+{%- comment -%}
+  Header for list pages: optional photo band (page.hero_image), back link, title.
+  Usage: {% include page-head.html title=... title_alt=... %}
+{%- endcomment -%}
+{% assign t = site.data.i18n[page.lang] | default: site.data.i18n['ja'] %}
+{% if page.lang == 'en' %}{% assign other = 'ja' %}{% assign home_url = '/index-e.html' %}{% else %}{% assign other = 'en' %}{% assign home_url = '/index.html' %}{% endif %}
+{% if page.hero_image %}
+<div class="band band--sub"><img class="band__slide is-active" src="{{ page.hero_image | relative_url }}" alt="" fetchpriority="high" decoding="async" draggable="false"{% if page.hero_position %} style="object-position: {{ page.hero_position }}"{% endif %}></div>
+{% endif %}
+<div class="wrap">
+    <p class="back"><a href="{{ home_url | relative_url }}">{{ t.ui.back_home }}</a></p>
+    <header class="id id--sub">
+        <div class="id__text">
+            <h1>{{ include.title }}</h1>
+            {% if include.title_alt %}<p class="id__alt" lang="{{ other }}">{{ include.title_alt }}</p>{% endif %}
+        </div>
+    </header>

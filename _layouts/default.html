@@ -53,42 +53,28 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400..600&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
 </head>
 <body>
-    <div class="folio">
+    {% include nav.html %}
 
-        <header class="masthead">
-            <div class="masthead__mark">
-                <span>{{ site.title }}</span>
-                <span class="vol" id="visitor-count" aria-live="polite"
-                      data-label-today="{{ t.labels.visitors_today }}"
-                      data-label-total="{{ t.labels.visitors_total }}">— ⋯ ∕ ⋯ —</span>
-            </div>
-            <div class="masthead__meta">
-                <span>{{ t.labels.last_updated }} — {{ site.time | date: "%Y.%m.%d" }}</span>
-                <span>東京 ∕ Tokyo — 35.71°N  139.76°E</span>
-            </div>
-        </header>
+    <main>
+        {{ content }}
+    </main>
 
-        {% include nav.html %}
-
-        <main>
-            {{ content }}
-        </main>
-
-        <footer class="coda">
-            <div class="coda__mark">
-                Furuhashi Laboratory Records — Edition {{ site.time | date: "%Y.%m" }}
-            </div>
-            <div>
-                © {{ site.time | date: "%Y" }} Fumihito Furuhashi · All rights reserved
-            </div>
-        </footer>
-
-    </div>
+    <footer class="foot">
+        <div class="foot__inner">
+            <span>© {{ site.time | date: "%Y" }} Fumihito Furuhashi</span>
+            <a href="mailto:furuhashi@bin.t.u-tokyo.ac.jp">furuhashi [at] bin.t.u-tokyo.ac.jp</a>
+            <span>{{ t.labels.location }}</span>
+            <span>{{ t.labels.last_updated }} {{ site.time | date: "%Y.%m.%d" }}</span>
+            <span class="foot__count" id="visitor-count" aria-live="polite"
+                  data-label-today="{{ t.labels.visitors_today }}"
+                  data-label-total="{{ t.labels.visitors_total }}"></span>
+        </div>
+    </footer>
 
     {% comment %} Visitor counter — powered by abacus.jasoncameron.dev (no signup, free).
         Two counters share the same namespace:
@@ -99,7 +85,7 @@
                                    count is frozen and readable by anyone who
                                    queries that key directly.
         Both /hit requests auto-create the counter and return { "value": N }.
-        Silent on failure so a down API never breaks the header. {% endcomment %}
+        Silent on failure so a down API never breaks the footer. {% endcomment %}
     <script>
     (function () {
         var el = document.getElementById('visitor-count');
@@ -124,7 +110,7 @@
             var today = results[0];
             var total = results[1];
             if (today && total && typeof today.value === 'number' && typeof total.value === 'number') {
-                el.textContent = '— ' + labelToday + ' ' + today.value.toLocaleString()
+                el.textContent = labelToday + ' ' + today.value.toLocaleString()
                                + ' ∕ ' + labelTotal + ' ' + total.value.toLocaleString();
             }
         })

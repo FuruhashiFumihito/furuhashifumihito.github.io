@@ -1,0 +1,32 @@
+# 更新履歴 / News（トップページに表示）
+# 新しいものを上に追加してください。
+#
+#   - date: "2026.09"        # 表示用の文字列（年だけでも可）
+#     text_ja: "日本語"
+#     text_en: "English"
+#     url: "https://..."     # 任意。設定すると文全体がリンクになる
+
+- date: "2026.09"
+  text_ja: "JST ACT-X（2026年度、研究領域「AI共生社会を拓くサイバーインフラストラクチャ」）に採択されました。"
+  text_en: "Selected for JST ACT-X (FY2026), research area “Cyberinfrastructure for AI Empowered Society”."
+  url: https://www.jst.go.jp/kisoken/act-x/application/2026/260917/260917.html
+
+- date: "2026"
+  text_ja: "ゲーム理論に基づく軌道予測の内生性に関するプレプリントを SSRN で公開しました。"
+  text_en: "Preprint on endogeneity in game-informed trajectory prediction released on SSRN."
+
+- date: "2025.12"
+  text_ja: "HKSTS Outstanding Student Paper Award（1st Prize）を受賞しました。"
+  text_en: "HKSTS Outstanding Student Paper Award, 1st Prize."
+
+- date: "2025.10"
+  text_ja: "東京大学 大学院工学系研究科 社会基盤学専攻 博士後期課程に進学しました。"
+  text_en: "Started the Ph.D. program in Civil Engineering, The University of Tokyo."
+
+- date: "2025.09"
+  text_ja: "修士課程を早期修了し、古市公威賞を受賞しました。"
+  text_en: "Completed the master's program (early completion); awarded the Furuichi Koui Prize."
+
+- date: "2025"
+  text_ja: "IEEE ITSC 2025 で DG-PINN を発表しました。"
+  text_en: "DG-PINN presented at IEEE ITSC 2025."

@@ -1,49 +1,93 @@
 ---
 layout: home
 title: 古橋郁一（Furuhashi Fumihito）
-description: "古橋郁一 (Furuhashi Fumihito)。東京大学大学院 工学系研究科 社会基盤学専攻 博士後期課程。研究分野は自動走行車群の創発的制御、自動都市のレジリエンス評価。"
+description: "古橋郁一 (Furuhashi Fumihito)。東京大学大学院 工学系研究科 社会基盤学専攻 博士後期課程。交通流理論・微分ゲーム・機械学習による車両間相互作用の予測と制御を研究しています。"
 lang: ja
 alternate: /index-e.html
 
-affiliation:
-  - 東京大学大学院 工学系研究科 社会基盤学専攻
-  - 〒113-8656 東京都文京区本郷7-3-1
-  - "E-mail: furuhashi [at] bin.t.u-tokyo.ac.jp"
+name_primary: 古橋 郁一
+name_secondary: Fumihito Furuhashi
+role: 東京大学 大学院工学系研究科 社会基盤学専攻 博士後期課程（羽藤研究室）
+role_sub: Ph.D. student, Department of Civil Engineering, The University of Tokyo
 
-social_links:
+about: "交通流理論・微分ゲーム・機械学習を組み合わせ、自動運転車と人間の運転する車が混在する交通における相互作用の予測と制御を研究しています。指導教員は羽藤英二教授です。"
+
+# icon は _includes/icons/<icon>.svg。internal: true はサイト内リンク
+profile_links:
+  - name: furuhashi [at] bin.t.u-tokyo.ac.jp
+    url: mailto:furuhashi@bin.t.u-tokyo.ac.jp
+  - name: 業績一覧
+    url: /publications.html
+    internal: true
   - name: Google Scholar
     icon: scholar
     url: https://scholar.google.com/citations?user=beIKTAgAAAAJ
-  - name: GitHub
-    icon: github
-    url: https://github.com/FuruhashiFumihito
+    me: true
   - name: ORCID
     icon: orcid
     url: https://orcid.org/0009-0001-9066-7823
+    me: true
+  - name: researchmap
+    url: https://researchmap.jp/researchers?name=%E5%8F%A4%E6%A9%8B%20%E9%83%81%E4%B8%80
+    me: true
+  - name: J-GLOBAL
+    url: https://jglobal.jst.go.jp/detail?JGLOBAL_ID=202601013210475944
+    me: true
+  - name: GitHub
+    icon: github
+    url: https://github.com/FuruhashiFumihito
+    me: true
   - name: LinkedIn
     icon: linkedin
     url: https://www.linkedin.com/in/fumihito-furuhashi/
+    me: true
+  - name: CV (PDF)
+    url: /assets/cv/cv.pdf
+    internal: true
 
-research_description: >
-  TBD
+research_figure: /projects/furuhashi2025dgpinn_itsc/fig-framework.png
 
 research_topics:
-  - 自動走行車群の創発的制御
-  - 自動都市のレジリエンス評価
+  - title: ゲーム理論に基づく軌道予測と制御
+    body: 微分ゲーム、ナッシュ均衡制約、相互作用を考慮した軌道予測、均衡制約を埋め込んだ予測制御。
+  - title: 物理法則を組み込んだモビリティ学習
+    body: Physics-informed neural networks（PINN）、グラフ学習、車両ダイナミクス、解釈可能なサロゲートモデル。
+  - title: 画像駆動型の交通流モデリング
+    body: 地図を用いない追従モデル、軌跡データ、交通流の安定性、混在交通。
+  - title: モビリティとエネルギーのレジリエンス
+    body: 電気自動車、V2G（Vehicle-to-Grid）連携、停電リスク、レジリエントな都市システム。
+  - title: 交通行動モデリング
+    body: アクティビティベースの分析、離散選択モデル、モビリティ研究のための計算ツール。
 
-career:
-  - "2025年10月 - 現在: 東京大学大学院 工学系研究科 社会基盤学専攻 博士後期課程"
-  - "2024年4月 - 2025年9月: 東京大学大学院 工学系研究科 社会基盤学専攻 博士前期課程 （早期修了）"
-  - "2022年4月 - 2024年3月: 東京大学 工学部 社会基盤学科 学士課程"
-  - "2020年4月 - 2022年3月: 東京大学 教養学部 前期課程"
-  - "2016年4月 - 2019年3月: 土浦第一高等学校 卒業"
+# publications.bib のキー。この順に表示
+selected_publications:
+  - furuhashi2026endogeneity_ssrn
+  - furuhashi2025dgpinn_itsc
+  - furuhashi2025physicallyconsistent_hksts29
+  - furuhashi2025obd_jste
 
 education:
-  - "2024年4月 - 2025年9月  : 東京大学大学院 工学系研究科 社会基盤学専攻 修士課程"
-  - "2022年4月 - 2024年3月: 東京大学 工学部 社会基盤学科 学士課程"
-  - "2016年4月 - 2019年3月: 土浦第一高等学校"
+  - when: "2025.10 –"
+    title: 博士後期課程 社会基盤学専攻
+    body: 東京大学 大学院工学系研究科
+  - when: "2024.04 – 2025.09"
+    title: 修士課程 社会基盤学専攻
+    body: 東京大学 大学院工学系研究科 — 早期修了
+  - when: "2022.04 – 2024.03"
+    title: 学士課程 社会基盤学科
+    body: 東京大学 工学部
+  - when: "2020.04 – 2022.03"
+    title: 教養学部 前期課程
+    body: 東京大学
 
-awards:
-  - "2025年9月 <a href='https://utcivil.org/awards.html'>古市公威賞</a>, 修士論文「微分ゲームに基づく自動運転車群の軌道予測モデル」, 東京大学大学院工学系研究科社会基盤学専攻."
-  - "2025年12月	<a href='https://www.hksts.org/awards_frame.htm'>HKSTS Outstanding Student Paper Award (1st Prize)</a>, Physically consistent differential-game surrogates for interaction-aware AV trajectory planning, The Hong Kong Society for Transportation Studies."
+tools:
+  - Python
+  - PyTorch
+  - PyTorch Geometric
+  - 科学的機械学習
+  - 最適化・制御
+  - グラフニューラルネットワーク
+  - コンピュータビジョン
+  - LaTeX
+  - Git
 ---
