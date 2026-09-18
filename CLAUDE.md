@@ -41,7 +41,7 @@ bundle exec jekyll build
 - `_publications/<bibtex_key>/` - Per-paper sidecar folder (one folder per paper) holding `meta.yml` (graphical abstract + figures), optional `body_ja.md` / `body_en.md` (Notes body), and image files. Not a Jekyll collection — read manually by the plugin.
 
 ### Design
-White ground, Inter, one left-aligned 880px column, no ornament (from the Claude Design project "研究者向けHP デザイン刷新"). Everything is in `style.css`: design tokens on `:root`, then small components — `.band`, `.wrap`, `.id`, `.links`, `.section`, `.topics`, `.list`/`.item`, `.rows`/`.row`, `.article`, `.prose`, `.foot`. Below 600px the gutters shrink and dated rows stack.
+White ground, Inter, one centered 880px column, no ornament (from the Claude Design project "研究者向けHP デザイン刷新"). Everything is in `style.css`: design tokens on `:root`, then small components — `.band`, `.wrap`, `.id`, `.links`, `.section`, `.topics`, `.list`/`.item`, `.rows`/`.row`, `.article`, `.prose`, `.foot`. Below 600px the gutters shrink and dated rows stack.
 
 ### Home page content
 `index.html` (ja) and `index-e.html` (en) hold the top page's text in front matter: `name_primary`/`name_secondary`, `role`, `about`, `profile_links`, `research_figure`, `research_topics` (`title`/`body`), `selected_publications` (BibTeX keys, in display order), `education` (`when`/`title`/`body`), `tools`. "Awards and grants" is generated from `award.bib` + `grants.bib`; "News" from `_data/news.yml`.
