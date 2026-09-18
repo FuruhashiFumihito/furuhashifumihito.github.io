@@ -55,7 +55,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+    {% comment %} ?v=<build time>: GitHub Pages caches CSS for 10 minutes and browsers longer, so without this
+        a redesign can pair new HTML with an old cached stylesheet. {% endcomment %}
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}">
 </head>
 <body>
     {% include nav.html %}
